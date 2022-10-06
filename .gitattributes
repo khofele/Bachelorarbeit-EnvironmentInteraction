@@ -1,3 +1,7 @@
 *.fbx filter=lfs diff=lfs merge=lfs -text
 /Umgebungsinteraktion/lfs/objects/69/8d/698dc5f5dff1044316e67923e6fc00ccf0b423ece8b9251572ac2f19e063fd6 filter=lfs diff=lfs merge=lfs -text
 lfs/objects/69/8d/698dc5f5dff1044316e67923e6fc00ccf0b423ece8b9251572ac2f19e063fd6 filter=lfs diff=lfs merge=lfs -text
+/lfs filter=lfs diff=lfs merge=lfs -text
+/lfs"
+2
+ filter=lfs diff=lfs merge=lfs -text
