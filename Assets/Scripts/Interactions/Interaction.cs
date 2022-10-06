@@ -2,28 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(ConditionManager))]
 public abstract class Interaction : MonoBehaviour
 {
-    private List<Condition> conditions = new List<Condition>();
+    private ConditionManager conditionManager = null;
 
     public abstract bool CheckTrigger();
     
     public abstract void ExecuteInteraction();
-    
-    public bool CheckConditions()
+
+    private void Start()
     {
-        for (int i = 0; i < conditions.Count; i++)
-        {
-            if (conditions[i].Check() == false)
-            {
-                return false;
-            }
-        }
-        return true;
+        conditionManager = GetComponent<ConditionManager>();
+        conditionManager.FillConditionsList();
     }
 
-    public void FillConditionsList()
+    public virtual bool CheckConditions()
     {
-        // TODO implement
+        return conditionManager.CheckConditions();
     }
 }
