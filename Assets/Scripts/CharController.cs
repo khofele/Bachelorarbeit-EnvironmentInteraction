@@ -8,7 +8,6 @@ public class CharController : MonoBehaviour
     [SerializeField] private Animator animator = null;
     [SerializeField] private float speed = 0f;
     [SerializeField] private float gravity = -9.81f * 2;
-    [SerializeField] private Transform cameraTransform = null;
 
     private Vector3 velocity = Vector3.zero;
     private Vector3 moveDirection = Vector3.zero;
@@ -27,10 +26,10 @@ public class CharController : MonoBehaviour
         float xAxis = Input.GetAxis("Horizontal");
         float zAxis = Input.GetAxis("Vertical");
 
-        // Movedirection + rotation
+        // Movedirection + rotation --> follow camera rotation
         moveDirection = new Vector3(xAxis, 0f, zAxis).normalized;
         moveDirection = Camera.main.transform.TransformDirection(moveDirection);
-        transform.rotation = Quaternion.LookRotation(cameraTransform.transform.forward, cameraTransform.transform.up);
+        transform.rotation = Quaternion.LookRotation(new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized, Camera.main.transform.up);
 
         // check if button is pressed
         if (moveDirection.magnitude >= 0.01f)
@@ -82,7 +81,8 @@ public class CharController : MonoBehaviour
         }
 
         animator.SetFloat("speed", speed);
-        Debug.Log(speed);
+
+        //Debug.Log(speed);
     }
 
     private void OnTriggerEnter(Collider other)
