@@ -36,6 +36,8 @@ public class CharController : MonoBehaviour
             {
                 // Running
                 speed = 10f;
+                animator.SetFloat("vertical", zAxis*5.36f);
+                animator.SetFloat("horizontal", xAxis*0.81f);
             }
             else if (isCrouching == true)
             {
@@ -45,7 +47,9 @@ public class CharController : MonoBehaviour
             else
             {
                 // Walking
-                speed = 5f;
+                speed = 3f;
+                animator.SetFloat("vertical", zAxis*1.63f);
+                animator.SetFloat("horizontal", xAxis*0.5f);
             }
 
             velocity.y += gravity * Time.deltaTime;
@@ -72,6 +76,7 @@ public class CharController : MonoBehaviour
         }
 
         animator.SetFloat("speed", speed);
+
         Debug.Log(speed);
     }
 }

@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 876e79e9895e0044ea3c0c1f4dda1e05
+guid: dab960e4e7392494ea4ed7114002718f
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: Run Right Turn
+    second: Run Left Turn
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -36,7 +36,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Run Right Turn
+      name: Run Left Turn
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
@@ -56,7 +56,7 @@ ModelImporter:
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
       heightFromFeet: 0
-      mirror: 0
+      mirror: 1
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events: []
@@ -529,18 +529,18 @@ ModelImporter:
         length: 0
         modified: 0
     skeleton:
-    - name: Run Right Turn(Clone)
+    - name: Run Left Turn(Clone)
       parentName: 
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: Ch36
-      parentName: Run Right Turn(Clone)
+      parentName: Run Left Turn(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: mixamorig1:Hips
-      parentName: Run Right Turn(Clone)
+      parentName: Run Left Turn(Clone)
       position: {x: 0.0048659323, y: 1.0180824, z: 0.009277558}
       rotation: {x: -2.2234615e-16, y: 0.000000002910383, z: -0.000000025465852, w: 1}
       scale: {x: 1, y: 0.99999994, z: 1}
