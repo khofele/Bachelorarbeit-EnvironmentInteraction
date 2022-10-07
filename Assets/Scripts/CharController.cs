@@ -30,8 +30,7 @@ public class CharController : MonoBehaviour
         // Movedirection + rotation
         moveDirection = new Vector3(xAxis, 0f, zAxis).normalized;
         moveDirection = Camera.main.transform.TransformDirection(moveDirection);
-        transform.rotation = Quaternion.LookRotation(cameraTransform.transform.forward, Camera.main.transform.up);
-
+        transform.rotation = Quaternion.LookRotation(cameraTransform.transform.forward, cameraTransform.transform.up);
 
         // check if button is pressed
         if (moveDirection.magnitude >= 0.01f)
@@ -84,5 +83,13 @@ public class CharController : MonoBehaviour
 
         animator.SetFloat("speed", speed);
         Debug.Log(speed);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.GetComponent<Interactable>() != null)
+        {
+            Debug.Log("Juhu");
+        }
     }
 }
