@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Interactable : MonoBehaviour
+public abstract class Interactable : MonoBehaviour
 {
     
 }
