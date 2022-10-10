@@ -4,19 +4,31 @@ using UnityEngine;
 
 public class CharController : MonoBehaviour
 {
-    [SerializeField] private CharacterController characterController = null;
-    [SerializeField] private Animator animator = null;
-    [SerializeField] private float speed = 0f;
-    [SerializeField] private float gravity = -9.81f * 2;
+    // General fields
+    private CharacterController characterController = null;
+    private Animator animator = null;
+    private IKController iKController = null;
 
+    // Movement fields
+    private float speed = 0f;
+    private float gravity = -9.81f * 2;
     private Vector3 velocity = Vector3.zero;
     private Vector3 moveDirection = Vector3.zero;
     private bool isCrouching = false;
+
+    // Interaction fields
+    private InteractionManager interactionManager = null;
+    private Interactable currentInteractable = null;
+
+    public Animator Animator { get => animator; }
+    public Interactable CurrentInteractable { get => currentInteractable; }
 
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        iKController = GetComponent<IKController>();
+        interactionManager = GetComponentInChildren<InteractionManager>();
 
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -34,7 +46,6 @@ public class CharController : MonoBehaviour
         // check if button is pressed
         if (moveDirection.magnitude >= 0.01f)
         {
-
             if (Input.GetKey(KeyCode.LeftShift) && isCrouching == false)
             {
                 // Running
@@ -59,14 +70,12 @@ public class CharController : MonoBehaviour
             velocity.y += gravity * Time.deltaTime;
             characterController.Move(moveDirection * speed * Time.deltaTime);
             characterController.Move(velocity * Time.deltaTime);
-
         }
         else
         {
             // Idle
             speed = 0;
         }
-
 
         // Crouch Toggle
         if (Input.GetKeyDown(KeyCode.C) && isCrouching == false)
@@ -81,15 +90,16 @@ public class CharController : MonoBehaviour
         }
 
         animator.SetFloat("speed", speed);
-
-        //Debug.Log(speed);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.GetComponent<Interactable>() != null)
+        if(other.gameObject.GetComponent<Interactable>() != null && other.gameObject.GetComponent<Interactable>() != currentInteractable && interactionManager.IsTriggered == false)
         {
-            Debug.Log("Juhu");
+            // TODO: verallgemeinern? hat jede Interaktion ein Interactable?
+            currentInteractable = other.gameObject.GetComponent<Interactable>();
+            iKController.IsIkActive = true;
+            interactionManager.IsTriggered = true;
         }
     }
 }
