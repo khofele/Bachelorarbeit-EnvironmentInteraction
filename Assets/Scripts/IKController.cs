@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class IKController : MonoBehaviour
 {
-    [SerializeField] private Transform grabHandle = null;
     [SerializeField] private Transform rightHand = null;
     [SerializeField] private GameObject environment = null;
     [SerializeField] private Transform watchHandle = null;
@@ -12,8 +11,8 @@ public class IKController : MonoBehaviour
     private bool isIkActive = false;
     private CharController charController = null;
     private Animator animator = null;
+    private Transform grabHandle = null;
 
-    public Transform GrabHandle { get => grabHandle; }
     public Transform RightHand { get => rightHand; }
     public GameObject Environment { get => environment; }
     public Transform WatchHandle { get => watchHandle; }
@@ -33,11 +32,10 @@ public class IKController : MonoBehaviour
         {
             if (isIkActive == true)
             {
-                
                 if (charController.CurrentInteractable != null)
                 {
                     animator.SetLookAtWeight(1);
-                    // TODO GrabHandle von ThrowableObjects bekommen
+                    // TODO GrabHandle von Throwable bekommen
                     if (grabHandle.gameObject != null)
                     {
                         charController.Animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
