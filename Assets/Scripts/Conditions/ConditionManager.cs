@@ -16,7 +16,6 @@ public class ConditionManager : MonoBehaviour
                 return false;
             }
         }
-
         return true;
     }
 
