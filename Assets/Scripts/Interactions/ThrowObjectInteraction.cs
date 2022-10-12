@@ -6,12 +6,26 @@ public class ThrowObjectInteraction : Interaction
 {
     private CharController charController = null;
     private IKController iKController = null;
+    private GameObject enemy = null;
+    private SphereCollider sphereCollider = null;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy") && enemy == null)
+        {
+            enemy = other.gameObject;
+        }
+    }
 
     public override void Start()
     {
         base.Start();
         charController = GetComponentInParent<CharController>();
         iKController = GetComponentInParent<IKController>();
+        sphereCollider = GetComponent<SphereCollider>();
+
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Interactable"), LayerMask.NameToLayer("Checkbox"));
+        sphereCollider.enabled = false;
     }
 
     public override void ExecuteInteraction()
@@ -19,26 +33,49 @@ public class ThrowObjectInteraction : Interaction
         base.ExecuteInteraction();
         Debug.Log("Execute ThrowObjectInteraction");
         //Throw(); ist AnimationEvent
-        // TODO Animation triggern, bisher in IKController
+        iKController.IsIkActive = true;
         interactionManager.CurrentInteraction = this;
+        //ResetInteraction();
     }
 
     public void Throw()
     {
         if (charController.CurrentInteractable != null)
         {
-            charController.CurrentInteractable.transform.SetParent(iKController.Environment.transform, true);
+            charController.CurrentInteractable.transform.SetParent(iKController.Interactables.transform, true);
 
             // Throw
-            charController.Animator.SetLookAtWeight(10);
+            charController.Animator.SetLookAtWeight(0.8f);
             Rigidbody rigidBody = charController.CurrentInteractable.GetComponent<Rigidbody>();
             rigidBody.isKinematic = false;
             rigidBody.useGravity = true;
-            rigidBody.AddForce(Camera.main.transform.forward * 20 + transform.up * 10, ForceMode.Impulse);
-            // TODO Objekt in Richtung von Gegner werfen --> statt Camera.main.transform.forward anderen Gegenstand anpeilen
+            if(enemy != null)
+            {
+                Vector3 direction = enemy.transform.position - charController.transform.position;
+                rigidBody.AddForce(direction.normalized * 15 + transform.forward * 0.5f, ForceMode.Impulse);
+            }
+            else
+            {
+                rigidBody.AddForce(Camera.main.transform.forward * 15 + transform.up, ForceMode.Impulse);
+            }
 
-            charController.Animator.SetBool("isInteracting", false);
+            animationManager.StopThrowAnimation();
             iKController.IsIkActive = false;
         }
+    }
+
+    public void EnableCollider()
+    {
+        sphereCollider.enabled = true;
+    }
+
+    public void DisableCollider()
+    {
+        sphereCollider.enabled = false;
+    }
+
+    public override void ResetInteraction()
+    {
+        enemy = null;
     }
 }
