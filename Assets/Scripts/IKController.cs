@@ -28,8 +28,7 @@ public class IKController : MonoBehaviour
         interactableManager = FindObjectOfType<InteractableManager>();
     }
 
-    // TODO nur IK-relevante Methoden aufrufen 
-    // TODO aufräumen --> je nach bool anderes IK-Event, ggf. mit States arbeiten
+    // TODO je nach bool anderes IK-Event, ggf. mit States arbeiten
     private void OnAnimatorIK()
     {
         if (animator == true)
