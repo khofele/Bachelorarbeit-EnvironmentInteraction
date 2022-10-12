@@ -5,16 +5,18 @@ using UnityEngine;
 public class IKController : MonoBehaviour
 {
     [SerializeField] private Transform rightHand = null;
-    [SerializeField] private GameObject environment = null;
+    [SerializeField] private GameObject interactables = null;
     [SerializeField] private Transform watchHandle = null;
 
     private bool isIkActive = false;
     private CharController charController = null;
     private Animator animator = null;
     private Transform grabHandle = null;
+    private InteractionManager interactionManager = null;
+    private AnimationManager animationManager = null;
 
     public Transform RightHand { get => rightHand; }
-    public GameObject Environment { get => environment; }
+    public GameObject Interactables { get => interactables; }
     public Transform WatchHandle { get => watchHandle; }
     public bool IsIkActive { get => isIkActive; set => isIkActive = value; }
 
@@ -22,6 +24,8 @@ public class IKController : MonoBehaviour
     {
         charController = GetComponent<CharController>();
         animator = GetComponent<Animator>();
+        interactionManager = GetComponentInChildren<InteractionManager>();
+        animationManager = GetComponent<AnimationManager>();
     }
 
     // TODO nur IK-relevante Methoden aufrufen 
@@ -32,40 +36,13 @@ public class IKController : MonoBehaviour
         {
             if (isIkActive == true)
             {
-                if (charController.CurrentInteractable != null)
+                if(interactionManager.CurrentInteraction != null)
                 {
-                    animator.SetLookAtWeight(1);
-                    // TODO GrabHandle von Throwable bekommen
-                    if (grabHandle.gameObject != null)
+                    if (interactionManager.CurrentInteraction.gameObject.GetComponent<ThrowObjectInteraction>() != null)
                     {
-                        charController.Animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
-                        charController.Animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0.5f);
-                        charController.Animator.SetIKPosition(AvatarIKGoal.RightHand, grabHandle.position);
-                        charController.Animator.SetIKRotation(AvatarIKGoal.RightHand, grabHandle.rotation);
-
-                        charController.CurrentInteractable.GetComponent<Rigidbody>().useGravity = false;
-                        charController.CurrentInteractable.GetComponent<Rigidbody>().isKinematic = true;
-
-                        charController.CurrentInteractable.transform.position = rightHand.position;
-                        charController.CurrentInteractable.transform.SetParent(rightHand);
-
-                        isIkActive = false;
-                        animator.SetBool("isInteracting", false);
-
+                        ThrowObjectIK();
                     }
                 }
-            }
-            else if (rightHand.GetComponentInChildren<Interactable>() != null)
-            {
-                animator.SetIKPosition(AvatarIKGoal.RightHand, watchHandle.position);
-                animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
-                animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0.5f);
-                animator.SetLookAtWeight(0);
-
-                animator.SetBool("isInteracting", true);
-                animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 0);
-                animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0);
-                animator.SetLookAtWeight(0);
             }
             else
             {
@@ -74,5 +51,46 @@ public class IKController : MonoBehaviour
                 animator.SetLookAtWeight(0);
             }
         }
+    }
+
+    private void ThrowObjectIK()
+    {
+        Throwable currentInteractable = (Throwable)charController.CurrentInteractable;
+        // pick up
+        if (currentInteractable != null)
+        {
+            grabHandle = currentInteractable.GetGrabHandle();
+
+            if (grabHandle.gameObject != null)
+            {
+                animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
+                animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0.5f);
+                animator.SetIKPosition(AvatarIKGoal.RightHand, grabHandle.position);
+                animator.SetIKRotation(AvatarIKGoal.RightHand, grabHandle.rotation);
+
+                currentInteractable.GetComponent<Rigidbody>().useGravity = false;
+                currentInteractable.GetComponent<Rigidbody>().isKinematic = true;
+
+                animator.SetLookAtPosition(grabHandle.position);
+                animator.SetLookAtWeight(1);
+
+                currentInteractable.transform.position = rightHand.position;
+                currentInteractable.transform.SetParent(rightHand);
+
+
+                animationManager.ExecuteThrowAnimation();
+            }
+        }
+
+        // TODO Objekt anschauen nach aufnehmen --> Code refactoren
+        //else if (rightHand.GetComponentInChildren<Interactable>() != null)
+        //{
+        //    animator.SetIKPosition(AvatarIKGoal.RightHand, watchHandle.position);
+        //    animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
+        //    animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0.5f);
+        //    animator.SetLookAtWeight(0.5f);
+
+        //    animationManager.ExecuteThrowAnimation();
+        //}
     }
 }
