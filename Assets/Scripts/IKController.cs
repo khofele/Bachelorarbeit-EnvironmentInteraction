@@ -9,11 +9,11 @@ public class IKController : MonoBehaviour
     [SerializeField] private Transform watchHandle = null;
 
     private bool isIkActive = false;
-    private CharController charController = null;
     private Animator animator = null;
     private Transform grabHandle = null;
     private InteractionManager interactionManager = null;
     private AnimationManager animationManager = null;
+    private InteractableManager interactableManager = null;
 
     public Transform RightHand { get => rightHand; }
     public GameObject Interactables { get => interactables; }
@@ -22,10 +22,10 @@ public class IKController : MonoBehaviour
 
     private void Start()
     {
-        charController = GetComponent<CharController>();
         animator = GetComponent<Animator>();
         interactionManager = GetComponentInChildren<InteractionManager>();
         animationManager = GetComponent<AnimationManager>();
+        interactableManager = FindObjectOfType<InteractableManager>();
     }
 
     // TODO nur IK-relevante Methoden aufrufen 
@@ -55,7 +55,7 @@ public class IKController : MonoBehaviour
 
     private void ThrowObjectIK()
     {
-        Throwable currentInteractable = (Throwable)charController.CurrentInteractable;
+        Throwable currentInteractable = (Throwable) interactableManager.CurrentInteractable;
         // pick up
         if (currentInteractable != null)
         {

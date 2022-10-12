@@ -19,10 +19,9 @@ public class CharController : MonoBehaviour
 
     // Interaction fields
     private InteractionManager interactionManager = null;
-    private Interactable currentInteractable = null;
+    private InteractableManager interactableManager = null;
 
     public Animator Animator { get => animator; }
-    public Interactable CurrentInteractable { get => currentInteractable; }
 
     private void Start()
     {
@@ -31,6 +30,7 @@ public class CharController : MonoBehaviour
         iKController = GetComponent<IKController>();
         interactionManager = GetComponentInChildren<InteractionManager>();
         animationManager = GetComponent<AnimationManager>();
+        interactableManager = FindObjectOfType<InteractableManager>();
 
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -94,11 +94,11 @@ public class CharController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.GetComponent<Interactable>() != null && other.gameObject.GetComponent<Interactable>() != currentInteractable && interactionManager.IsTriggered == false)
+        if(other.gameObject.GetComponent<Interactable>() != null && other.gameObject.GetComponent<Interactable>() != interactableManager.CurrentInteractable && interactionManager.IsInteractionTriggered == false)
         {
             // TODO: verallgemeinern? hat jede Interaktion ein Interactable?
-            currentInteractable = other.gameObject.GetComponent<Interactable>();
-            interactionManager.IsTriggered = true;
+            interactableManager.CurrentInteractable = other.gameObject.GetComponent<Interactable>();
+            interactionManager.IsInteractionTriggered = true;
         }
     }
 }

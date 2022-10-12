@@ -8,6 +8,7 @@ public class ThrowObjectInteraction : Interaction
     private IKController iKController = null;
     private GameObject enemy = null;
     private SphereCollider sphereCollider = null;
+    private InteractableManager interactableManager = null;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -23,6 +24,7 @@ public class ThrowObjectInteraction : Interaction
         charController = GetComponentInParent<CharController>();
         iKController = GetComponentInParent<IKController>();
         sphereCollider = GetComponent<SphereCollider>();
+        interactableManager = FindObjectOfType<InteractableManager>();
 
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Interactable"), LayerMask.NameToLayer("Checkbox"));
         sphereCollider.enabled = false;
@@ -35,18 +37,18 @@ public class ThrowObjectInteraction : Interaction
         //Throw(); ist AnimationEvent
         iKController.IsIkActive = true;
         interactionManager.CurrentInteraction = this;
-        //ResetInteraction();
+        ResetInteraction();
     }
 
     public void Throw()
     {
-        if (charController.CurrentInteractable != null)
+        if (interactableManager.CurrentInteractable != null)
         {
-            charController.CurrentInteractable.transform.SetParent(iKController.Interactables.transform, true);
+            interactableManager.CurrentInteractable.transform.SetParent(iKController.Interactables.transform, true);
 
             // Throw
             charController.Animator.SetLookAtWeight(0.8f);
-            Rigidbody rigidBody = charController.CurrentInteractable.GetComponent<Rigidbody>();
+            Rigidbody rigidBody = interactableManager.CurrentInteractable.GetComponent<Rigidbody>();
             rigidBody.isKinematic = false;
             rigidBody.useGravity = true;
             if(enemy != null)

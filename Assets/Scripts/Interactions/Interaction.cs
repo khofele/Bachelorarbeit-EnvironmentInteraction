@@ -36,7 +36,7 @@ public abstract class Interaction : MonoBehaviour
 
     public virtual bool CheckTrigger()
     {
-        if (interactionManager.IsTriggered == true)
+        if (interactionManager.IsInteractionTriggered == true)
         {
             return true;
         }
@@ -54,7 +54,7 @@ public abstract class Interaction : MonoBehaviour
     public virtual void ExecuteInteraction()
     {
         interactionManager.SetLastInteraction();
-        interactionManager.IsTriggered = false;
+        interactionManager.IsInteractionTriggered = false;
     }
 
     public abstract void ResetInteraction();
