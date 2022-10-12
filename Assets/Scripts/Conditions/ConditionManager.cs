@@ -23,4 +23,12 @@ public class ConditionManager : MonoBehaviour
     {
         conditions = GetComponents<Condition>().ToList(); 
     }
+
+    public void ResetConditions()
+    {
+        foreach (Condition condition in conditions)
+        {
+            condition.ResetCondition();
+        }
+    }
 }
