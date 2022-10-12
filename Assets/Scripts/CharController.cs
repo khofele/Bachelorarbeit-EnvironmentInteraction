@@ -22,6 +22,7 @@ public class CharController : MonoBehaviour
     private InteractableManager interactableManager = null;
 
     public Animator Animator { get => animator; }
+    public bool IsCrouching { get => isCrouching; }
 
     private void Start()
     {
