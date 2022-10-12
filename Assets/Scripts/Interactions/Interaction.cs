@@ -8,6 +8,7 @@ public abstract class Interaction : MonoBehaviour
     public ConditionManager conditionManager = null;
     public InteractionManager interactionManager = null;
     public AnimationManager animationManager = null;
+    public InteractableManager interactableManager = null;
     public bool isInteracting = false;
 
     public bool IsInteracting { get => isInteracting; }
@@ -17,6 +18,7 @@ public abstract class Interaction : MonoBehaviour
         conditionManager = GetComponent<ConditionManager>();
         interactionManager = GetComponentInParent<InteractionManager>();
         animationManager = GetComponentInParent<AnimationManager>();
+        interactableManager = FindObjectOfType<InteractableManager>();
 
         conditionManager.FillConditionsList();
     }
