@@ -11,10 +11,9 @@ public class Throwable : Interactable
     private void Start()
     {
         grabHandle = GetGrabHandle();
-        Debug.Log("lol " + grabHandle.name);
     }
 
-    private Transform GetGrabHandle()
+    public Transform GetGrabHandle()
     {
         Transform parentTransform = transform;
 
@@ -26,5 +25,13 @@ public class Throwable : Interactable
             }
         }
         return null;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            Destroy(gameObject);
+        }
     }
 }
