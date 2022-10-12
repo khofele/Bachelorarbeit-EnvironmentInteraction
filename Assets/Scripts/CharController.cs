@@ -99,6 +99,7 @@ public class CharController : MonoBehaviour
             // TODO: verallgemeinern? hat jede Interaktion ein Interactable?
             interactableManager.CurrentInteractable = other.gameObject.GetComponent<Interactable>();
             interactionManager.IsInteractionTriggered = true;
+            Debug.Log(interactableManager.CurrentInteractable.name);
         }
     }
 }
