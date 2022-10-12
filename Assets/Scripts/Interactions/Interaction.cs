@@ -7,11 +7,16 @@ public abstract class Interaction : MonoBehaviour
 {
     public ConditionManager conditionManager = null;
     public InteractionManager interactionManager = null;
+    public AnimationManager animationManager = null;
+    public bool isInteracting = false;
+
+    public bool IsInteracting { get => isInteracting; }
 
     public virtual void Start()
     {
         conditionManager = GetComponent<ConditionManager>();
         interactionManager = GetComponentInParent<InteractionManager>();
+        animationManager = GetComponentInParent<AnimationManager>();
 
         conditionManager.FillConditionsList();
     }
@@ -23,6 +28,8 @@ public abstract class Interaction : MonoBehaviour
             if (CheckConditions() == true)
             {
                 ExecuteInteraction();
+                ResetInteraction();
+                conditionManager.ResetConditions();
             }
         }
     }
@@ -49,4 +56,6 @@ public abstract class Interaction : MonoBehaviour
         interactionManager.SetLastInteraction();
         interactionManager.IsTriggered = false;
     }
+
+    public abstract void ResetInteraction();
 }
