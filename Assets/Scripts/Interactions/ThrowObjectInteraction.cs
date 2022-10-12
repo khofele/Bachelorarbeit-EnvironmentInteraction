@@ -37,7 +37,6 @@ public class ThrowObjectInteraction : Interaction
         //Throw(); ist AnimationEvent
         iKController.IsIkActive = true;
         interactionManager.CurrentInteraction = this;
-        ResetInteraction();
     }
 
     public void Throw()
