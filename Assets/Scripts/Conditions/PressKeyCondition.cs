@@ -24,9 +24,4 @@ public class PressKeyCondition : Condition
     {
         return isButtonPressed;
     }
-
-    public override void ResetCondition()
-    {
-        isButtonPressed = false;
-    }
 }

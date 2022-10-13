@@ -25,9 +25,4 @@ public class EmptyHandsCondition : Condition
     {
         return isHandsEmpty ;
     }
-
-    public override void ResetCondition()
-    {
-        isHandsEmpty = false;
-    }
 }

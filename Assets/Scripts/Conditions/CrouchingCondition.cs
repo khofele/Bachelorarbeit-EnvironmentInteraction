@@ -26,12 +26,6 @@ public class CrouchingCondition : Condition
 
     public override bool CheckCondition()
     {
-        throw new System.NotImplementedException();
-    }
-
-    // TODO Test ob Reset nötig ist
-    public override void ResetCondition()
-    {
-        throw new System.NotImplementedException();
+        return isCrouching; 
     }
 }
