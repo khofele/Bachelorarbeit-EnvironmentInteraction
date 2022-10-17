@@ -53,8 +53,8 @@ public class IKController : MonoBehaviour
     }
 
     private void ThrowObjectIK()
-    {
-        Throwable currentInteractable = (Throwable) interactableManager.CurrentInteractable;
+    {        
+        Throwable currentInteractable = (Throwable)interactableManager.CurrentInteractable;
         // pick up
         if (currentInteractable != null)
         {
@@ -80,7 +80,7 @@ public class IKController : MonoBehaviour
                 animationManager.ExecuteThrowAnimation();
             }
         }
-
+        
         // TODO Objekt anschauen nach aufnehmen --> Code refactoren
         //else if (rightHand.GetComponentInChildren<Interactable>() != null)
         //{
