@@ -74,7 +74,6 @@ public abstract class Interaction : MonoBehaviour
     public virtual void ExecuteInteraction()
     {
         interactionManager.SetLastInteraction();
-        //interactionManager.IsInteractionTriggered = false;
     }
 
     public abstract void ResetInteraction();
