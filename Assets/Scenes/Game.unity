@@ -1120,7 +1120,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.2581523, y: -0.00000003324632, z: 0.000000008883734, w: 0.9661042}
+  m_LocalRotation: {x: 0.2581523, y: 0.000000033246316, z: -0.000000008883733, w: 0.9661042}
   m_LocalPosition: {x: 0, y: 5, z: -8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1295,7 +1295,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1177506402}
-  m_LocalRotation: {x: 0.25815228, y: -0.000000016623162, z: 0.0000000044418673, w: 0.96610427}
+  m_LocalRotation: {x: 0.25815228, y: 0.000000016623154, z: -0.000000004441866, w: 0.96610427}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1362,7 +1362,7 @@ GameObject:
   - component: {fileID: 1312200291}
   - component: {fileID: 1312200293}
   m_Layer: 0
-  m_Name: LeanOnWall
+  m_Name: LeanOnObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1401,9 +1401,6 @@ MonoBehaviour:
   interactableManager: {fileID: 0}
   charController: {fileID: 0}
   isInteracting: 0
-  wallCollider: {fileID: 1732932805}
-  walkCollider: {fileID: 2026045234}
-  playerCollider: {fileID: 1620079486}
 --- !u!114 &1312200292
 MonoBehaviour:
   m_ObjectHideFlags: 0
