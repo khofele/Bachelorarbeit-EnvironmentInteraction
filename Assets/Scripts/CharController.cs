@@ -96,10 +96,9 @@ public class CharController : MonoBehaviour
     // TODO in eigenes Skript auslagern
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.GetComponent<Interactable>() != null &&  interactionManager.IsInteractionTriggered == false)
+        if(other.gameObject.GetComponent<Interactable>() != null && interactionManager.IsInteractionTriggered == false)
         {
             interactableManager.CurrentInteractable = other.gameObject.GetComponent<Interactable>();
-            interactableManager.CurrentInteractableGameObject = other.gameObject;
             interactionManager.IsInteractionTriggered = true;
         }
     }
