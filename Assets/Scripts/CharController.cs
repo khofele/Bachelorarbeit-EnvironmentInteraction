@@ -93,14 +93,19 @@ public class CharController : MonoBehaviour
         animationManager.SetSpeed(speed);
     }
 
+    // TODO in eigenes Skript auslagern
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.GetComponent<Interactable>() != null && other.gameObject.GetComponent<Interactable>() != interactableManager.CurrentInteractable && interactionManager.IsInteractionTriggered == false)
+        if(other.gameObject.GetComponent<Interactable>() != null &&  interactionManager.IsInteractionTriggered == false)
         {
-            // TODO: verallgemeinern? hat jede Interaktion ein Interactable?
             interactableManager.CurrentInteractable = other.gameObject.GetComponent<Interactable>();
+            interactableManager.CurrentInteractableGameObject = other.gameObject;
             interactionManager.IsInteractionTriggered = true;
-            Debug.Log(interactableManager.CurrentInteractable.name);
         }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        interactionManager.IsInteractionTriggered = false;
     }
 }
