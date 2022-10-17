@@ -8,11 +8,8 @@ public class LeanOnObjectInteraction : Interaction
     private Collider walkCollider = null;
     private Collider playerCollider = null;
     private Leanable currentLeanableObject = null;
-    private float snapDistance = 1f;
+    private float snapDistance = 1f;    // TODO evtl. snap distance noch balancen
     private Vector3 offset;
-
-    // TODO Collider von Wand bekommen
-    // TODO Wand muss drei Collider haben --> Leanable-Skript
 
     private void LeanOnWall()
     {
