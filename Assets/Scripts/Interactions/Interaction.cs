@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,9 @@ public abstract class Interaction : MonoBehaviour
     public InteractionManager interactionManager = null;
     public AnimationManager animationManager = null;
     public InteractableManager interactableManager = null;
+    public CharController charController = null;
     public bool isInteracting = false;
+    public Type fittingInteractable = null;
 
     public bool IsInteracting { get => isInteracting; }
 
@@ -19,6 +22,7 @@ public abstract class Interaction : MonoBehaviour
         interactionManager = GetComponentInParent<InteractionManager>();
         animationManager = GetComponentInParent<AnimationManager>();
         interactableManager = FindObjectOfType<InteractableManager>();
+        charController = GetComponentInParent<CharController>();
 
         conditionManager.FillConditionsList();
     }
@@ -27,11 +31,13 @@ public abstract class Interaction : MonoBehaviour
     {
         if (CheckTrigger() == true)
         {
-            if (CheckConditions() == true)
+            if(CheckCurrentInteractable() == true)
             {
-                ExecuteInteraction();
-                ResetInteraction();
-                conditionManager.ResetConditions();
+                if (CheckConditions() == true)
+                {
+                    ExecuteInteraction();
+                    ResetInteraction();
+                }
             }
         }
     }
@@ -56,7 +62,19 @@ public abstract class Interaction : MonoBehaviour
     public virtual void ExecuteInteraction()
     {
         interactionManager.SetLastInteraction();
-        interactionManager.IsInteractionTriggered = false;
+        //interactionManager.IsInteractionTriggered = false;
+    }
+
+    public virtual bool CheckCurrentInteractable()
+    {
+        if(interactableManager.CurrentInteractable.GetType() == fittingInteractable)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public abstract void ResetInteraction();
