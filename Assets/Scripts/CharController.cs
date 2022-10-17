@@ -17,10 +17,6 @@ public class CharController : MonoBehaviour
     private Vector3 moveDirection = Vector3.zero;
     private bool isCrouching = false;
 
-    // Interaction fields
-    private InteractionManager interactionManager = null;
-    private InteractableManager interactableManager = null;
-
     public Animator Animator { get => animator; }
     public bool IsCrouching { get => isCrouching; }
 
@@ -29,9 +25,7 @@ public class CharController : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         iKController = GetComponent<IKController>();
-        interactionManager = GetComponentInChildren<InteractionManager>();
         animationManager = GetComponent<AnimationManager>();
-        interactableManager = FindObjectOfType<InteractableManager>();
 
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -91,20 +85,5 @@ public class CharController : MonoBehaviour
         }
 
         animationManager.SetSpeed(speed);
-    }
-
-    // TODO in eigenes Skript auslagern
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.GetComponent<Interactable>() != null && interactionManager.IsInteractionTriggered == false)
-        {
-            interactableManager.CurrentInteractable = other.gameObject.GetComponent<Interactable>();
-            interactionManager.IsInteractionTriggered = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        interactionManager.IsInteractionTriggered = false;
     }
 }
