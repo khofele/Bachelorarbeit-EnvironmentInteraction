@@ -29,7 +29,7 @@ public class LeanOnWallInteraction : Interaction
     {
         base.Start();
         Physics.IgnoreCollision(playerCollider, walkCollider);
-        fittingInteractable = typeof(Leanable);
+        matchingInteractable = typeof(Leanable);
     }
 
     public override void Update()

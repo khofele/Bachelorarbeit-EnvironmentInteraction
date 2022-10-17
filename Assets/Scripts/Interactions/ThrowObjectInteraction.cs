@@ -21,7 +21,7 @@ public class ThrowObjectInteraction : Interaction
         base.Start();
         iKController = GetComponentInParent<IKController>();
         sphereCollider = GetComponent<SphereCollider>();
-        fittingInteractable = typeof(Throwable);
+        matchingInteractable = typeof(Throwable);
 
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Interactable"), LayerMask.NameToLayer("Checkbox"));
         sphereCollider.enabled = false;

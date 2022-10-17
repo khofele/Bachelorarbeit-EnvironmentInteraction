@@ -12,9 +12,21 @@ public abstract class Interaction : MonoBehaviour
     public InteractableManager interactableManager = null;
     public CharController charController = null;
     public bool isInteracting = false;
-    public Type fittingInteractable = null;
+    public Type matchingInteractable = null;
 
     public bool IsInteracting { get => isInteracting; }
+
+    private bool CheckMatchingInteractable()
+    {
+        if (interactableManager.CurrentInteractable.GetType() == matchingInteractable)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     public virtual void Start()
     {
@@ -31,7 +43,7 @@ public abstract class Interaction : MonoBehaviour
     {
         if (CheckTrigger() == true)
         {
-            if(CheckCurrentInteractable() == true)
+            if(CheckMatchingInteractable() == true)
             {
                 if (CheckConditions() == true)
                 {
@@ -63,18 +75,6 @@ public abstract class Interaction : MonoBehaviour
     {
         interactionManager.SetLastInteraction();
         //interactionManager.IsInteractionTriggered = false;
-    }
-
-    public virtual bool CheckCurrentInteractable()
-    {
-        if(interactableManager.CurrentInteractable.GetType() == fittingInteractable)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
 
     public abstract void ResetInteraction();
