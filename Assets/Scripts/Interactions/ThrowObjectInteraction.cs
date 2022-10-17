@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ThrowObjectInteraction : Interaction
 {
-    private CharController charController = null;
     private IKController iKController = null;
     private GameObject enemy = null;
     private SphereCollider sphereCollider = null;
@@ -20,9 +19,9 @@ public class ThrowObjectInteraction : Interaction
     public override void Start()
     {
         base.Start();
-        charController = GetComponentInParent<CharController>();
         iKController = GetComponentInParent<IKController>();
         sphereCollider = GetComponent<SphereCollider>();
+        fittingInteractable = typeof(Throwable);
 
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Interactable"), LayerMask.NameToLayer("Checkbox"));
         sphereCollider.enabled = false;
@@ -35,6 +34,7 @@ public class ThrowObjectInteraction : Interaction
         //Throw(); ist AnimationEvent
         iKController.IsIkActive = true;
         interactionManager.CurrentInteraction = this;
+        isInteracting = true;
     }
 
     public void Throw()
