@@ -8,8 +8,9 @@ public class Throwable : Interactable
 
     public Transform GrabHandle { get => grabHandle; }
 
-    private void Start()
+    public override void Start()
     {
+        base.Start();
         grabHandle = GetGrabHandle();
     }
 
