@@ -5,7 +5,6 @@ using UnityEngine;
 public class LeanOnObjectInteraction : Interaction
 {
     private Collider objectCollider = null;
-    private Collider walkCollider = null;
     private Collider playerCollider = null;
     private Leanable currentLeanableObject = null;
     private float snapDistance = 1f;    // TODO evtl. snap distance noch balancen
@@ -68,8 +67,7 @@ public class LeanOnObjectInteraction : Interaction
         interactionManager.CurrentInteraction = this;
         isInteracting = true;
         currentLeanableObject = (Leanable) interactableManager.CurrentInteractable;
-        objectCollider = currentLeanableObject.ParentCollider;
-        walkCollider = currentLeanableObject.WalkCollider;
+        objectCollider = currentLeanableObject.ObjectCollider;
 
         base.ExecuteInteraction();
     }
