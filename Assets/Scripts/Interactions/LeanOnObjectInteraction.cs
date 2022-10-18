@@ -7,7 +7,7 @@ public class LeanOnObjectInteraction : Interaction
     private Collider objectCollider = null;
     private Collider playerCollider = null;
     private Leanable currentLeanableObject = null;
-    private float snapDistance = 1f;    // TODO evtl. snap distance noch balancen
+    private float snapDistance = 1f;   // TODO evtl. snap distance noch balancen
     private Vector3 offset;
 
     private void LeanOnObject()
