@@ -9,6 +9,8 @@ public class CharController : MonoBehaviour
     private Animator animator = null;
     private IKController iKController = null;
     private AnimationManager animationManager = null;
+    private Cinemachine.CinemachineFreeLook freeLookCamera = null;
+    private Cinemachine.CinemachineVirtualCamera virtualCamera = null;
 
     // Movement fields
     private float speed = 0f;
@@ -16,9 +18,15 @@ public class CharController : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
     private Vector3 moveDirection = Vector3.zero;
     private bool isCrouching = false;
+    private bool isLeaning = false;
+    private float xAxis = 0f;
+    private float zAxis = 0f;
 
     public Animator Animator { get => animator; }
     public bool IsCrouching { get => isCrouching; }
+    public bool IsLeaning { get => isLeaning; set => isLeaning = value; }
+    public float XAxis { get => xAxis; }
+    public float ZAxis { get => zAxis; }
 
     private void Start()
     {
@@ -26,19 +34,32 @@ public class CharController : MonoBehaviour
         animator = GetComponent<Animator>();
         iKController = GetComponent<IKController>();
         animationManager = GetComponent<AnimationManager>();
+        freeLookCamera = GetComponentInChildren<Cinemachine.CinemachineFreeLook>();
+        virtualCamera = GetComponentInChildren<Cinemachine.CinemachineVirtualCamera>();
+
 
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
     {
-        float xAxis = Input.GetAxis("Horizontal");
-        float zAxis = Input.GetAxis("Vertical");
+        xAxis = Input.GetAxis("Horizontal");
+        zAxis = Input.GetAxis("Vertical");
 
-        // Movedirection + rotation --> follow camera rotation
         moveDirection = new Vector3(xAxis, 0f, zAxis).normalized;
         moveDirection = Camera.main.transform.TransformDirection(moveDirection);
-        transform.rotation = Quaternion.LookRotation(new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized, Camera.main.transform.up);
+
+        if (isLeaning == false)
+        {
+            transform.rotation = Quaternion.LookRotation(new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized, Camera.main.transform.up);
+            virtualCamera.enabled = false;
+            freeLookCamera.enabled = true;
+        }
+        else
+        {
+            freeLookCamera.enabled = false;
+            virtualCamera.enabled = true;
+        }
 
         // check if button is pressed
         if (moveDirection.magnitude >= 0.01f)
