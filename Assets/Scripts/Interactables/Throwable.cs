@@ -6,12 +6,9 @@ public class Throwable : Interactable
 {
     private Transform grabHandle = null;
 
-    public Transform GrabHandle { get => grabHandle; }
-
     public override void Start()
     {
         base.Start();
-        grabHandle = GetGrabHandle();
     }
 
     public Transform GetGrabHandle()
