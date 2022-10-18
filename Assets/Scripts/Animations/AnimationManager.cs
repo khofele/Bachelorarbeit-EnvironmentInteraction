@@ -47,4 +47,20 @@ public class AnimationManager : MonoBehaviour
     {
         animator.SetFloat("speed", speed);
     }
+
+    public void ExecuteCrouchAndLeanAnimation(float zAxis, float xAxis)
+    {
+        animator.SetFloat("vertical", zAxis * 0.27f);
+        animator.SetFloat("horizontal", xAxis * 1.026f);
+    }
+
+    public void ExecuteCrouchAndLeanAnimation()
+    {
+        animator.SetBool("isCrouchingLean", true);
+    }    
+    
+    public void StopCrouchAndLeanAnimation()
+    {
+        animator.SetBool("isCrouchingLean", false);
+    }
 }
