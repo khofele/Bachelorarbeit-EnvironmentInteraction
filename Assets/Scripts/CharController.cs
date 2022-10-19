@@ -50,6 +50,8 @@ public class CharController : MonoBehaviour
         moveDirection = new Vector3(xAxis, 0f, zAxis).normalized;
         moveDirection = Camera.main.transform.TransformDirection(moveDirection);
 
+
+        // TODO Cameramovement in eigenes Skript
         if (isLeaning == false)
         {
             transform.rotation = Quaternion.LookRotation(new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized, Camera.main.transform.up);
