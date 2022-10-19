@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ThrowObjectInteraction : Interaction
 {
-    private IKController iKController = null;
     private GameObject enemy = null;
     private SphereCollider sphereCollider = null;
 
@@ -19,7 +18,6 @@ public class ThrowObjectInteraction : Interaction
     public override void Start()
     {
         base.Start();
-        iKController = GetComponentInParent<IKController>();
         sphereCollider = GetComponent<SphereCollider>();
         matchingInteractable = typeof(Throwable);
 
