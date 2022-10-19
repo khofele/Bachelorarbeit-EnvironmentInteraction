@@ -28,11 +28,7 @@ public class ThrowObjectInteraction : Interaction
     public override void ExecuteInteraction()
     {
         base.ExecuteInteraction();
-        Debug.Log("Execute ThrowObjectInteraction");
         //Throw(); ist AnimationEvent
-        iKController.IsIkActive = true;
-        interactionManager.CurrentInteraction = this;
-        isInteracting = true;
     }
 
     public void Throw()

@@ -201,6 +201,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98a18f85012a08843ae7b8a4c03bd46d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &175648037 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1017971965920130908, guid: 10ce4f0de75740d4a945413cba38a706, type: 3}
+  m_PrefabInstance: {fileID: 1620079483}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &186004724
 GameObject:
   m_ObjectHideFlags: 0
@@ -2301,6 +2306,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: ThirdPersonCharacter
       objectReference: {fileID: 0}
+    - target: {fileID: 1017971965920130908, guid: 10ce4f0de75740d4a945413cba38a706, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017971965920130908, guid: 10ce4f0de75740d4a945413cba38a706, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017971965920130908, guid: 10ce4f0de75740d4a945413cba38a706, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017971965920130908, guid: 10ce4f0de75740d4a945413cba38a706, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017971965920130908, guid: 10ce4f0de75740d4a945413cba38a706, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1156334875509381579, guid: 10ce4f0de75740d4a945413cba38a706, type: 3}
       propertyPath: m_Layer
       value: 10
@@ -2500,6 +2525,7 @@ MonoBehaviour:
   leanLeftHand: {fileID: 1434318425}
   interactables: {fileID: 392702902}
   watchHandle: {fileID: 1121215248}
+  spine: {fileID: 175648037}
 --- !u!114 &1620079492
 MonoBehaviour:
   m_ObjectHideFlags: 0

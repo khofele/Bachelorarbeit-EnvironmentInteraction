@@ -72,13 +72,9 @@ public class CoverInteraction : Interaction
 
     public override void ExecuteInteraction()
     {
-        interactionManager.CurrentInteraction = this;
-        isInteracting = true;
-        iKController.IsIkActive = true;
+        base.ExecuteInteraction();
         currentLeanableObject = (Leanable)interactableManager.CurrentInteractable;
         snapCollider = currentLeanableObject.SnapCollider;
-
-        base.ExecuteInteraction();
     }
 
     public override void ResetInteraction()

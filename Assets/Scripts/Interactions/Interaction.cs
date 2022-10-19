@@ -75,6 +75,9 @@ public abstract class Interaction : MonoBehaviour
 
     public virtual void ExecuteInteraction()
     {
+        iKController.IsIkActive = true;
+        interactionManager.CurrentInteraction = this;
+        isInteracting = true;
         interactionManager.SetLastInteraction();
         // TODO evtl. anders setzen --> beim Lean wird das andauernd aufgerufen
         // evtl. nur wenn current != last?
