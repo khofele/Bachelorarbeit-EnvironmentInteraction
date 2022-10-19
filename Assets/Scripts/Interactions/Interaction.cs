@@ -77,6 +77,7 @@ public abstract class Interaction : MonoBehaviour
     {
         interactionManager.SetLastInteraction();
         // TODO evtl. anders setzen --> beim Lean wird das andauernd aufgerufen
+        // evtl. nur wenn current != last?
     }
 
     public abstract void ResetInteraction();
