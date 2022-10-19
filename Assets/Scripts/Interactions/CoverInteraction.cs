@@ -10,7 +10,7 @@ public class CoverInteraction : Interaction
     private float snapDistance = 1f;
     private Vector3 offset;
 
-    // TODO Inverse Kinematik
+    // TODO ggf. mit Lean mergen
     private void Cover()
     {
         Vector3 playerClosestPoint = playerCollider.ClosestPoint(snapCollider.transform.position);
