@@ -4,30 +4,36 @@ using UnityEngine;
 
 public class LeanOnObjectInteraction : Interaction
 {
-    private Collider objectCollider = null;
+    private Collider snapCollider = null;
     private Collider playerCollider = null;
     private Leanable currentLeanableObject = null;
-    private float snapDistance = 1f;   // TODO evtl. snap distance noch balancen
+    private float snapDistance = 1f;
     private Vector3 offset;
 
     private void LeanOnObject()
     {
-        Vector3 playerClosestPoint = playerCollider.ClosestPoint(objectCollider.transform.position);
-        Vector3 objectClosestPoint = objectCollider.ClosestPoint(playerClosestPoint);
+        Vector3 playerClosestPoint = playerCollider.ClosestPoint(snapCollider.transform.position);
+        Vector3 objectClosestPoint = snapCollider.ClosestPoint(playerClosestPoint);
         offset = objectClosestPoint - playerClosestPoint;
 
-        if(offset.magnitude < snapDistance)
+        if (offset.magnitude < snapDistance)
         {
             charController.transform.position += offset;
+
             charController.IsLeaning = true;
             animationManager.ExecuteCrouchAndLeanAnimation();
-            animationManager.ExecuteCrouchAndLeanAnimation(charController.ZAxis, charController.XAxis);
+            animationManager.ExecuteCrouchAndLeanAnimation(charController.XAxis);
         }
 
+
         RaycastHit hit;
-        if ((Physics.Raycast(charController.transform.position, charController.transform.forward, out hit, 1f) 
-            || Physics.Raycast(charController.transform.position, -charController.transform.forward, out hit, 1f)) 
+
+        if ((Physics.Raycast(charController.transform.position, charController.transform.forward, out hit, 1.5f))
             && charController.IsLeaning == true)
+        {
+            charController.transform.rotation = Quaternion.LookRotation(hit.normal);
+        }
+        else if(Physics.Raycast(charController.transform.position, -charController.transform.forward, out hit, 1.5f) && charController.IsLeaning == true)
         {
             charController.transform.rotation = Quaternion.LookRotation(hit.normal);
         }
@@ -57,6 +63,7 @@ public class LeanOnObjectInteraction : Interaction
             {
                 isInteracting = false;
                 charController.IsLeaning = false;
+                iKController.IsIkActive = false;
                 animationManager.StopCrouchAndLeanAnimation();
             }
         }
@@ -66,8 +73,9 @@ public class LeanOnObjectInteraction : Interaction
     {
         interactionManager.CurrentInteraction = this;
         isInteracting = true;
+        iKController.IsIkActive = true;
         currentLeanableObject = (Leanable) interactableManager.CurrentInteractable;
-        objectCollider = currentLeanableObject.ObjectCollider;
+        snapCollider = currentLeanableObject.SnapCollider;
 
         base.ExecuteInteraction();
     }
