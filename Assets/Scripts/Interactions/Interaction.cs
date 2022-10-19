@@ -11,6 +11,7 @@ public abstract class Interaction : MonoBehaviour
     public AnimationManager animationManager = null;
     public InteractableManager interactableManager = null;
     public CharController charController = null;
+    public IKController iKController = null;
     public bool isInteracting = false;
     public Type matchingInteractable = null;
 
@@ -35,6 +36,7 @@ public abstract class Interaction : MonoBehaviour
         animationManager = GetComponentInParent<AnimationManager>();
         interactableManager = FindObjectOfType<InteractableManager>();
         charController = GetComponentInParent<CharController>();
+        iKController = GetComponentInParent<IKController>();
 
         conditionManager.FillConditionsList();
     }
@@ -74,6 +76,7 @@ public abstract class Interaction : MonoBehaviour
     public virtual void ExecuteInteraction()
     {
         interactionManager.SetLastInteraction();
+        // TODO evtl. anders setzen --> beim Lean wird das andauernd aufgerufen
     }
 
     public abstract void ResetInteraction();
