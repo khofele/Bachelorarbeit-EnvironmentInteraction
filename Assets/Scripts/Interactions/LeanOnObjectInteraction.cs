@@ -25,7 +25,6 @@ public class LeanOnObjectInteraction : Interaction
             animationManager.ExecuteCrouchAndLeanAnimation(charController.XAxis);
         }
 
-
         RaycastHit hit;
 
         if ((Physics.Raycast(charController.transform.position, charController.transform.forward, out hit, 1.5f))
