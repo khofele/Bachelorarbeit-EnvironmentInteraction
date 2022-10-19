@@ -37,6 +37,7 @@ public class CharController : MonoBehaviour
         freeLookCamera = GetComponentInChildren<Cinemachine.CinemachineFreeLook>();
         virtualCamera = GetComponentInChildren<Cinemachine.CinemachineVirtualCamera>();
 
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Limbs"), LayerMask.NameToLayer("Default"));
 
         Cursor.lockState = CursorLockMode.Locked;
     }
