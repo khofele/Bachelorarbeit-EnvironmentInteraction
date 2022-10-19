@@ -50,7 +50,6 @@ public class CharController : MonoBehaviour
         moveDirection = new Vector3(xAxis, 0f, zAxis).normalized;
         moveDirection = Camera.main.transform.TransformDirection(moveDirection);
 
-
         // TODO Cameramovement in eigenes Skript
         if (isLeaning == false)
         {
