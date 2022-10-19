@@ -4,31 +4,43 @@ using UnityEngine;
 
 public class IKController : MonoBehaviour
 {
-    [SerializeField] private Transform rightHand = null;
+    // right hand
+    [SerializeField] private Transform rightHandGrabHandle = null;
+    [SerializeField] private Transform rightHandWatchHandle = null;
+    [SerializeField] private Transform leanRightHand = null;
+
+    // left hand
+    [SerializeField] private Transform leftHandWatchHandle = null;
+    [SerializeField] private Transform leanLeftHand = null;
+
+    // general
     [SerializeField] private GameObject interactables = null;
     [SerializeField] private Transform watchHandle = null;
 
     private bool isIkActive = false;
     private Animator animator = null;
     private Transform grabHandle = null;
+    private CharController charController = null;
     private InteractionManager interactionManager = null;
     private AnimationManager animationManager = null;
     private InteractableManager interactableManager = null;
 
-    public Transform RightHand { get => rightHand; }
+    // lean
+    private Vector3 closestPointRightHand = Vector3.zero;
+    private Vector3 closestPointLeftHand = Vector3.zero;
+
     public GameObject Interactables { get => interactables; }
-    public Transform WatchHandle { get => watchHandle; }
     public bool IsIkActive { get => isIkActive; set => isIkActive = value; }
 
     private void Start()
     {
         animator = GetComponent<Animator>();
+        charController = GetComponent<CharController>();
         interactionManager = GetComponentInChildren<InteractionManager>();
         animationManager = GetComponent<AnimationManager>();
         interactableManager = FindObjectOfType<InteractableManager>();
     }
 
-    // TODO je nach bool anderes IK-Event, ggf. mit States arbeiten
     private void OnAnimatorIK()
     {
         if (animator == true)
@@ -40,6 +52,10 @@ public class IKController : MonoBehaviour
                     if (interactionManager.CurrentInteraction.gameObject.GetComponent<ThrowObjectInteraction>() != null)
                     {
                         ThrowObjectIK();
+                    }
+                    else if(interactionManager.CurrentInteraction.gameObject.GetComponent<LeanOnObjectInteraction>() != null)
+                    {
+                        LeanOnObjectIK();
                     }
                 }
             }
@@ -73,15 +89,15 @@ public class IKController : MonoBehaviour
                 animator.SetLookAtPosition(grabHandle.position);
                 animator.SetLookAtWeight(1);
 
-                currentInteractable.transform.position = rightHand.position;
-                currentInteractable.transform.SetParent(rightHand);
+                currentInteractable.transform.position = rightHandGrabHandle.position;
+                currentInteractable.transform.SetParent(rightHandGrabHandle);
 
 
                 animationManager.ExecuteThrowAnimation();
             }
         }
         
-        // TODO Objekt anschauen nach aufnehmen --> Code refactoren
+        // TODO Objekt anschauen nach aufnehmen --> Code refactoren? Interaktion aufteilen in Aufnehmen und Werfen?
         //else if (rightHand.GetComponentInChildren<Interactable>() != null)
         //{
         //    animator.SetIKPosition(AvatarIKGoal.RightHand, watchHandle.position);
@@ -91,5 +107,42 @@ public class IKController : MonoBehaviour
 
         //    animationManager.ExecuteThrowAnimation();
         //}
+    }
+
+    private void LeanOnObjectIK()
+    {
+        // TODO unterscheiden zw. Links und rechts bzw. oben unten --> je nach dem andere Seite anschauen
+        Leanable currentInteractable = (Leanable)interactableManager.CurrentInteractable;
+
+        // right hand
+        closestPointRightHand = currentInteractable.SnapCollider.ClosestPoint(leanRightHand.position);
+        animator.SetIKPosition(AvatarIKGoal.RightHand, closestPointRightHand);
+        animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1f);
+        animator.SetIKRotation(AvatarIKGoal.RightHand, leanRightHand.rotation);
+        animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1f);
+
+        // left hand
+        closestPointLeftHand = currentInteractable.SnapCollider.ClosestPoint(leanLeftHand.position);
+        animator.SetIKPosition(AvatarIKGoal.LeftHand, closestPointLeftHand);
+        animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1f);
+        animator.SetIKRotation(AvatarIKGoal.LeftHand, leanLeftHand.rotation);
+        animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1f);
+
+        // viewing direction
+        if(charController.XAxis*2 >= 2)
+        {
+            animator.SetLookAtPosition(leftHandWatchHandle.position);
+            animator.SetLookAtWeight(1);
+        }
+        else if(charController.XAxis * 2 <= -2)
+        {
+            animator.SetLookAtPosition(rightHandWatchHandle.position);
+            animator.SetLookAtWeight(1);
+        }
+        else if(charController.XAxis == 0)
+        {
+            animator.SetLookAtPosition(watchHandle.position);
+            animator.SetLookAtWeight(1);
+        }
     }
 }
