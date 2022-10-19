@@ -62,4 +62,19 @@ public class AnimationManager : MonoBehaviour
     {
         animator.SetBool("isCrouchingLean", false);
     }
+
+    public void ExecuteCoverAnimation()
+    {
+        animator.SetBool("isCovering", true);
+    }
+
+    public void ExecuteCoverAnimation(float xAxis)
+    {
+        animator.SetFloat("horizontal", xAxis * 2f);
+    }
+
+    public void StopCoverAnimation()
+    {
+        animator.SetBool("isCovering", false);
+    }
 }

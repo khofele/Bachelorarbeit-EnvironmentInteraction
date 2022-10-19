@@ -49,13 +49,17 @@ public class IKController : MonoBehaviour
             {
                 if(interactionManager.CurrentInteraction != null)
                 {
-                    if (interactionManager.CurrentInteraction.gameObject.GetComponent<ThrowObjectInteraction>() != null)
+                    GameObject currentInteractionGameObject = interactionManager.CurrentInteraction.gameObject;
+
+                    // Throw
+                    if (currentInteractionGameObject.GetComponent<ThrowObjectInteraction>() != null)
                     {
                         ThrowObjectIK();
                     }
-                    else if(interactionManager.CurrentInteraction.gameObject.GetComponent<LeanOnObjectInteraction>() != null)
+                    // Lean and Cover
+                    else if((currentInteractionGameObject.GetComponent<LeanOnObjectInteraction>() != null && charController.IsCrouching == true) || currentInteractionGameObject.GetComponent<CoverInteraction>() != null)
                     {
-                        LeanOnObjectIK();
+                        LeanIK();
                     }
                 }
             }
@@ -109,9 +113,8 @@ public class IKController : MonoBehaviour
         //}
     }
 
-    private void LeanOnObjectIK()
+    private void LeanIK()
     {
-        // TODO unterscheiden zw. Links und rechts bzw. oben unten --> je nach dem andere Seite anschauen
         Leanable currentInteractable = (Leanable)interactableManager.CurrentInteractable;
 
         // right hand
@@ -129,17 +132,22 @@ public class IKController : MonoBehaviour
         animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1f);
 
         // viewing direction
-        if(charController.XAxis*2 >= 2)
+        FaceWalkingDirection();
+    }
+
+    private void FaceWalkingDirection()
+    {
+        if (charController.XAxis * 2 >= 2)
         {
             animator.SetLookAtPosition(leftHandWatchHandle.position);
             animator.SetLookAtWeight(1);
         }
-        else if(charController.XAxis * 2 <= -2)
+        else if (charController.XAxis * 2 <= -2)
         {
             animator.SetLookAtPosition(rightHandWatchHandle.position);
             animator.SetLookAtWeight(1);
         }
-        else if(charController.XAxis == 0)
+        else if (charController.XAxis == 0)
         {
             animator.SetLookAtPosition(watchHandle.position);
             animator.SetLookAtWeight(1);
