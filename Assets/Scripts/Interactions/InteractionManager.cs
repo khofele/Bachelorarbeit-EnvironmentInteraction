@@ -16,6 +16,5 @@ public class InteractionManager : MonoBehaviour
     public void SetLastInteraction()
     {
         lastInteraction = currentInteraction;
-        currentInteraction = null;
     }
 }
