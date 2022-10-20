@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AnimationEventHelper" Collapsed="true">
+    <Position X="10" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAACAAAAgAAAAAAAAAAAAAAAAAAAAIAACAAAA=</HashCode>
+      <FileName>Assets\Scripts\Animations\AnimationEventHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AnimationManager" Collapsed="true">
+    <Position X="11.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAAAAAACIQAAAAAAABABAAAAAAAAgAAkAAIABAIAA=</HashCode>
+      <FileName>Assets\Scripts\Animations\AnimationManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CharController" Collapsed="true">
+    <Position X="13.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>hAQAAMgACmAAAAAAAAAAAACAAIAAAQCACAYAAA4CAAA=</HashCode>
+      <FileName>Assets\Scripts\CharController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Condition" Collapsed="true">
+    <Position X="3" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Conditions\Condition.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ConditionManager" Collapsed="true">
+    <Position X="10" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAAAAAAAAAABAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Conditions\ConditionManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CrouchingCondition" Collapsed="true">
+    <Position X="0.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAIBAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Conditions\CrouchingCondition.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EmptyHandsCondition" Collapsed="true">
+    <Position X="3" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAEAAAAAAAAIAAAAAAAABAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Conditions\EmptyHandsCondition.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PressKeyCondition" Collapsed="true">
+    <Position X="5.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQIAAAAAAAAAAgAAAAAAAAAAABAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Conditions\PressKeyCondition.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IKController" Collapsed="true">
+    <Position X="11.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAEAAAQCCAAESgBAAEUAAAAAAIBECAYAwgEAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\IKController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Interactable" Collapsed="true">
+    <Position X="1.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Interactables\Interactable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InteractableManager" Collapsed="true">
+    <Position X="13.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>Assets\Scripts\Interactables\InteractableManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Leanable" Collapsed="true">
+    <Position X="0.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAACAAAAAAAAAAAAAAAAAAAAAACAAAAAgAAA=</HashCode>
+      <FileName>Assets\Scripts\Interactables\Leanable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Throwable" Collapsed="true">
+    <Position X="2.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAQAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Interactables\Throwable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CrouchLeanInteraction" Collapsed="true">
+    <Position X="0.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQCAAAAAAAAAAAAAAAACAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Interactions\CrouchLeanInteraction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EdgeLeanInteraction" Collapsed="true">
+    <Position X="5.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAACAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Interactions\EdgeLeanInteraction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Interaction" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAQAAAAACiCAAAAABAAAAAABAAJACAAQAAgAAAQAAAA=</HashCode>
+      <FileName>Assets\Scripts\Interactions\Interaction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InteractionManager" Collapsed="true">
+    <Position X="10" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAIAAAgAAAAIAAAAAACAAAAAAAAAAAAAgAAAAI=</HashCode>
+      <FileName>Assets\Scripts\Interactions\InteractionManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LeanInteraction" Collapsed="true">
+    <Position X="3" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACSAAAAAQGAAICAABAAAAAAAAACAAABQACAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Interactions\LeanInteraction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StandLeanInteraction" Collapsed="true">
+    <Position X="3" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAACAAABAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Interactions\StandLeanInteraction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ThrowObjectInteraction" Collapsed="true">
+    <Position X="7.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAACAAAAAABAAAAAAAAAAAAAAQQwAAAAAAAAM=</HashCode>
+      <FileName>Assets\Scripts\Interactions\ThrowObjectInteraction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TriggerCheck" Collapsed="true">
+    <Position X="11.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAIAAIAAQAgAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\TriggerCheck.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
