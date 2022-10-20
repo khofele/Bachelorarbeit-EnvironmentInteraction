@@ -53,6 +53,7 @@ public abstract class LeanInteraction : Interaction
     public override void Update()
     {
         base.Update();
+
         if (isInteracting == true)
         {
             LeanOnObject();
