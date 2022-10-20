@@ -2,16 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoverInteraction : Interaction
+public abstract class LeanInteraction : Interaction
 {
-    private Collider snapCollider = null;
-    private Collider playerCollider = null;
-    private Leanable currentLeanableObject = null;
-    private float snapDistance = 1f;
-    private Vector3 offset;
+    public Collider snapCollider = null;
+    public Collider playerCollider = null;
+    public Leanable currentLeanableObject = null;
+    public float snapDistance = 1f;
+    public Vector3 offset;
 
-    // TODO ggf. mit Lean mergen
-    private void Cover()
+    private void LeanOnObject()
     {
         Vector3 playerClosestPoint = playerCollider.ClosestPoint(snapCollider.transform.position);
         Vector3 objectClosestPoint = snapCollider.ClosestPoint(playerClosestPoint);
@@ -22,8 +21,7 @@ public class CoverInteraction : Interaction
             charController.transform.position += offset;
 
             charController.IsLeaning = true;
-            animationManager.ExecuteCoverAnimation();
-            animationManager.ExecuteCoverAnimation(charController.XAxis);
+            ExecuteAnimation();
         }
 
         RaycastHit hit;
@@ -41,7 +39,7 @@ public class CoverInteraction : Interaction
         {
             charController.transform.rotation = Quaternion.LookRotation(new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized, Camera.main.transform.up);
             isInteracting = false;
-            animationManager.StopCoverAnimation();
+            StopAnimation();
         }
     }
 
@@ -57,15 +55,14 @@ public class CoverInteraction : Interaction
         base.Update();
         if (isInteracting == true)
         {
-            Cover();
+            LeanOnObject();
 
-            // TODO Abbruchbedingung?
-            if (offset.magnitude > snapDistance || isInteracting == false)
+            if (TerminationCondition())
             {
                 isInteracting = false;
                 charController.IsLeaning = false;
                 iKController.IsIkActive = false;
-                animationManager.StopCoverAnimation();
+                StopAnimation();
             }
         }
     }
@@ -81,4 +78,8 @@ public class CoverInteraction : Interaction
     {
         currentLeanableObject = null;
     }
+
+    public abstract void ExecuteAnimation();
+    public abstract void StopAnimation();
+    public abstract bool TerminationCondition();
 }
