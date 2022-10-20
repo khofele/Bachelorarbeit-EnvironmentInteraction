@@ -9,7 +9,6 @@ public class PressKeyCondition : Condition
 
     private void Update()
     {
-        // TODO Tastenbelegung anpassen
         if(Input.GetKeyDown(keyCode))
         {
             isButtonPressed = true;
