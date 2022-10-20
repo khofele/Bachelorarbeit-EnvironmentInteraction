@@ -48,32 +48,24 @@ public class AnimationManager : MonoBehaviour
         animator.SetFloat("speed", speed);
     }
 
-    public void ExecuteCrouchAndLeanAnimation(float xAxis)
-    {
-        animator.SetFloat("horizontal", xAxis * 2f);
-    }
-
-    public void ExecuteCrouchAndLeanAnimation()
+    public void ExecuteCrouchLeanAnimation(float xAxis)
     {
         animator.SetBool("isCrouchingLean", true);
-    }    
+        animator.SetFloat("horizontal", xAxis * 2f);
+    }
     
-    public void StopCrouchAndLeanAnimation()
+    public void StopCrouchLeanAnimation()
     {
         animator.SetBool("isCrouchingLean", false);
     }
 
-    public void ExecuteCoverAnimation()
+    public void ExecuteStandLeanAnimation(float xAxis)
     {
         animator.SetBool("isCovering", true);
-    }
-
-    public void ExecuteCoverAnimation(float xAxis)
-    {
         animator.SetFloat("horizontal", xAxis * 2f);
     }
 
-    public void StopCoverAnimation()
+    public void StopStandLeanAnimation()
     {
         animator.SetBool("isCovering", false);
     }
