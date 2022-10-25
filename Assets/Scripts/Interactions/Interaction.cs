@@ -12,10 +12,8 @@ public abstract class Interaction : MonoBehaviour
     public InteractableManager interactableManager = null;
     public CharController charController = null;
     public IKController iKController = null;
-    public bool isInteracting = false;
+    public bool isInteractionRunning = false;
     public Type matchingInteractable = null;
-
-    public bool IsInteracting { get => isInteracting; }
 
     private bool CheckMatchingInteractable()
     {
@@ -77,7 +75,7 @@ public abstract class Interaction : MonoBehaviour
     {
         iKController.IsIkActive = true;
         interactionManager.CurrentInteraction = this;
-        isInteracting = true;
+        isInteractionRunning = true;
         interactionManager.SetLastInteraction();
         // TODO evtl. anders setzen --> beim Lean wird das andauernd aufgerufen
         // evtl. nur wenn current != last?
