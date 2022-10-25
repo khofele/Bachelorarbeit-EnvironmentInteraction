@@ -14,10 +14,9 @@ public class StandLeanInteraction : LeanInteraction
         animationManager.StopStandLeanAnimation();
     }
 
-    public override bool TerminationCondition()
+    public override bool CheckTerminationCondition()
     {
-        // TODO noch mehr Bedingungen?
-        if(offset.magnitude > snapDistance || isInteracting == false)
+        if(offset.magnitude > snapDistance || isInteractionRunning == false || (charController.ZAxis >= 1 || charController.ZAxis <= -1))
         {
             return true;
         }
@@ -25,5 +24,20 @@ public class StandLeanInteraction : LeanInteraction
         {
             return false;
         }
+    }
+
+    public override void ResetCharacter()
+    {
+        charController.IsStandingLeaning = false;
+    }
+
+    public override void SetLeanBool(bool value)
+    {
+        charController.IsStandingLeaning = value;
+    }
+
+    public override bool CheckLeaningBool()
+    {
+        return charController.IsStandingLeaning;
     }
 }
