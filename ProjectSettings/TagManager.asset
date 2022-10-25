@@ -5,17 +5,21 @@ TagManager:
   serializedVersion: 2
   tags:
   - grabHandle
+  - ResetTransformOne
+  - ResetTransformTwo
+  - SnapTransformOne
+  - SnapTransformTwo
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Interactable
   - Water
   - UI
   - Environment
   - Enemy
   - Checkbox
-  - Interactable
+  - 
   - Limbs
   - 
   - 
