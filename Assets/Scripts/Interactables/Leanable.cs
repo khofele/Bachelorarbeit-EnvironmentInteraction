@@ -5,18 +5,26 @@ using UnityEngine;
 
 public class Leanable : Interactable
 {
-    private Collider snapCollider = null;
-    private Collider objectCollider = null;
+    public Collider snapCollider = null;
+    public Collider objectCollider = null;
     public Collider SnapCollider { get => snapCollider; }
 
     public override void Validate()
     {
         base.Validate();
-        GetComponent<Rigidbody>().isKinematic = true;
 
+        GetComponent<Rigidbody>().isKinematic = true;
+        objectCollider = GetComponent<Collider>();
+
+        AddSnapCollider();
+        ModifyTrigger();
+    }
+
+    public virtual void AddSnapCollider()
+    {
         if (transform.childCount == 0)
         {
-            GameObject emptyGameObject = new GameObject();
+            GameObject emptyGameObject = new GameObject("Collider");
             emptyGameObject.transform.SetParent(transform);
 
             emptyGameObject.AddComponent(objectCollider.GetType());
@@ -31,7 +39,17 @@ public class Leanable : Interactable
         }
         else
         {
-            snapCollider = transform.GetChild(0).GetComponent<Collider>(); 
+            snapCollider = transform.GetChild(0).GetComponent<Collider>();
+        }
+    }
+
+    public virtual void ModifyTrigger()
+    {
+        // TODO für alle Colliderformen bauen
+        if (objectCollider.GetType() == typeof(BoxCollider))
+        {
+            BoxCollider boxCollider = (BoxCollider)objectCollider;
+            boxCollider.size = new Vector3(1.2f, 1f, 2f);
         }
     }
 }
