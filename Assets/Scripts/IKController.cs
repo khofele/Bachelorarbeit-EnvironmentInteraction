@@ -56,7 +56,7 @@ public class IKController : MonoBehaviour
                     {
                         ThrowObjectIK();
                     }
-                    // Lean and Cover
+                    // Lean: Crouch, on Edge and Cover
                     else if(currentInteractionGameObject.GetComponent<LeanInteraction>() != null)
                     {
                         LeanIK();
