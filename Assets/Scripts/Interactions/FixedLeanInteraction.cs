@@ -1,0 +1,188 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public abstract class FixedLeanInteraction : LeanInteraction
+{
+    public FixedLeanable currentLeanable = null;
+    private bool isLeaningFixedObject = false;
+    private bool isTerminating = false;
+    private bool isCharInteracting = false;
+
+    public bool IsCharInteracting { get => isCharInteracting; }
+
+    public override void Start()
+    {
+        base.Start();
+        matchingInteractable = GetInteractableType();
+    }
+
+    public override void ExecuteLeanInteraction()
+    {
+        if (isInteractionRunning == true && isTerminating == false)
+        {
+            if (isLeaningFixedObject == true)
+            {
+                LeanOnObject();
+                DetectWall();
+            }
+            else
+            {
+                SnapToFixedObject();
+            }
+
+            if (CheckTerminationCondition())
+            {
+                isTerminating = true;
+                isInteractionRunning = false;
+            }
+        }
+
+        if (isTerminating == true)
+        {
+            ResetCharacter();
+            StopAnimation();
+        }
+    }
+
+    public override void LeanOnObject()
+    {
+        Vector3 playerClosestPoint = playerCollider.ClosestPoint(snapCollider.transform.position);
+        Vector3 objectClosestPoint = snapCollider.ClosestPoint(playerClosestPoint);
+        offset = objectClosestPoint - playerClosestPoint;
+
+        if (offset.magnitude < snapDistance)
+        {
+            charController.transform.position += offset;
+            SetLeanBool(true);
+            ExecuteAnimation();
+        }
+    }
+
+    public override void ExecuteAnimation()
+    {
+        animationManager.ExecuteStandLeanAnimation(charController.XAxis);
+    }
+
+    public override void StopAnimation()
+    {
+        animationManager.StopStandLeanAnimation();
+    }
+
+    public override bool CheckTerminationCondition()
+    {
+        if ((currentLeanable.TriggerCount % 2 == 0 && currentLeanable.TriggerCount > 0))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public override void ResetValues()
+    {
+        base.ResetValues();
+        isLeaningFixedObject = false;
+        currentLeanable.TriggerCount = 0;
+        isCharInteracting = false;
+        isTerminating = false;
+        SetLeanBool(false);
+    }
+
+    public override void ResetCharacter()
+    {
+        Transform resetTransform = CheckResetTransform();
+        Vector3 position = new Vector3(resetTransform.position.x, charController.transform.position.y, resetTransform.position.z);
+
+        if (charController.transform.position == position)
+        {
+            ResetValues();
+            StopAnimation();
+        }
+        else
+        {
+            charController.transform.position = Vector3.MoveTowards(charController.transform.position, position, 2 * Time.deltaTime);
+        }
+    }
+
+    private Transform CheckSnapTransform()
+    {
+        SetCurrentLeanable();
+        //currentLeanable = interactableManager.CurrentInteractable;
+        float distanceTransformOne = Vector3.Distance(charController.transform.position, currentLeanable.SnapTransformOne.position);
+        float distanceTransformTwo = Vector3.Distance(charController.transform.position, currentLeanable.SnapTransformTwo.position);
+
+        if (distanceTransformOne < distanceTransformTwo)
+        {
+            return currentLeanable.SnapTransformOne;
+        }
+        else
+        {
+            return currentLeanable.SnapTransformTwo;
+        }
+    }
+
+    private Transform CheckResetTransform()
+    {
+        SetCurrentLeanable();
+        //currentLeanable = (EdgeLeanable)interactableManager.CurrentInteractable;
+        float distanceTransformOne = Vector3.Distance(charController.transform.position, currentLeanable.ResetTransformOne.position);
+        float distanceTransformTwo = Vector3.Distance(charController.transform.position, currentLeanable.ResetTransformTwo.position);
+
+        if (distanceTransformOne < distanceTransformTwo)
+        {
+            return currentLeanable.ResetTransformOne;
+        }
+        else
+        {
+            return currentLeanable.ResetTransformTwo;
+        }
+    }
+
+    private void SnapToFixedObject()
+    {
+        Transform snapTransform = CheckSnapTransform();
+        Vector3 position = new Vector3(snapTransform.position.x, charController.transform.position.y, snapTransform.position.z);
+
+        if (charController.transform.position == position)
+        {
+            isLeaningFixedObject = true;
+            isCharInteracting = true;
+        }
+        else
+        {
+            charController.transform.position = Vector3.MoveTowards(charController.transform.position, position, 2 * Time.deltaTime);
+        }
+
+        DetectWall();
+        ExecuteAnimation();
+    }
+
+    private void DetectWall()
+    {
+        Ray rayFront = new Ray(charController.transform.position, charController.transform.forward);
+        Ray rayBack = new Ray(charController.transform.position, -charController.transform.forward);
+        Ray rayRight = new Ray(charController.transform.position, charController.transform.right);
+        Ray rayLeft = new Ray(charController.transform.position, -charController.transform.right);
+
+        RaycastHit hit;
+
+        if (((Physics.Raycast(rayFront, out hit, 1f)) || (Physics.Raycast(rayBack, out hit, 1f)) || (Physics.Raycast(rayRight, out hit, 1f)) || (Physics.Raycast(rayLeft, out hit, 1f))))
+        {
+            if (hit.transform.gameObject.GetComponent<Interactable>() != null)
+            {
+                charController.transform.rotation = Quaternion.LookRotation(hit.normal);
+            }
+        }
+        else
+        {
+            charController.transform.rotation = Quaternion.LookRotation(new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized, Camera.main.transform.up);
+        }
+    }
+
+    public abstract Type GetInteractableType();
+    public abstract void SetCurrentLeanable();
+}

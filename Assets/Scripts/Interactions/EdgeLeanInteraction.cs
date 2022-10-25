@@ -1,22 +1,27 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EdgeLeanInteraction : LeanInteraction
+public class EdgeLeanInteraction : FixedLeanInteraction
 {
-    // TODO implementieren
-    public override void ExecuteAnimation()
+    public override void SetLeanBool(bool value)
     {
-        throw new System.NotImplementedException();
+        charController.IsLeaningOnEdge = value;
     }
 
-    public override void StopAnimation()
+    public override bool CheckLeaningBool()
     {
-        throw new System.NotImplementedException();
+        return charController.IsLeaningOnEdge;
     }
 
-    public override bool TerminationCondition()
+    public override Type GetInteractableType()
     {
-        throw new System.NotImplementedException();
+        return typeof(EdgeLeanable);
+    }
+
+    public override void SetCurrentLeanable()
+    {
+        currentLeanable = (EdgeLeanable)interactableManager.CurrentInteractable;
     }
 }
