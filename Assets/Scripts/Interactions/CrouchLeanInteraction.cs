@@ -18,9 +18,9 @@ public class CrouchLeanInteraction : LeanInteraction
         animationManager.StopCrouchLeanAnimation();
     }
 
-    public override bool TerminationCondition()
+    public override bool CheckTerminationCondition()
     {
-        if (offset.magnitude > snapDistance || charController.IsCrouching == false || isInteracting == false)
+        if (offset.magnitude > snapDistance || charController.IsCrouching == false || isInteractionRunning == false)
         {
             return true;
         }
@@ -28,5 +28,20 @@ public class CrouchLeanInteraction : LeanInteraction
         {
             return false;
         }
+    }
+
+    public override void ResetCharacter()
+    {
+        charController.IsCrouchingLeaning = false;
+    }
+
+    public override void SetLeanBool(bool value)
+    {
+        charController.IsCrouchingLeaning = value;
+    }
+
+    public override bool CheckLeaningBool()
+    {
+        return charController.IsCrouchingLeaning;
     }
 }
