@@ -10,7 +10,7 @@ public abstract class LeanInteraction : Interaction
     public float snapDistance = 1f;
     public Vector3 offset;
 
-    private void LeanOnObject()
+    public virtual void LeanOnObject()
     {
         Vector3 playerClosestPoint = playerCollider.ClosestPoint(snapCollider.transform.position);
         Vector3 objectClosestPoint = snapCollider.ClosestPoint(playerClosestPoint);
@@ -20,25 +20,29 @@ public abstract class LeanInteraction : Interaction
         {
             charController.transform.position += offset;
 
-            charController.IsLeaning = true;
+            SetLeanBool(true);
             ExecuteAnimation();
         }
 
+        Ray rayFront = new Ray(charController.transform.position, charController.transform.forward);
+        Ray rayBack = new Ray(charController.transform.position, -charController.transform.forward);
+        Ray rayRight = new Ray(charController.transform.position, charController.transform.right);
+        Ray rayLeft = new Ray(charController.transform.position, -charController.transform.right);
+
         RaycastHit hit;
 
-        if ((Physics.Raycast(charController.transform.position, charController.transform.forward, out hit, 1.5f))
-            && charController.IsLeaning == true)
+        if (((Physics.Raycast(rayFront, out hit, 1f)) || (Physics.Raycast(rayBack, out hit, 1f)) || (Physics.Raycast(rayRight, out hit, 1f)) || (Physics.Raycast(rayLeft, out hit, 1f)))
+            && CheckLeaningBool())
         {
-            charController.transform.rotation = Quaternion.LookRotation(hit.normal);
-        }
-        else if (Physics.Raycast(charController.transform.position, -charController.transform.forward, out hit, 1.5f) && charController.IsLeaning == true)
-        {
-            charController.transform.rotation = Quaternion.LookRotation(hit.normal);
+            if (hit.transform.gameObject.GetComponent<Interactable>() != null)
+            {
+                charController.transform.rotation = Quaternion.LookRotation(hit.normal);
+            }
         }
         else
         {
             charController.transform.rotation = Quaternion.LookRotation(new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized, Camera.main.transform.up);
-            isInteracting = false;
+            isInteractionRunning = false;
             StopAnimation();
         }
     }
@@ -53,19 +57,28 @@ public abstract class LeanInteraction : Interaction
     public override void Update()
     {
         base.Update();
+        ExecuteLeanInteraction();
+    }
 
-        if (isInteracting == true)
+    public virtual void ExecuteLeanInteraction()
+    {
+        if (isInteractionRunning == true)
         {
             LeanOnObject();
 
-            if (TerminationCondition())
+            if (CheckTerminationCondition())
             {
-                isInteracting = false;
-                charController.IsLeaning = false;
-                iKController.IsIkActive = false;
+                ResetValues();
+                ResetCharacter();
                 StopAnimation();
             }
         }
+    }
+
+    public virtual void ResetValues()
+    {
+        isInteractionRunning = false;
+        iKController.IsIkActive = false;
     }
 
     public override void ExecuteInteraction()
@@ -82,5 +95,8 @@ public abstract class LeanInteraction : Interaction
 
     public abstract void ExecuteAnimation();
     public abstract void StopAnimation();
-    public abstract bool TerminationCondition();
+    public abstract bool CheckTerminationCondition();
+    public abstract void ResetCharacter();
+    public abstract void SetLeanBool(bool value);
+    public abstract bool CheckLeaningBool();
 }
