@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(BoxCollider))]
 public abstract class Interactable : MonoBehaviour
 {
     public virtual void Start()
@@ -12,13 +13,6 @@ public abstract class Interactable : MonoBehaviour
 
     public virtual void Validate()
     {
-        if(GetComponent<BoxCollider>() == null)
-        {
-            gameObject.AddComponent<BoxCollider>().isTrigger = true;
-        }
-        else if(GetComponent<BoxCollider>().isTrigger == false)
-        {
-            GetComponent<BoxCollider>().isTrigger = true;
-        }
+        GetComponent<BoxCollider>().isTrigger = true;
     }
 }
