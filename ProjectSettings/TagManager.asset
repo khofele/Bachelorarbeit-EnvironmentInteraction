@@ -9,6 +9,7 @@ TagManager:
   - ResetTransformTwo
   - SnapTransformOne
   - SnapTransformTwo
+  - OppositeWall
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - Checkbox
   - 
   - Limbs
-  - 
+  - Child
   - 
   - 
   - 
