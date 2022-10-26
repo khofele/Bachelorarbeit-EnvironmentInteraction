@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TriggerCheck : MonoBehaviour
+public class TriggerCheckCharacter : MonoBehaviour
 {
     private InteractionManager interactionManager = null;
     private InteractableManager interactableManager = null;
