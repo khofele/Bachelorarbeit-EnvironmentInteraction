@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class IKController : MonoBehaviour
 {
+    // TODO bessere Lösung für Hände finden?
     // right hand
     [SerializeField] private Transform rightHandGrabHandle = null;
     [SerializeField] private Transform rightHandWatchHandle = null;
     [SerializeField] private Transform leanRightHand = null;
+    [SerializeField] private Transform passageLeanRightHand = null;
 
     // left hand
     [SerializeField] private Transform leftHandWatchHandle = null;
     [SerializeField] private Transform leanLeftHand = null;
+    [SerializeField] private Transform passageLeanLeftHand = null;
 
     // general
     [SerializeField] private GameObject interactables = null;
@@ -55,6 +58,11 @@ public class IKController : MonoBehaviour
                     if (currentInteractionGameObject.GetComponent<ThrowObjectInteraction>() != null)
                     {
                         ThrowObjectIK();
+                    }
+                    // Lean: Passage
+                    else if(currentInteractionGameObject.GetComponent<PassageLeanInteraction>() != null)
+                    {
+                        PassageLeanIK();
                     }
                     // Lean: Crouch, on Edge and Cover
                     else if(currentInteractionGameObject.GetComponent<LeanInteraction>() != null)
@@ -129,6 +137,27 @@ public class IKController : MonoBehaviour
         animator.SetIKPosition(AvatarIKGoal.LeftHand, closestPointLeftHand);
         animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1f);
         animator.SetIKRotation(AvatarIKGoal.LeftHand, leanLeftHand.rotation);
+        animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1f);
+
+        // viewing direction
+        FaceWalkingDirection();
+    }
+
+    private void PassageLeanIK()
+    {
+        PassageLeanable currentInteractable = (PassageLeanable)interactableManager.CurrentInteractable;
+        // right hand
+        closestPointRightHand = currentInteractable.OppositeWall.ClosestPoint(passageLeanRightHand.position);
+        animator.SetIKPosition(AvatarIKGoal.RightHand, closestPointRightHand);
+        animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1f);
+        animator.SetIKRotation(AvatarIKGoal.RightHand, passageLeanRightHand.rotation);
+        animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1f);
+
+        // left hand
+        closestPointLeftHand = currentInteractable.OppositeWall.ClosestPoint(passageLeanLeftHand.position);
+        animator.SetIKPosition(AvatarIKGoal.LeftHand, closestPointLeftHand);
+        animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1f);
+        animator.SetIKRotation(AvatarIKGoal.LeftHand, passageLeanLeftHand.rotation);
         animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1f);
 
         // viewing direction
