@@ -41,6 +41,7 @@ public abstract class FixedLeanInteraction : LeanInteraction
 
         if (isTerminating == true)
         {
+            charController.XAxis *= 0;
             ResetCharacter();
             StopAnimation();
         }
@@ -111,7 +112,6 @@ public abstract class FixedLeanInteraction : LeanInteraction
     private Transform CheckSnapTransform()
     {
         SetCurrentLeanable();
-        //currentLeanable = interactableManager.CurrentInteractable;
         float distanceTransformOne = Vector3.Distance(charController.transform.position, currentLeanable.SnapTransformOne.position);
         float distanceTransformTwo = Vector3.Distance(charController.transform.position, currentLeanable.SnapTransformTwo.position);
 
@@ -128,7 +128,6 @@ public abstract class FixedLeanInteraction : LeanInteraction
     private Transform CheckResetTransform()
     {
         SetCurrentLeanable();
-        //currentLeanable = (EdgeLeanable)interactableManager.CurrentInteractable;
         float distanceTransformOne = Vector3.Distance(charController.transform.position, currentLeanable.ResetTransformOne.position);
         float distanceTransformTwo = Vector3.Distance(charController.transform.position, currentLeanable.ResetTransformTwo.position);
 
@@ -170,9 +169,10 @@ public abstract class FixedLeanInteraction : LeanInteraction
 
         RaycastHit hit;
 
-        if (((Physics.Raycast(rayFront, out hit, 1f)) || (Physics.Raycast(rayBack, out hit, 1f)) || (Physics.Raycast(rayRight, out hit, 1f)) || (Physics.Raycast(rayLeft, out hit, 1f))))
+        // ignores children of interactables!
+        if ((Physics.Raycast(rayFront, out hit, 0.5f, LayerMask.NameToLayer("Child"))) || (Physics.Raycast(rayBack, out hit, 0.5f, LayerMask.NameToLayer("Child"))) || (Physics.Raycast(rayRight, out hit, 0.5f, LayerMask.NameToLayer("Child"))) || (Physics.Raycast(rayLeft, out hit, 0.5f, LayerMask.NameToLayer("Child"))))
         {
-            if (hit.transform.gameObject.GetComponent<Interactable>() != null)
+            if (hit.transform.gameObject.GetComponent<FixedLeanable>() != null)
             {
                 charController.transform.rotation = Quaternion.LookRotation(hit.normal);
             }
