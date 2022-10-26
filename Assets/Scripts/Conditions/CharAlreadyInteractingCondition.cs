@@ -6,7 +6,7 @@ public class CharAlreadyInteractingCondition : Condition
 {
     public override bool CheckCondition()
     {
-        if(GetComponent<EdgeLeanInteraction>().IsCharInteracting == false)
+        if(GetComponent<FixedLeanInteraction>().IsCharInteracting == false)
         {
             return true;
         }
