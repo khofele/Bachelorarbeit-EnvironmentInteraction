@@ -7,12 +7,12 @@ public class EdgeLeanInteraction : FixedLeanInteraction
 {
     public override void SetLeanBool(bool value)
     {
-        charController.IsLeaningOnEdge = value;
+        interactionManager.IsLeaningOnEdge = value;
     }
 
     public override bool CheckLeaningBool()
     {
-        return charController.IsLeaningOnEdge;
+        return interactionManager.IsLeaningOnEdge;
     }
 
     public override Type GetInteractableType()

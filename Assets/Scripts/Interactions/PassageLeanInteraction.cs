@@ -7,12 +7,12 @@ public class PassageLeanInteraction : FixedLeanInteraction
 {
     public override void SetLeanBool(bool value)
     {
-        charController.IsLeaningInPassage = value;
+        interactionManager.IsLeaningInPassage = value;
     }
 
     public override bool CheckLeaningBool()
     {
-        return charController.IsLeaningInPassage;
+        return interactionManager.IsLeaningInPassage;
     }
 
     public override Type GetInteractableType()
