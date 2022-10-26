@@ -28,16 +28,16 @@ public class StandLeanInteraction : LeanInteraction
 
     public override void ResetCharacter()
     {
-        charController.IsStandingLeaning = false;
+        interactionManager.IsStandingLeaning = false;
     }
 
     public override void SetLeanBool(bool value)
     {
-        charController.IsStandingLeaning = value;
+        interactionManager.IsStandingLeaning = value;
     }
 
     public override bool CheckLeaningBool()
     {
-        return charController.IsStandingLeaning;
+        return interactionManager.IsStandingLeaning;
     }
 }

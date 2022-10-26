@@ -32,16 +32,16 @@ public class CrouchLeanInteraction : LeanInteraction
 
     public override void ResetCharacter()
     {
-        charController.IsCrouchingLeaning = false;
+        interactionManager.IsCrouchingLeaning = false;
     }
 
     public override void SetLeanBool(bool value)
     {
-        charController.IsCrouchingLeaning = value;
+        interactionManager.IsCrouchingLeaning = value;
     }
 
     public override bool CheckLeaningBool()
     {
-        return charController.IsCrouchingLeaning;
+        return interactionManager.IsCrouchingLeaning;
     }
 }

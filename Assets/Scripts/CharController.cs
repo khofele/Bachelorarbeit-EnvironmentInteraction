@@ -8,8 +8,7 @@ public class CharController : MonoBehaviour
     private CharacterController characterController = null;
     private Animator animator = null;
     private AnimationManager animationManager = null;
-    private Cinemachine.CinemachineFreeLook freeLookCamera = null;
-    private Cinemachine.CinemachineVirtualCamera virtualCamera = null;
+    private InteractionManager interactionManager = null;
 
     // Movement fields
     private float speed = 0f;
@@ -17,20 +16,12 @@ public class CharController : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
     private Vector3 moveDirection = Vector3.zero;
     private bool isCrouching = false;
-    private bool isLeaningOnEdge = false;
-    private bool isCrouchingLeaning = false;
-    private bool isStandingLeaning = false;
-    private bool isLeaningInPassage = false;
     private float xAxis = 0f;
     private float zAxis = 0f;
 
     public Animator Animator { get => animator; }
     public bool IsCrouching { get => isCrouching; }
-    public bool IsLeaningOnEdge { get => isLeaningOnEdge; set => isLeaningOnEdge = value; }
-    public bool IsCrouchingLeaning { get => isCrouchingLeaning; set => isCrouchingLeaning = value; }
-    public bool IsStandingLeaning { get => isStandingLeaning; set => isStandingLeaning = value; }
-    public bool IsLeaningInPassage { get => isLeaningInPassage; set => isLeaningInPassage = value; }
-    public float XAxis { get => xAxis; }
+    public float XAxis { get => xAxis; set => xAxis = value; }
     public float ZAxis { get => zAxis; }
 
     private void Start()
@@ -38,8 +29,7 @@ public class CharController : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         animationManager = GetComponent<AnimationManager>();
-        freeLookCamera = GetComponentInChildren<Cinemachine.CinemachineFreeLook>();
-        virtualCamera = GetComponentInChildren<Cinemachine.CinemachineVirtualCamera>();
+        interactionManager = GetComponentInChildren<InteractionManager>();
 
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Limbs"), LayerMask.NameToLayer("Default"));
 
@@ -48,11 +38,11 @@ public class CharController : MonoBehaviour
 
     private void Update()
     {
-        xAxis = Input.GetAxis("Horizontal");
         moveDirection = new Vector3(xAxis, 0f, zAxis).normalized;
         moveDirection = Camera.main.transform.TransformDirection(moveDirection);
+        xAxis = Input.GetAxis("Horizontal");
 
-        if(isLeaningOnEdge == true || isLeaningInPassage == true)
+        if (interactionManager.IsLeaningOnEdge == true || interactionManager.IsLeaningInPassage == true)
         {
             zAxis = 0;
         }
@@ -61,17 +51,9 @@ public class CharController : MonoBehaviour
             zAxis = Input.GetAxis("Vertical");
         }
 
-        // TODO Cameramovement in eigenes Skript
-        if (isLeaningOnEdge == false && isCrouchingLeaning == false && isStandingLeaning == false && isLeaningInPassage == false)
+        if (interactionManager.IsLeaningOnEdge == false && interactionManager.IsCrouchingLeaning == false && interactionManager.IsStandingLeaning == false && interactionManager.IsLeaningInPassage == false)
         {
             transform.rotation = Quaternion.LookRotation(new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized, Camera.main.transform.up);
-            virtualCamera.enabled = false;
-            freeLookCamera.enabled = true;
-        }
-        else
-        {
-            freeLookCamera.enabled = false;
-            virtualCamera.enabled = true;
         }
 
         // check if button is pressed
