@@ -20,27 +20,30 @@ public class Leanable : Interactable
         ModifyTrigger();
     }
 
+
+    // TODO schön machen + ausbessern
     public virtual void AddSnapCollider()
     {
-        if (transform.childCount == 0)
-        {
+        //if(GetComponentInChildren<Collider>() == null)
+        //{
             GameObject emptyGameObject = new GameObject("Collider");
             emptyGameObject.transform.SetParent(transform);
 
             emptyGameObject.AddComponent(objectCollider.GetType());
             emptyGameObject.transform.localPosition = Vector3.zero;
+            emptyGameObject.transform.localScale = new Vector3(1f, 1f, 1f);
             snapCollider = emptyGameObject.GetComponent<Collider>();
 
-        }
-        else if (GetComponentInChildren<Collider>() == null)
-        {
-            transform.GetChild(0).gameObject.AddComponent(objectCollider.GetType());
-            snapCollider = transform.GetChild(0).GetComponent<Collider>();
-        }
-        else
-        {
-            snapCollider = transform.GetChild(0).GetComponent<Collider>();
-        }
+        //}
+        //else if (GetComponentInChildren<Collider>() != null)
+        //{
+        //    transform.GetChild(0).gameObject.AddComponent(objectCollider.GetType());
+        //    snapCollider = transform.GetChild(0).GetComponent<Collider>();
+        //}
+        //else
+        //{
+        //    snapCollider = transform.GetComponentInChildren<Collider>();
+        //}
     }
 
     public virtual void ModifyTrigger()
