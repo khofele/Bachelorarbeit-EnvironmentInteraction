@@ -19,7 +19,6 @@ public class IKController : MonoBehaviour
     // general
     [SerializeField] private GameObject interactables = null;
     [SerializeField] private Transform watchHandle = null;
-
     private bool isIkActive = false;
     private Animator animator = null;
     private Transform grabHandle = null;
@@ -68,6 +67,11 @@ public class IKController : MonoBehaviour
                     else if(currentInteractionGameObject.GetComponent<LeanInteraction>() != null)
                     {
                         LeanIK();
+                    }
+                    // Touch door
+                    else if(currentInteractionGameObject.GetComponent<TouchObjectInteraction>() != null)
+                    {
+                        TouchIK();
                     }
                 }
             }
@@ -181,5 +185,17 @@ public class IKController : MonoBehaviour
             animator.SetLookAtPosition(watchHandle.position);
             animator.SetLookAtWeight(1);
         }
+    }
+
+    private void TouchIK()
+    {
+        // TODO implement
+        Touchable currentInteractable = (Touchable)interactableManager.CurrentInteractable;
+        Transform touchHandle = currentInteractable.TouchHandle;
+
+        animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
+        animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0.5f);
+        animator.SetIKPosition(AvatarIKGoal.RightHand, touchHandle.position);
+        animator.SetIKRotation(AvatarIKGoal.RightHand, touchHandle.rotation);
     }
 }

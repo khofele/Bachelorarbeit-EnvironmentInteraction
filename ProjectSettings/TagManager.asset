@@ -10,6 +10,7 @@ TagManager:
   - SnapTransformOne
   - SnapTransformTwo
   - OppositeWall
+  - TouchHandle
   layers:
   - Default
   - TransparentFX
