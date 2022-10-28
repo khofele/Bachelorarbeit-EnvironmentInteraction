@@ -13,6 +13,6 @@ public abstract class Interactable : MonoBehaviour
 
     public virtual void Validate()
     {
-        GetComponent<BoxCollider>().isTrigger = true;
+        GetComponent<Collider>().isTrigger = true;
     }
 }
