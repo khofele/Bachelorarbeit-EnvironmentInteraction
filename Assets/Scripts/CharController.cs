@@ -16,11 +16,13 @@ public class CharController : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
     private Vector3 moveDirection = Vector3.zero;
     private bool isCrouching = false;
+    private bool isWalking = false;
     private float xAxis = 0f;
     private float zAxis = 0f;
 
     public Animator Animator { get => animator; }
     public bool IsCrouching { get => isCrouching; }
+    public bool IsWalking { get => isWalking; }
     public float XAxis { get => xAxis; set => xAxis = value; }
     public float ZAxis { get => zAxis; }
 
@@ -88,6 +90,8 @@ public class CharController : MonoBehaviour
             speed = 0;
         }
 
+        animationManager.SetSpeed(speed);
+
         // Crouch Toggle
         if (Input.GetKeyDown(KeyCode.C) && isCrouching == false)
         {
@@ -100,6 +104,14 @@ public class CharController : MonoBehaviour
             animationManager.StopCrouchAnimation();
         }
 
-        animationManager.SetSpeed(speed);
+        // Walking bool Toggle
+        if(speed == 3f)
+        {
+            isWalking = true;
+        }
+        else
+        {
+            isWalking = false;
+        }
     }
 }

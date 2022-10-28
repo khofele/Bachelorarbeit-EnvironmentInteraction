@@ -6,7 +6,6 @@ public class WalkingCondition : Condition
 {
     public override bool CheckCondition()
     {
-        // TODO implement
-        return false;
+        return charController.IsWalking;
     }
 }
