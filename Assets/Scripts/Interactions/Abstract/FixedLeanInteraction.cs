@@ -15,7 +15,6 @@ public abstract class FixedLeanInteraction : LeanInteraction
     public override void Start()
     {
         base.Start();
-        matchingInteractable = GetInteractableType();
     }
 
     public override void ExecuteLeanInteraction()
@@ -183,6 +182,5 @@ public abstract class FixedLeanInteraction : LeanInteraction
         }
     }
 
-    public abstract Type GetInteractableType();
     public abstract void SetCurrentLeanable();
 }

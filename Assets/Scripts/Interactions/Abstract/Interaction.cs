@@ -37,6 +37,7 @@ public abstract class Interaction : MonoBehaviour
         iKController = GetComponentInParent<IKController>();
 
         conditionManager.FillConditionsList();
+        SetMatchingInteractable();
     }
 
     public virtual void Update()
@@ -82,4 +83,5 @@ public abstract class Interaction : MonoBehaviour
     }
 
     public abstract void ResetInteraction();
+    public abstract void SetMatchingInteractable();
 }

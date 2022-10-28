@@ -40,4 +40,9 @@ public class StandLeanInteraction : LeanInteraction
     {
         return interactionManager.IsStandingLeaning;
     }
+
+    public override void SetMatchingInteractable()
+    {
+        matchingInteractable = typeof(Leanable);
+    }
 }

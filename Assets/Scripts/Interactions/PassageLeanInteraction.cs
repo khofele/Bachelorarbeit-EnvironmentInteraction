@@ -15,13 +15,13 @@ public class PassageLeanInteraction : FixedLeanInteraction
         return interactionManager.IsLeaningInPassage;
     }
 
-    public override Type GetInteractableType()
-    {
-        return typeof(PassageLeanable);
-    }
-
     public override void SetCurrentLeanable()
     {
         currentLeanable = (PassageLeanable)interactableManager.CurrentInteractable;
-    } 
+    }
+
+    public override void SetMatchingInteractable()
+    {
+        matchingInteractable = typeof(PassageLeanable);
+    }
 }

@@ -15,13 +15,13 @@ public class EdgeLeanInteraction : FixedLeanInteraction
         return interactionManager.IsLeaningOnEdge;
     }
 
-    public override Type GetInteractableType()
-    {
-        return typeof(EdgeLeanable);
-    }
-
     public override void SetCurrentLeanable()
     {
         currentLeanable = (EdgeLeanable)interactableManager.CurrentInteractable;
+    }
+
+    public override void SetMatchingInteractable()
+    {
+        matchingInteractable = typeof(EdgeLeanable);
     }
 }

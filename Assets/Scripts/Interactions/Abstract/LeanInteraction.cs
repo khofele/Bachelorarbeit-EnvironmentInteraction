@@ -50,7 +50,6 @@ public abstract class LeanInteraction : Interaction
     public override void Start()
     {
         base.Start();
-        matchingInteractable = typeof(Leanable);
         playerCollider = charController.GetComponent<CharacterController>();
     }
 

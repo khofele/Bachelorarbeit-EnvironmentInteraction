@@ -44,4 +44,9 @@ public class CrouchLeanInteraction : LeanInteraction
     {
         return interactionManager.IsCrouchingLeaning;
     }
+
+    public override void SetMatchingInteractable()
+    {
+        matchingInteractable = typeof(Leanable);
+    }
 }

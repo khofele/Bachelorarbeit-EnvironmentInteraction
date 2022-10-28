@@ -19,7 +19,6 @@ public class ThrowObjectInteraction : Interaction
     {
         base.Start();
         sphereCollider = GetComponent<SphereCollider>();
-        matchingInteractable = typeof(Throwable);
 
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Interactable"), LayerMask.NameToLayer("Checkbox"));
         sphereCollider.enabled = false;
@@ -71,5 +70,10 @@ public class ThrowObjectInteraction : Interaction
     public override void ResetInteraction()
     {
         enemy = null;
+    }
+
+    public override void SetMatchingInteractable()
+    {
+        matchingInteractable = typeof(Throwable);
     }
 }
