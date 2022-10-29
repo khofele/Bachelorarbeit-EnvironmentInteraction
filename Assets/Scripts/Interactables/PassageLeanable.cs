@@ -11,7 +11,7 @@ public class PassageLeanable : FixedLeanable
     // TODO Snap- und Resettransforms automatisch adden
 
     // TODO schön machen
-    public override void Validate()
+    protected override void Validate()
     {
         base.Validate();
 

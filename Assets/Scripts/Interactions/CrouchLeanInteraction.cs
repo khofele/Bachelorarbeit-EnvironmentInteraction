@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class CrouchLeanInteraction : LeanInteraction
 {
-    public override void Start()
+    protected override void Start()
     {
         base.Start();
     }
-    public override void ExecuteAnimation()
+    protected override void ExecuteAnimation()
     {
         animationManager.ExecuteCrouchLeanAnimation(charController.XAxis);
     }
 
-    public override void StopAnimation()
+    protected override void StopAnimation()
     {
         animationManager.StopCrouchLeanAnimation();
     }
 
-    public override bool CheckTerminationCondition()
+    protected override bool CheckTerminationCondition()
     {
         if (offset.magnitude > snapDistance || charController.IsCrouching == false || isInteractionRunning == false)
         {
@@ -30,22 +30,22 @@ public class CrouchLeanInteraction : LeanInteraction
         }
     }
 
-    public override void ResetCharacter()
+    protected override void ResetCharacter()
     {
         interactionManager.IsCrouchingLeaning = false;
     }
 
-    public override void SetLeanBool(bool value)
+    protected override void SetLeanBool(bool value)
     {
         interactionManager.IsCrouchingLeaning = value;
     }
 
-    public override bool CheckLeaningBool()
+    protected override bool CheckLeaningBool()
     {
         return interactionManager.IsCrouchingLeaning;
     }
 
-    public override void SetMatchingInteractable()
+    protected override void SetMatchingInteractable()
     {
         matchingInteractable = typeof(Leanable);
     }

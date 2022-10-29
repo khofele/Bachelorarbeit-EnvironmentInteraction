@@ -6,14 +6,16 @@ using UnityEngine;
 [RequireComponent(typeof(ConditionManager))]
 public abstract class Interaction : MonoBehaviour
 {
-    public ConditionManager conditionManager = null;
-    public InteractionManager interactionManager = null;
-    public AnimationManager animationManager = null;
-    public InteractableManager interactableManager = null;
-    public CharController charController = null;
-    public IKController iKController = null;
-    public bool isInteractionRunning = false;
-    public Type matchingInteractable = null;
+    protected ConditionManager conditionManager = null;
+    protected InteractionManager interactionManager = null;
+    protected AnimationManager animationManager = null;
+    protected InteractableManager interactableManager = null;
+    protected CharController charController = null;
+    protected IKController iKController = null;
+    protected bool isInteractionRunning = false;
+    protected Type matchingInteractable = null;
+
+    public bool IsInteractionRunning { get => isInteractionRunning; set => isInteractionRunning = value; }
 
     private bool CheckMatchingInteractable()
     {
@@ -27,7 +29,7 @@ public abstract class Interaction : MonoBehaviour
         }
     }
 
-    public virtual void Start()
+    protected virtual void Start()
     {
         conditionManager = GetComponent<ConditionManager>();
         interactionManager = GetComponentInParent<InteractionManager>();
@@ -40,7 +42,7 @@ public abstract class Interaction : MonoBehaviour
         SetMatchingInteractable();
     }
 
-    public virtual void Update()
+    protected virtual void Update()
     {
         if (CheckTrigger() == true)
         {
@@ -55,7 +57,7 @@ public abstract class Interaction : MonoBehaviour
         }
     }
 
-    public virtual bool CheckTrigger()
+    protected virtual bool CheckTrigger()
     {
         if (interactionManager.IsInteractionTriggered == true)
         {
@@ -67,12 +69,12 @@ public abstract class Interaction : MonoBehaviour
         }
     }
 
-    public virtual bool CheckConditions()
+    protected virtual bool CheckConditions()
     {
         return conditionManager.CheckConditions();
     }
 
-    public virtual void ExecuteInteraction()
+    protected virtual void ExecuteInteraction()
     {
         iKController.IsIkActive = true;
         interactionManager.CurrentInteraction = this;
@@ -82,6 +84,6 @@ public abstract class Interaction : MonoBehaviour
         // evtl. nur wenn current != last?
     }
 
-    public abstract void ResetInteraction();
-    public abstract void SetMatchingInteractable();
+    protected abstract void ResetInteraction();
+    protected abstract void SetMatchingInteractable();
 }

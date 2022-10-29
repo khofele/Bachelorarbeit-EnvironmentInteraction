@@ -6,12 +6,12 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public abstract class Interactable : MonoBehaviour
 {
-    public virtual void Start()
+    protected virtual void Start()
     {
         Validate();
     }
 
-    public virtual void Validate()
+    protected virtual void Validate()
     {
         GetComponent<Collider>().isTrigger = true;
     }

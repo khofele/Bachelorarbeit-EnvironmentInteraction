@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class Leanable : Interactable
 {
-    public Collider snapCollider = null;
-    public Collider objectCollider = null;
+    protected Collider snapCollider = null;
+    protected Collider objectCollider = null;
     public Collider SnapCollider { get => snapCollider; }
 
-    public override void Validate()
+    protected override void Validate()
     {
         base.Validate();
 
@@ -22,7 +22,7 @@ public class Leanable : Interactable
 
 
     // TODO schön machen + ausbessern
-    public virtual void AddSnapCollider()
+    protected virtual void AddSnapCollider()
     {
         //if(GetComponentInChildren<Collider>() == null)
         //{
@@ -46,7 +46,7 @@ public class Leanable : Interactable
         //}
     }
 
-    public virtual void ModifyTrigger()
+    protected virtual void ModifyTrigger()
     {
         // TODO für alle Colliderformen bauen
         if (objectCollider.GetType() == typeof(BoxCollider))

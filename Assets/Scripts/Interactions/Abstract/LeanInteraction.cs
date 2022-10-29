@@ -4,13 +4,13 @@ using UnityEngine;
 
 public abstract class LeanInteraction : Interaction
 {
-    public Collider snapCollider = null;
-    public Collider playerCollider = null;
-    public Leanable currentLeanableObject = null;
-    public float snapDistance = 1f;
-    public Vector3 offset;
+    protected Collider snapCollider = null;
+    protected Collider playerCollider = null;
+    protected Leanable currentLeanableObject = null;
+    protected float snapDistance = 1f;
+    protected Vector3 offset;
 
-    public virtual void LeanOnObject()
+    protected virtual void LeanOnObject()
     {
         Vector3 playerClosestPoint = playerCollider.ClosestPoint(snapCollider.transform.position);
         Vector3 objectClosestPoint = snapCollider.ClosestPoint(playerClosestPoint);
@@ -47,19 +47,19 @@ public abstract class LeanInteraction : Interaction
         }
     }
 
-    public override void Start()
+    protected override void Start()
     {
         base.Start();
         playerCollider = charController.GetComponent<CharacterController>();
     }
 
-    public override void Update()
+    protected override void Update()
     {
         base.Update();
         ExecuteLeanInteraction();
     }
 
-    public virtual void ExecuteLeanInteraction()
+    protected virtual void ExecuteLeanInteraction()
     {
         if (isInteractionRunning == true)
         {
@@ -74,28 +74,28 @@ public abstract class LeanInteraction : Interaction
         }
     }
 
-    public virtual void ResetValues()
+    protected virtual void ResetValues()
     {
         isInteractionRunning = false;
         iKController.IsIkActive = false;
     }
 
-    public override void ExecuteInteraction()
+    protected override void ExecuteInteraction()
     {
         base.ExecuteInteraction();
         currentLeanableObject = (Leanable)interactableManager.CurrentInteractable;
         snapCollider = currentLeanableObject.SnapCollider;
     }
 
-    public override void ResetInteraction()
+    protected override void ResetInteraction()
     {
         currentLeanableObject = null;
     }
 
-    public abstract void ExecuteAnimation();
-    public abstract void StopAnimation();
-    public abstract bool CheckTerminationCondition();
-    public abstract void ResetCharacter();
-    public abstract void SetLeanBool(bool value);
-    public abstract bool CheckLeaningBool();
+    protected abstract void ExecuteAnimation();
+    protected abstract void StopAnimation();
+    protected abstract bool CheckTerminationCondition();
+    protected abstract void ResetCharacter();
+    protected abstract void SetLeanBool(bool value);
+    protected abstract bool CheckLeaningBool();
 }

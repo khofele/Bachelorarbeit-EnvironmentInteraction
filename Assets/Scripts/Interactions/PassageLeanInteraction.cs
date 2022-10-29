@@ -5,22 +5,22 @@ using UnityEngine;
 
 public class PassageLeanInteraction : FixedLeanInteraction
 {
-    public override void SetLeanBool(bool value)
+    protected override void SetLeanBool(bool value)
     {
         interactionManager.IsLeaningInPassage = value;
     }
 
-    public override bool CheckLeaningBool()
+    protected override bool CheckLeaningBool()
     {
         return interactionManager.IsLeaningInPassage;
     }
 
-    public override void SetCurrentLeanable()
+    protected override void SetCurrentLeanable()
     {
         currentLeanable = (PassageLeanable)interactableManager.CurrentInteractable;
     }
 
-    public override void SetMatchingInteractable()
+    protected override void SetMatchingInteractable()
     {
         matchingInteractable = typeof(PassageLeanable);
     }

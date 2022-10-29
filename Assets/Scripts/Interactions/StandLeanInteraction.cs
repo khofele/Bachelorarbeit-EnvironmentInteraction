@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class StandLeanInteraction : LeanInteraction
 {
-    public override void ExecuteAnimation()
+    protected override void ExecuteAnimation()
     {
         animationManager.ExecuteStandLeanAnimation(charController.XAxis);
     }
 
-    public override void StopAnimation()
+    protected override void StopAnimation()
     {
         animationManager.StopStandLeanAnimation();
     }
 
-    public override bool CheckTerminationCondition()
+    protected override bool CheckTerminationCondition()
     {
         if(offset.magnitude > snapDistance || isInteractionRunning == false || (charController.ZAxis >= 1 || charController.ZAxis <= -1))
         {
@@ -26,22 +26,22 @@ public class StandLeanInteraction : LeanInteraction
         }
     }
 
-    public override void ResetCharacter()
+    protected override void ResetCharacter()
     {
         interactionManager.IsStandingLeaning = false;
     }
 
-    public override void SetLeanBool(bool value)
+    protected override void SetLeanBool(bool value)
     {
         interactionManager.IsStandingLeaning = value;
     }
 
-    public override bool CheckLeaningBool()
+    protected override bool CheckLeaningBool()
     {
         return interactionManager.IsStandingLeaning;
     }
 
-    public override void SetMatchingInteractable()
+    protected override void SetMatchingInteractable()
     {
         matchingInteractable = typeof(Leanable);
     }

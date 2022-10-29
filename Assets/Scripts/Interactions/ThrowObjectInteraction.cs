@@ -15,7 +15,7 @@ public class ThrowObjectInteraction : Interaction
         }
     }
 
-    public override void Start()
+    protected override void Start()
     {
         base.Start();
         sphereCollider = GetComponent<SphereCollider>();
@@ -24,7 +24,7 @@ public class ThrowObjectInteraction : Interaction
         sphereCollider.enabled = false;
     }
 
-    public override void ExecuteInteraction()
+    protected override void ExecuteInteraction()
     {
         base.ExecuteInteraction();
         //Throw(); ist AnimationEvent
@@ -54,6 +54,7 @@ public class ThrowObjectInteraction : Interaction
 
             animationManager.StopThrowAnimation();
             iKController.IsIkActive = false;
+            isInteractionRunning = false;
         }
     }
 
@@ -67,12 +68,12 @@ public class ThrowObjectInteraction : Interaction
         sphereCollider.enabled = false;
     }
 
-    public override void ResetInteraction()
+    protected override void ResetInteraction()
     {
         enemy = null;
     }
 
-    public override void SetMatchingInteractable()
+    protected override void SetMatchingInteractable()
     {
         matchingInteractable = typeof(Throwable);
     }

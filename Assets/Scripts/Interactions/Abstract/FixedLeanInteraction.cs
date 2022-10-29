@@ -5,19 +5,19 @@ using UnityEngine;
 
 public abstract class FixedLeanInteraction : LeanInteraction
 {
-    public FixedLeanable currentLeanable = null;
+    protected FixedLeanable currentLeanable = null;
     private bool isLeaningFixedObject = false;
     private bool isTerminating = false;
     private bool isCharInteracting = false;
 
     public bool IsCharInteracting { get => isCharInteracting; }
 
-    public override void Start()
+    protected override void Start()
     {
         base.Start();
     }
 
-    public override void ExecuteLeanInteraction()
+    protected override void ExecuteLeanInteraction()
     {
         if (isInteractionRunning == true && isTerminating == false)
         {
@@ -46,7 +46,7 @@ public abstract class FixedLeanInteraction : LeanInteraction
         }
     }
 
-    public override void LeanOnObject()
+    protected override void LeanOnObject()
     {
         Vector3 playerClosestPoint = playerCollider.ClosestPoint(snapCollider.transform.position);
         Vector3 objectClosestPoint = snapCollider.ClosestPoint(playerClosestPoint);
@@ -60,17 +60,17 @@ public abstract class FixedLeanInteraction : LeanInteraction
         }
     }
 
-    public override void ExecuteAnimation()
+    protected override void ExecuteAnimation()
     {
         animationManager.ExecuteStandLeanAnimation(charController.XAxis);
     }
 
-    public override void StopAnimation()
+    protected override void StopAnimation()
     {
         animationManager.StopStandLeanAnimation();
     }
 
-    public override bool CheckTerminationCondition()
+    protected override bool CheckTerminationCondition()
     {
         if ((currentLeanable.TriggerCount % 2 == 0 && currentLeanable.TriggerCount > 0))
         {
@@ -82,7 +82,7 @@ public abstract class FixedLeanInteraction : LeanInteraction
         }
     }
 
-    public override void ResetValues()
+    protected override void ResetValues()
     {
         base.ResetValues();
         isLeaningFixedObject = false;
@@ -92,7 +92,7 @@ public abstract class FixedLeanInteraction : LeanInteraction
         SetLeanBool(false);
     }
 
-    public override void ResetCharacter()
+    protected override void ResetCharacter()
     {
         Transform resetTransform = CheckResetTransform();
         Vector3 position = new Vector3(resetTransform.position.x, charController.transform.position.y, resetTransform.position.z);
@@ -182,5 +182,5 @@ public abstract class FixedLeanInteraction : LeanInteraction
         }
     }
 
-    public abstract void SetCurrentLeanable();
+    protected abstract void SetCurrentLeanable();
 }

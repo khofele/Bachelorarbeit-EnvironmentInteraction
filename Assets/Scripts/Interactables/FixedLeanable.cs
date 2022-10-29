@@ -26,14 +26,14 @@ public class FixedLeanable : Leanable
         }
     }
 
-    public override void Validate()
+    protected override void Validate()
     {
         base.Validate();
         // TODO Transforms (Snap und Reset) automatisiert an Gameobject anfügen + Tags
         GetTransforms();
     }
 
-    public override void ModifyTrigger()
+    protected override void ModifyTrigger()
     {
         // Trigger 1 - existing trigger
         triggerOne = GetComponent<BoxCollider>();
