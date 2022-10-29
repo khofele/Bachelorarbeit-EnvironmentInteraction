@@ -215,7 +215,6 @@ public class IKController : MonoBehaviour
 
         if(isLeftTouchHandleChosen == true)
         {
-            Debug.Log("links");
             // left
             animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
             animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 0.5f);
@@ -242,7 +241,6 @@ public class IKController : MonoBehaviour
 
     private Transform FindClosestTouchHandleLeft(List<Transform> transforms)
     {
-        // TODO nur einmal pro Interaktion ausführen
         float shortestDistanceLeft = 100f;
         Transform closestTransformLeft = null;
         foreach(Transform transform in transforms)
