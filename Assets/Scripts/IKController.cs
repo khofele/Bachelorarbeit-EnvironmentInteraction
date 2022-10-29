@@ -12,6 +12,7 @@ public class IKController : MonoBehaviour
     [SerializeField] private Transform passageLeanRightHand = null;
 
     // left hand
+    [SerializeField] private Transform leftHandGrabHandle = null;
     [SerializeField] private Transform leftHandWatchHandle = null;
     [SerializeField] private Transform leanLeftHand = null;
     [SerializeField] private Transform passageLeanLeftHand = null;
@@ -30,6 +31,12 @@ public class IKController : MonoBehaviour
     // lean
     private Vector3 closestPointRightHand = Vector3.zero;
     private Vector3 closestPointLeftHand = Vector3.zero;
+
+    // touch
+    private bool isLeftTouchHandleChosen = false;
+    private bool isTouchHandleChosen = false;
+    private Transform closestTouchHandleRight = null;
+    private Transform closestTouchHandleLeft = null;
 
     public GameObject Interactables { get => interactables; }
     public bool IsIkActive { get => isIkActive; set => isIkActive = value; }
@@ -79,7 +86,11 @@ public class IKController : MonoBehaviour
             {
                 animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 0);
                 animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0);
+                animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 0);
+                animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 0);
                 animator.SetLookAtWeight(0);
+
+                isTouchHandleChosen = false;
             }
         }
     }
@@ -189,13 +200,90 @@ public class IKController : MonoBehaviour
 
     private void TouchIK()
     {
-        // TODO implement
         Touchable currentInteractable = (Touchable)interactableManager.CurrentInteractable;
-        Transform touchHandle = currentInteractable.TouchHandle;
 
-        animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
-        animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0.5f);
-        animator.SetIKPosition(AvatarIKGoal.RightHand, touchHandle.position);
-        animator.SetIKRotation(AvatarIKGoal.RightHand, touchHandle.rotation);
+        List<Transform> touchHandles = currentInteractable.TouchHandles;
+
+
+        if(isTouchHandleChosen == false)
+        {
+            closestTouchHandleLeft = FindClosestTouchHandleLeft(touchHandles);
+            closestTouchHandleRight = FindClosestTouchHandleRight(touchHandles);
+            isTouchHandleChosen = true;
+            isLeftTouchHandleChosen = DecideTouchHandle(Vector3.Distance(leftHandGrabHandle.position, closestTouchHandleLeft.position), Vector3.Distance(rightHandGrabHandle.position, closestTouchHandleRight.position));
+        }
+
+        if(isLeftTouchHandleChosen == true)
+        {
+            Debug.Log("links");
+            // left
+            animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
+            animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 0.5f);
+            animator.SetIKPosition(AvatarIKGoal.LeftHand, closestTouchHandleLeft.position);
+            animator.SetIKRotation(AvatarIKGoal.LeftHand, closestTouchHandleLeft.rotation);
+
+            // right
+            animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 0);
+            animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0);
+        }
+        else
+        {
+            // right
+            animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
+            animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0.5f);
+            animator.SetIKPosition(AvatarIKGoal.RightHand, closestTouchHandleRight.position);
+            animator.SetIKRotation(AvatarIKGoal.RightHand, closestTouchHandleRight.rotation);
+
+            // left
+            animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 0);
+            animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 0);
+        }
+    }
+
+    private Transform FindClosestTouchHandleLeft(List<Transform> transforms)
+    {
+        // TODO nur einmal pro Interaktion ausführen
+        float shortestDistanceLeft = 100f;
+        Transform closestTransformLeft = null;
+        foreach(Transform transform in transforms)
+        {
+            float distance = Vector3.Distance(leftHandGrabHandle.position, transform.position);
+            if(distance < shortestDistanceLeft)
+            {
+                shortestDistanceLeft = distance;
+                closestTransformLeft = transform;
+            }
+        }
+
+        return closestTransformLeft;
+    }
+
+    private Transform FindClosestTouchHandleRight(List<Transform> transforms)
+    {
+        float shortestDistanceRight = 100f;
+        Transform closestTransformRight = null;
+        foreach (Transform transform in transforms)
+        {
+            float distance = Vector3.Distance(rightHandGrabHandle.position, transform.position);
+            if (distance < shortestDistanceRight)
+            {
+                shortestDistanceRight = distance;
+                closestTransformRight = transform;
+            }
+        }
+
+        return closestTransformRight;
+    }
+
+    private bool DecideTouchHandle(float distanceLeft, float distanceRight)
+    {
+        if(distanceLeft < distanceRight)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

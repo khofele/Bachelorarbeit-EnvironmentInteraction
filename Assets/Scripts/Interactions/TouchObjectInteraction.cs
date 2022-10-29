@@ -6,25 +6,28 @@ public class TouchObjectInteraction : Interaction
 {
     private Touchable currentTouchable = null;
 
-    public override void Start()
+    protected override void Start()
     {
         base.Start();
     }
 
-    public override void ExecuteInteraction()
+    protected override void ExecuteInteraction()
     {
         base.ExecuteInteraction();
 
         currentTouchable = (Touchable)interactableManager.CurrentInteractable;
     }
 
-    public override void Update()
+    protected override void Update()
     {
         base.Update();
 
-        if(isInteractionRunning == true && currentTouchable.IsTriggered == true)
+        if(isInteractionRunning == true && currentTouchable != null)
         {
-            iKController.IsIkActive = true;
+            if(currentTouchable.IsTriggered == true)
+            {
+                iKController.IsIkActive = true;
+            }
         }
         else
         {
@@ -32,12 +35,12 @@ public class TouchObjectInteraction : Interaction
         }
     }
 
-    public override void ResetInteraction()
+    protected override void ResetInteraction()
     {
-        currentTouchable = null;
+        //currentTouchable = null;
     }
 
-    public override void SetMatchingInteractable()
+    protected override void SetMatchingInteractable()
     {
         matchingInteractable = typeof(Touchable);
     }
