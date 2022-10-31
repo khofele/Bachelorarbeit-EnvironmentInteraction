@@ -4,5 +4,9 @@ using UnityEngine;
 
 public class Jumpable : Interactable
 {
-    // TODO implement
+    protected override void Start()
+    {
+        base.Start();
+        GetComponent<Rigidbody>().isKinematic = true;
+    }
 }

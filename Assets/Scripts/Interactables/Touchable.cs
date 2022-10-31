@@ -20,6 +20,7 @@ public class Touchable : Interactable
         base.Start();
 
         interactionManager = FindObjectOfType<InteractionManager>();
+        GetComponent<Rigidbody>().isKinematic = true;
 
         Transform[] children = GetComponentsInChildren<Transform>();
         foreach(Transform transform in children)
