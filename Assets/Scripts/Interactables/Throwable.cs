@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class Throwable : Interactable
 {
-    protected override void Start()
-    {
-        base.Start();
-    }
-
     public Transform GetGrabHandle()
     {
         Transform parentTransform = transform;
