@@ -8,9 +8,6 @@ public abstract class FixedLeanInteraction : LeanInteraction
     protected FixedLeanable currentLeanable = null;
     private bool isLeaningFixedObject = false;
     private bool isTerminating = false;
-    private bool isCharInteracting = false;
-
-    public bool IsCharInteracting { get => isCharInteracting; }
 
     protected override void Start()
     {

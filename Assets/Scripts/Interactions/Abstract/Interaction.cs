@@ -13,9 +13,11 @@ public abstract class Interaction : MonoBehaviour
     protected CharController charController = null;
     protected IKController iKController = null;
     protected bool isInteractionRunning = false;
+    protected bool isCharInteracting = false;
     protected Type matchingInteractable = null;
 
     public bool IsInteractionRunning { get => isInteractionRunning; set => isInteractionRunning = value; }
+    public bool IsCharInteracting { get => isCharInteracting; }
 
     private bool CheckMatchingInteractable()
     {
