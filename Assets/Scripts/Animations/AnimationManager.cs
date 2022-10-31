@@ -69,4 +69,9 @@ public class AnimationManager : MonoBehaviour
     {
         animator.SetBool("isCovering", false);
     }
+
+    public void ExecuteJumpAnimation()
+    {
+        animator.SetTrigger("jump");
+    }
 }
