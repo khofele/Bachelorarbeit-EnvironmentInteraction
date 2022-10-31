@@ -21,7 +21,7 @@ public class CameraMovement : MonoBehaviour
 
     private void Update()
     {
-        if (interactionManager.IsLeaningOnEdge == false && interactionManager.IsCrouchingLeaning == false && interactionManager.IsStandingLeaning == false && interactionManager.IsLeaningInPassage == false)
+        if (interactionManager.IsLeaning == false)
         {
             freeLookCamera.enabled = true;
         }

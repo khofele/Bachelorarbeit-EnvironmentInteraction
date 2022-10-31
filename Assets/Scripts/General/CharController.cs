@@ -42,9 +42,8 @@ public class CharController : MonoBehaviour
     {
         moveDirection = new Vector3(xAxis, 0f, zAxis).normalized;
         moveDirection = Camera.main.transform.TransformDirection(moveDirection);
-        xAxis = Input.GetAxis("Horizontal");
 
-        if (interactionManager.IsLeaningOnEdge == true || interactionManager.IsLeaningInPassage == true)
+        if(interactionManager.IsFixedLeaning == true)
         {
             zAxis = 0;
         }
@@ -53,7 +52,17 @@ public class CharController : MonoBehaviour
             zAxis = Input.GetAxis("Vertical");
         }
 
-        if (interactionManager.IsLeaningOnEdge == false && interactionManager.IsCrouchingLeaning == false && interactionManager.IsStandingLeaning == false && interactionManager.IsLeaningInPassage == false)
+        if(interactionManager.IsJumping == true)
+        {
+            xAxis = 0;
+            zAxis = 0;
+        }
+        else
+        {
+            xAxis = Input.GetAxis("Horizontal");
+        }
+
+        if (interactionManager.IsLeaning == false)
         {
             transform.rotation = Quaternion.LookRotation(new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized, Camera.main.transform.up);
         }
