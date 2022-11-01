@@ -23,19 +23,21 @@ public class AnimationManager : MonoBehaviour
 
     public void ExecuteRunAnimation(float zAxis, float xAxis)
     {
-        animator.SetFloat("vertical", zAxis * 5.36f);
-        animator.SetFloat("horizontal", xAxis * 0.81f);
+        animator.SetFloat("vertical", zAxis);
+        animator.SetFloat("horizontal", xAxis * 0.5f);
     }
 
     public void ExecuteWalkAnimation(float zAxis, float xAxis)
     {
-        animator.SetFloat("vertical", zAxis * 1.63f);
+        animator.SetFloat("vertical", zAxis);
         animator.SetFloat("horizontal", xAxis * 0.5f);
     }
 
-    public void ExecuteCrouchAnimation()
+    public void ExecuteCrouchAnimation(float zAxis, float xAxis)
     {
         animator.SetBool("isCrouching", true);
+        animator.SetFloat("vertical", zAxis);
+        animator.SetFloat("horizontal", xAxis*0.5f);
     }
 
     public void StopCrouchAnimation()
