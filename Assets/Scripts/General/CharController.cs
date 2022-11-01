@@ -5,6 +5,10 @@ using UnityEngine;
 public class CharController : MonoBehaviour
 {
     // General fields
+    [SerializeField] private Transform groundCheck = null;
+    private float groundDistance = 0.4f;
+    private LayerMask groundMask;
+    private bool isGrounded = false;
     private CharacterController characterController = null;
     private Animator animator = null;
     private AnimationManager animationManager = null;
@@ -12,7 +16,7 @@ public class CharController : MonoBehaviour
 
     // Movement fields
     private float speed = 0f;
-    private float gravity = -9.81f * 2;
+    private float gravity = -9.81f;
     private Vector3 velocity = Vector3.zero;
     private Vector3 moveDirection = Vector3.zero;
     private bool isCrouching = false;
@@ -26,12 +30,16 @@ public class CharController : MonoBehaviour
     public float XAxis { get => xAxis; set => xAxis = value; }
     public float ZAxis { get => zAxis; }
 
+    // DEBUG
+    public Vector3 MoveDirection { get => moveDirection; }
+
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         animationManager = GetComponent<AnimationManager>();
         interactionManager = GetComponentInChildren<InteractionManager>();
+        groundMask = LayerMask.NameToLayer("Environment");
 
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Limbs"), LayerMask.NameToLayer("Default"));
 
@@ -40,6 +48,13 @@ public class CharController : MonoBehaviour
 
     private void Update()
     {
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, -groundMask);
+
+        if(isGrounded && velocity.y < 0 && interactionManager.IsJumping == false)
+        {
+            velocity.y = -2f;
+        }
+
         moveDirection = new Vector3(xAxis, 0f, zAxis).normalized;
         moveDirection = Camera.main.transform.TransformDirection(moveDirection);
 
@@ -80,6 +95,7 @@ public class CharController : MonoBehaviour
             {
                 // Crouching
                 speed = 2.5f;
+                animationManager.ExecuteCrouchAnimation(zAxis, xAxis);
             }
             else
             {
@@ -87,11 +103,6 @@ public class CharController : MonoBehaviour
                 speed = 3f;
                 animationManager.ExecuteWalkAnimation(zAxis, xAxis);
             }
-
-            // move character
-            velocity.y += gravity * Time.deltaTime;
-            characterController.Move(speed * Time.deltaTime * moveDirection);
-            characterController.Move(velocity * Time.deltaTime);
         }
         else
         {
@@ -99,13 +110,22 @@ public class CharController : MonoBehaviour
             speed = 0;
         }
 
+        // move character
+        if(interactionManager.IsJumping == false)
+        {
+            characterController.Move(speed * Time.deltaTime * moveDirection);
+            velocity.y += gravity * Time.deltaTime;
+            characterController.Move(velocity * Time.deltaTime);
+        }
+
+
         animationManager.SetSpeed(speed);
 
         // Crouch Toggle
         if (Input.GetKeyDown(KeyCode.C) && isCrouching == false)
         {
             isCrouching = true;
-            animationManager.ExecuteCrouchAnimation();
+            animationManager.ExecuteCrouchAnimation(zAxis, xAxis);
         }
         else if (Input.GetKeyDown(KeyCode.C) && isCrouching == true)
         {
