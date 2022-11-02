@@ -37,6 +37,7 @@ public class TouchObjectInteraction : Interaction
 
     protected override void ResetInteraction()
     {
+        // TODO prüfen
         //currentTouchable = null;
     }
 
