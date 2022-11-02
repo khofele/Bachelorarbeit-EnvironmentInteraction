@@ -8,14 +8,14 @@ public class PassageLeanable : FixedLeanable
 
     public BoxCollider OppositeWall { get => oppositeWallCollider; }
 
-    // TODO Snap- und Resettransforms automatisch adden
+    // TODO Snap- und Resettransforms automatisch adden  --> Validate-Ticket
 
-    // TODO schön machen
+    // TODO schön machen  --> Validate-Ticket
     protected override void Validate()
     {
         base.Validate();
 
-        // TODO Möglichkeit finden zweite Wand zu detecten und ggf. hinzuzufügen, sonst per Skript prüfen (Skript anhängen, dass Cube definiert) oder Prefab
+        // TODO Möglichkeit finden zweite Wand zu detecten und ggf. hinzuzufügen, sonst per Skript prüfen (Skript anhängen, dass Cube definiert) oder Prefab  --> Validate-Ticket
         BoxCollider[] children = transform.GetComponentsInChildren<BoxCollider>();
         foreach (BoxCollider child in children)
         {

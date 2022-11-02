@@ -29,7 +29,7 @@ public class FixedLeanable : Leanable
     protected override void Validate()
     {
         base.Validate();
-        // TODO Transforms (Snap und Reset) automatisiert an Gameobject anfügen + Tags
+        // TODO Transforms (Snap und Reset) automatisiert an Gameobject anfügen + Tags   --> Validate-Ticket
         GetTransforms();
     }
 
@@ -45,7 +45,7 @@ public class FixedLeanable : Leanable
         // Trigger 2 - new trigger
         BoxCollider[] boxColliders = GetComponents<BoxCollider>();
 
-        // TODO schön machen
+        // TODO schön machen  --> Validate-Ticket
         if (boxColliders.Length <= 1)
         {
             triggerTwo = gameObject.AddComponent<BoxCollider>();

@@ -21,7 +21,7 @@ public class Leanable : Interactable
     }
 
 
-    // TODO schön machen + ausbessern
+    // TODO schön machen + ausbessern  --> Validate-Ticket
     protected virtual void AddSnapCollider()
     {
         //if(GetComponentInChildren<Collider>() == null)
@@ -48,7 +48,7 @@ public class Leanable : Interactable
 
     protected virtual void ModifyTrigger()
     {
-        // TODO für alle Colliderformen bauen
+        // TODO für alle Colliderformen bauen  --> Validate-Ticket
         if (objectCollider.GetType() == typeof(BoxCollider))
         {
             BoxCollider boxCollider = (BoxCollider)objectCollider;

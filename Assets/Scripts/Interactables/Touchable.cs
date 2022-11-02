@@ -9,7 +9,7 @@ public class Touchable : Interactable
     private InteractionManager interactionManager = null;
 
 
-    // TODO schön DEBUG
+    // TODO schön DEBUG  --> Validate-Ticket
     [SerializeField] private RandomCondition random = null;
 
     public List<Transform> TouchHandles { get => touchHandles; }
@@ -39,7 +39,7 @@ public class Touchable : Interactable
 
     private void OnTriggerExit(Collider other)
     {
-        // TODO manchmal NullReference
+        // TODO manchmal NullReference  --> Validate-Ticket
         isTriggered = false;
         random.IsExecuted = false;
         interactionManager.CurrentInteraction.IsInteractionRunning = false; 
