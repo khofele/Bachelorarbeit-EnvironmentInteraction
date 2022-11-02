@@ -19,7 +19,7 @@ public abstract class LeanInteraction : Interaction
         if (offset.magnitude < snapDistance)
         {
             charController.transform.position += offset;
-
+            iKController.IsIkActive = true;
             SetLeanBool(true);
             ExecuteAnimation();
         }
