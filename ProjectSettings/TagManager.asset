@@ -11,6 +11,8 @@ TagManager:
   - SnapTransformTwo
   - OppositeWall
   - TouchHandle
+  - snapCollider
+  - jumpCollider
   layers:
   - Default
   - TransparentFX
