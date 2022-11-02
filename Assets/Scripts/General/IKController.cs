@@ -186,7 +186,6 @@ public class IKController : MonoBehaviour
 
     private void FaceWalkingDirection()
     {
-        Debug.Log(charController.XAxis);
         if (charController.XAxis >= 1)
         {
             animator.SetLookAtPosition(leftHandWatchHandle.position);
