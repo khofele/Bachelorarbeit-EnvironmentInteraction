@@ -186,12 +186,13 @@ public class IKController : MonoBehaviour
 
     private void FaceWalkingDirection()
     {
-        if (charController.XAxis * 2 >= 2)
+        Debug.Log(charController.XAxis);
+        if (charController.XAxis >= 1)
         {
             animator.SetLookAtPosition(leftHandWatchHandle.position);
             animator.SetLookAtWeight(1);
         }
-        else if (charController.XAxis * 2 <= -2)
+        else if (charController.XAxis <= -1)
         {
             animator.SetLookAtPosition(rightHandWatchHandle.position);
             animator.SetLookAtWeight(1);
@@ -294,21 +295,10 @@ public class IKController : MonoBehaviour
     {
         Jumpable currentInteractable = (Jumpable)interactableManager.CurrentInteractable;
 
-        Collider jumpCollider = null;
-
-        Collider[] colliders = currentInteractable.GetComponents<Collider>();
-        foreach(Collider collider in colliders)
-        {
-            if(collider.isTrigger == false)
-            {
-                jumpCollider = collider;
-            }
-        }
+        Collider jumpCollider = currentInteractable.JumpCollider;
 
         Vector3 closestPointRightHand = jumpCollider.ClosestPoint(rightHandGrabHandle.position);
         Vector3 closestPointLeftHand = jumpCollider.ClosestPoint(leftHandGrabHandle.position);
-
-        Debug.Log(closestPointRightHand);
 
         animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
         animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0.5f);
