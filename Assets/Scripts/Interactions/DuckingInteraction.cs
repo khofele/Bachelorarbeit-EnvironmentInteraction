@@ -19,6 +19,8 @@ public class DuckingInteraction : WalkThroughInteraction
     {
         ModifyCharacterCollider();
         animationManager.ExecuteCrouchAnimation(charController.ZAxis, charController.XAxis);
+        animationManager.ExecuteDuckingAnimation();
+        animationManager.EnableUpperBodyLayer();
     }
 
     protected override void ExecuteInteraction()
@@ -48,5 +50,7 @@ public class DuckingInteraction : WalkThroughInteraction
     {
         ResetCharacterCollider(); 
         animationManager.StopCrouchAnimation();
+        animationManager.StopDuckingAnimation();
+        animationManager.DisableUpperBodyLayer();   
     }
 }

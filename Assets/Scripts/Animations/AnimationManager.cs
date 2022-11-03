@@ -76,4 +76,24 @@ public class AnimationManager : MonoBehaviour
     {
         animator.SetTrigger("jump");
     }
+
+    public void ExecuteDuckingAnimation()
+    {
+        animator.SetBool("isDucking", true);
+    }
+
+    public void StopDuckingAnimation()
+    {
+        animator.SetBool("isDucking", false);
+    }
+
+    public void EnableUpperBodyLayer()
+    {
+        animator.SetLayerWeight(animator.GetLayerIndex("UpperBody"), 1f);
+    }
+
+    public void DisableUpperBodyLayer()
+    {
+        animator.SetLayerWeight(animator.GetLayerIndex("UpperBody"), 0f);
+    }
 }
