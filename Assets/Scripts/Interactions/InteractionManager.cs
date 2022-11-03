@@ -33,7 +33,7 @@ public class InteractionManager : MonoBehaviour
 
     private void Update()
     {
-        if(isLeaningOnEdge == false && isCrouchingLeaning == false && isStandingLeaning == false && isLeaningInPassage == false)
+        if (isLeaningOnEdge == false && isCrouchingLeaning == false && isStandingLeaning == false && isLeaningInPassage == false)
         {
             isLeaning = false;
         }
@@ -42,7 +42,7 @@ public class InteractionManager : MonoBehaviour
             isLeaning = true;
         }
 
-        if(isLeaningOnEdge == true || isLeaningInPassage == true)
+        if (isLeaningOnEdge == true || isLeaningInPassage == true)
         {
             isFixedLeaning = true;
         }
@@ -54,7 +54,7 @@ public class InteractionManager : MonoBehaviour
 
     public void SetLastInteraction()
     {
-        if(lastInteraction != currentInteraction)
+        if (lastInteraction != currentInteraction)
         {
             lastInteraction = currentInteraction;
         }

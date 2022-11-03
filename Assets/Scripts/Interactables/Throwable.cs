@@ -11,13 +11,13 @@ public class Throwable : Interactable
 
         foreach(Transform transform in parentTransform)
         {
-            if(transform.CompareTag("grabHandle"))
+            if (transform.CompareTag("grabHandle"))
             {
                 grabHandle = transform;
             }
         }
 
-        if(grabHandle == null)
+        if (grabHandle == null)
         {
             Debug.LogError("No grabhandle found!");
             return null;
@@ -30,7 +30,7 @@ public class Throwable : Interactable
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             Destroy(gameObject);
         }

@@ -33,7 +33,7 @@ public class Jumpable : Interactable
             }
         }
 
-        if(jumpCollider == null)
+        if (jumpCollider == null)
         {
             Debug.LogError("The interactable object is missing a collider!");
         }
@@ -41,9 +41,9 @@ public class Jumpable : Interactable
 
     private void CheckCubeSize()
     {
-        if(GetComponent<BoxCollider>() != null)
+        if (GetComponent<BoxCollider>() != null)
         {
-            if(transform.localScale.y < 0.6f || transform.localScale.y > 1.2f || transform.localScale.x > 1.5f)
+            if (transform.localScale.y < 0.6f || transform.localScale.y > 1.2f || transform.localScale.x > 1.5f)
             {
                 Debug.LogWarning("The character might have some difficulties with jumping over the obstacle! Try smaller scales!");
             }

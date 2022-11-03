@@ -6,7 +6,7 @@ public class Touchable : WalkThroughable
 {
     private List<Transform> touchHandles = new List<Transform>();
 
-    // TODO schön DEBUG im besten Fall nicht per SerializeField --> nicht alle Touchables brauchen das, daher iwie anders --> über Condition-Manager?
+    // TODO 03.11. schön DEBUG im besten Fall nicht per SerializeField --> nicht alle Touchables brauchen das, daher iwie anders --> über Condition-Manager?
     [SerializeField] private RandomCondition random = null;
 
     public List<Transform> TouchHandles { get => touchHandles; }
@@ -24,7 +24,7 @@ public class Touchable : WalkThroughable
             }
         }
 
-        if(touchHandles.Count <= 0)
+        if (touchHandles.Count <= 0)
         {
             Debug.LogError("No Touchhandles found!");
         }

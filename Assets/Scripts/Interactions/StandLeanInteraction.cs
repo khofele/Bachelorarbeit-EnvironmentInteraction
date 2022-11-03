@@ -16,7 +16,7 @@ public class StandLeanInteraction : LeanInteraction
 
     protected override bool CheckTerminationCondition()
     {
-        if(offset.magnitude > snapDistance || isInteractionRunning == false || (charController.ZAxis >= 1 || charController.ZAxis <= -1))
+        if (offset.magnitude > snapDistance || isInteractionRunning == false || (charController.ZAxis >= 1 || charController.ZAxis <= -1))
         {
             return true;
         }

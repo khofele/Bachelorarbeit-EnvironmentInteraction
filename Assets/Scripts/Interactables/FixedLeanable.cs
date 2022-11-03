@@ -35,7 +35,7 @@ public class FixedLeanable : Leanable
     protected override void ModifyTrigger()
     {
         // Trigger 1
-        if(GetComponent<BoxCollider>() != null)
+        if (GetComponent<BoxCollider>() != null)
         {
             triggerOne = GetComponent<BoxCollider>();
             triggerOne.isTrigger = true;
@@ -64,7 +64,7 @@ public class FixedLeanable : Leanable
         {
             foreach(BoxCollider boxCollider in boxColliders)
             {
-                if(boxCollider != triggerOne)
+                if (boxCollider != triggerOne)
                 {
                     triggerTwo = boxCollider;
                     triggerTwo.isTrigger = true;
@@ -74,7 +74,7 @@ public class FixedLeanable : Leanable
             }
         }
 
-        if(triggerOne == null || triggerTwo == null)
+        if (triggerOne == null || triggerTwo == null)
         {
             Debug.LogError("Trigger not found!");
         }

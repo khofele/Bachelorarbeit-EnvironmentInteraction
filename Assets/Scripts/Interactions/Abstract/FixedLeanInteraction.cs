@@ -73,7 +73,7 @@ public abstract class FixedLeanInteraction : LeanInteraction
 
     protected override bool CheckTerminationCondition()
     {
-        if ((currentLeanable.TriggerCount % 2 == 0 && currentLeanable.TriggerCount > 0))
+        if (currentLeanable.TriggerCount % 2 == 0 && currentLeanable.TriggerCount > 0)
         {
             return true;
         }

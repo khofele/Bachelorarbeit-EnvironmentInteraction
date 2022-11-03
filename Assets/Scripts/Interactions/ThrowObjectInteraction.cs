@@ -37,12 +37,12 @@ public class ThrowObjectInteraction : Interaction
             interactableManager.CurrentInteractable.transform.SetParent(iKController.Interactables.transform, true);
 
             // Throw
-            // TODO in IKController
+            // TODO in IKController --> Ticket: IK-Controller Refactoring
             charController.Animator.SetLookAtWeight(0.8f);
             Rigidbody rigidBody = interactableManager.CurrentInteractable.GetComponent<Rigidbody>();
             rigidBody.isKinematic = false;
             rigidBody.useGravity = true;
-            if(enemy != null)
+            if (enemy != null)
             {
                 Vector3 direction = enemy.transform.position - charController.transform.position;
                 rigidBody.AddForce(direction.normalized * 15 + transform.forward * 0.5f, ForceMode.Impulse);

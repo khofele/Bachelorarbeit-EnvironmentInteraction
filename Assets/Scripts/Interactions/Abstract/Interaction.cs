@@ -48,12 +48,12 @@ public abstract class Interaction : MonoBehaviour
     {
         if (CheckTrigger() == true)
         {
-            if(CheckMatchingInteractable() == true)
+            if (CheckMatchingInteractable() == true)
             {
                 if (CheckConditions() == true)
                 {
                     ExecuteInteraction();
-                    // TODO Reset hier raus!
+                    // TODO 03.11. Reset hier raus!
                     ResetInteraction();
                 }
             }

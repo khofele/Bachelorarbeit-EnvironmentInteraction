@@ -11,7 +11,7 @@ public class TouchObjectInteraction : WalkThroughInteraction
 
     protected override void ResetInteraction()
     {
-        // TODO Reset verzögern? --> siehe JumpInteraction --> siehe TODO in Interaction
+        // TODO 03.11. Reset verzögern? --> siehe JumpInteraction --> siehe TODO in Interaction
     }
 
     protected override void ResetValues()
