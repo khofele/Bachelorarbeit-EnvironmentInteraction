@@ -7,7 +7,7 @@ public class Touchable : Interactable
     private List<Transform> touchHandles = new List<Transform>();
     private bool isTriggered = false;
     private InteractionManager interactionManager = null;
-
+    private TouchObjectInteraction currentInteraction = null;
 
     // TODO schön DEBUG im besten Fall nicht per SerializeField
     [SerializeField] private RandomCondition random = null;
@@ -42,14 +42,19 @@ public class Touchable : Interactable
 
     private void OnTriggerEnter(Collider other)
     {
-        isTriggered = true;
+        if(other.GetComponent<CharController>() != null)
+        {
+            isTriggered = true;
+            currentInteraction = (TouchObjectInteraction)interactionManager.CurrentInteraction;
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        // TODO wirft NullReference!
-        isTriggered = false;
-        random.IsExecuted = false;
-        interactionManager.CurrentInteraction.IsInteractionRunning = false; 
+        if (other.GetComponent<CharController>() != null)
+        {
+            isTriggered = false;
+            random.IsExecuted = false;
+        }
     }
 }

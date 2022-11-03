@@ -7,15 +7,25 @@ public class Throwable : Interactable
     public Transform GetGrabHandle()
     {
         Transform parentTransform = transform;
+        Transform grabHandle = null;
 
         foreach(Transform transform in parentTransform)
         {
             if(transform.CompareTag("grabHandle"))
             {
-                return transform;
+                grabHandle = transform;
             }
         }
-        return null;
+
+        if(grabHandle == null)
+        {
+            Debug.LogError("No grabhandle found!");
+            return null;
+        }
+        else
+        {
+            return grabHandle;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)

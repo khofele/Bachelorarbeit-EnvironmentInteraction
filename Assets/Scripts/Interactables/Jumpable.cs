@@ -32,6 +32,11 @@ public class Jumpable : Interactable
                 jumpCollider = child;
             }
         }
+
+        if(jumpCollider == null)
+        {
+            Debug.LogError("The interactable object is missing a collider!");
+        }
     }
 
     private void CheckCubeSize()
