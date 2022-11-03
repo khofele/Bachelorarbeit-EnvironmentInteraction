@@ -14,17 +14,21 @@ public abstract class FixedLeanInteraction : LeanInteraction
         base.Start();
     }
 
+    // TODO FIXED LEAN GEHT NICHT MEHR! --> Ticket: FixedLeanInteractions funktionieren nicht mehr 
+
     protected override void ExecuteLeanInteraction()
     {
         if (isInteractionRunning == true && isTerminating == false)
         {
             if (isLeaningFixedObject == true)
             {
+                Debug.Log("true");
                 LeanOnObject();
                 DetectWall();
             }
             else
             {
+                Debug.Log("snap");
                 SnapToFixedObject();
             }
 
