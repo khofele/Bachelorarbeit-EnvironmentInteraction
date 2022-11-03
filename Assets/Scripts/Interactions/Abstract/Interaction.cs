@@ -53,6 +53,7 @@ public abstract class Interaction : MonoBehaviour
                 if (CheckConditions() == true)
                 {
                     ExecuteInteraction();
+                    // TODO Reset hier raus!
                     ResetInteraction();
                 }
             }
