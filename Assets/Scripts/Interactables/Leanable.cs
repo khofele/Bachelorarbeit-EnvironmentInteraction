@@ -22,11 +22,21 @@ public class Leanable : Interactable
 
     protected virtual void ModifyTrigger()
     {
-        // TODO für alle Colliderformen bauen
         if (objectCollider.GetType() == typeof(BoxCollider))
         {
             BoxCollider boxCollider = (BoxCollider)objectCollider;
             boxCollider.size = new Vector3(1.2f, 1f, 2f);
+        }
+        else if (objectCollider.GetType() == typeof(SphereCollider))
+        {
+            SphereCollider sphereCollider = (SphereCollider)objectCollider;
+            sphereCollider.radius = 1f;
+        }
+        else if (objectCollider.GetType() == typeof(CapsuleCollider))
+        {
+            CapsuleCollider capsuleCollider = (CapsuleCollider)objectCollider;
+            capsuleCollider.radius = 1f;
+            capsuleCollider.height = 3f;
         }
     }
 
