@@ -299,12 +299,14 @@ public class IKController : MonoBehaviour
         Vector3 closestPointRightHand = jumpCollider.ClosestPoint(rightHandGrabHandle.position);
         Vector3 closestPointLeftHand = jumpCollider.ClosestPoint(leftHandGrabHandle.position);
 
-        animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
-        animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0.5f);
+        animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1f);
+        animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1f);
         animator.SetIKPosition(AvatarIKGoal.RightHand, closestPointRightHand);
+        animator.SetIKRotation(AvatarIKGoal.RightHand, Quaternion.LookRotation(closestPointRightHand));
 
-        animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
-        animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 0.5f);
+        animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1f);
+        animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1f);
         animator.SetIKPosition(AvatarIKGoal.LeftHand, closestPointLeftHand);
+        animator.SetIKRotation(AvatarIKGoal.LeftHand, Quaternion.LookRotation(closestPointLeftHand));
     }
 }
