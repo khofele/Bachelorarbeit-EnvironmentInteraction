@@ -2,50 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TouchObjectInteraction : Interaction
+public class TouchObjectInteraction : WalkThroughInteraction
 {
-    private Touchable currentTouchable = null;
     private bool isInteractionOver = false;
 
     public bool IsInteractionOver { get => isInteractionOver; set => isInteractionOver = value; }
 
-    protected override void Start()
-    {
-        base.Start();
-    }
-
-    protected override void ExecuteInteraction()
-    {
-        base.ExecuteInteraction();
-
-        currentTouchable = (Touchable)interactableManager.CurrentInteractable;
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-
-        if(isInteractionRunning == true && currentTouchable != null)
-        {
-            if(currentTouchable.IsTriggered == true)
-            {
-                iKController.IsIkActive = true;
-            }
-            else
-            {
-                iKController.IsIkActive = false;
-                isInteractionRunning = false;
-            }
-        }
-        else
-        {
-            iKController.IsIkActive = false;
-            isInteractionRunning = false;
-        }
-    }
 
     protected override void ResetInteraction()
     {
+        // TODO Reset verzögern? --> siehe JumpInteraction --> siehe TODO in Interaction
+    }
+
+    protected override void ResetValues()
+    {
+        currentInteractable = null;
+    }
+
+    protected override void SetCurrentInteraction()
+    {
+        currentInteractable = (Touchable)interactableManager.CurrentInteractable;
     }
 
     protected override void SetMatchingInteractable()
