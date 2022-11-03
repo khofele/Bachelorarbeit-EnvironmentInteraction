@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class DuckingInteraction : WalkThroughInteraction
 {
-    protected override void ResetInteraction()
-    {
-        //ResetCharacterCollider(); 
-        //animationManager.StopCrouchAnimation();
-    }
-
     protected override void SetMatchingInteractable()
     {
         matchingInteractable = typeof(Duckable);
@@ -46,7 +40,7 @@ public class DuckingInteraction : WalkThroughInteraction
         currentInteractable = (Duckable)interactableManager.CurrentInteractable;
     }
 
-    protected override void ResetValues()
+    protected override void ResetInteraction()
     {
         ResetCharacterCollider(); 
         animationManager.StopCrouchAnimation();

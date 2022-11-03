@@ -24,6 +24,21 @@ public class ThrowObjectInteraction : Interaction
         sphereCollider.enabled = false;
     }
 
+    protected override void Update()
+    {
+        if (CheckTrigger() == true)
+        {
+            if (CheckMatchingInteractable() == true)
+            {
+                if (CheckConditions() == true)
+                {
+                    ExecuteInteraction();
+                    ResetInteraction();
+                }
+            }
+        }
+    }
+
     protected override void ExecuteInteraction()
     {
         base.ExecuteInteraction();

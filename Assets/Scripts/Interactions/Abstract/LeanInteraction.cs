@@ -55,7 +55,18 @@ public abstract class LeanInteraction : Interaction
 
     protected override void Update()
     {
-        base.Update();
+        if (CheckTrigger() == true)
+        {
+            if (CheckMatchingInteractable() == true)
+            {
+                if (CheckConditions() == true)
+                {
+                    ExecuteInteraction();
+                    ResetInteraction();
+                }
+            }
+        }
+
         ExecuteLeanInteraction();
     }
 

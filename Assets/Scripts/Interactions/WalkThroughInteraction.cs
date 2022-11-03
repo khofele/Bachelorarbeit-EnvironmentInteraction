@@ -26,7 +26,7 @@ public abstract class WalkThroughInteraction : Interaction
             {
                 iKController.IsIkActive = false;
                 isInteractionRunning = false;
-                ResetValues();
+                ResetInteraction();
             }
         }
         else
@@ -37,5 +37,4 @@ public abstract class WalkThroughInteraction : Interaction
     }
 
     protected abstract void SetCurrentInteraction();
-    protected abstract void ResetValues();
 }

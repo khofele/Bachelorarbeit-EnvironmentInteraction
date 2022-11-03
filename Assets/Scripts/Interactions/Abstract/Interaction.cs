@@ -19,7 +19,7 @@ public abstract class Interaction : MonoBehaviour
     public bool IsInteractionRunning { get => isInteractionRunning; set => isInteractionRunning = value; }
     public bool IsCharInteracting { get => isCharInteracting; }
 
-    private bool CheckMatchingInteractable()
+    protected bool CheckMatchingInteractable()
     {
         if (interactableManager.CurrentInteractable.GetType() == matchingInteractable)
         {
@@ -53,8 +53,6 @@ public abstract class Interaction : MonoBehaviour
                 if (CheckConditions() == true)
                 {
                     ExecuteInteraction();
-                    // TODO 03.11. Reset hier raus!
-                    ResetInteraction();
                 }
             }
         }

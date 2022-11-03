@@ -8,13 +8,7 @@ public class TouchObjectInteraction : WalkThroughInteraction
 
     public bool IsInteractionOver { get => isInteractionOver; set => isInteractionOver = value; }
 
-
     protected override void ResetInteraction()
-    {
-        // TODO 03.11. Reset verzögern? --> siehe JumpInteraction --> siehe TODO in Interaction
-    }
-
-    protected override void ResetValues()
     {
         currentInteractable = null;
     }
