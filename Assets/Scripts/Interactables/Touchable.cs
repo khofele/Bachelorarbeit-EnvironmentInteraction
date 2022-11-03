@@ -41,6 +41,7 @@ public class Touchable : WalkThroughable
 
     protected override void SetCurrentInteraction()
     {
+        currentInteraction = (TouchObjectInteraction)currentInteraction;
         currentInteraction = (TouchObjectInteraction)interactionManager.CurrentInteraction;
     }
 }
