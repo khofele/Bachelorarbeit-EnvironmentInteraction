@@ -5,9 +5,7 @@ using UnityEngine;
 public class Touchable : WalkThroughable
 {
     private List<Transform> touchHandles = new List<Transform>();
-
-    // TODO 03.11. schön DEBUG im besten Fall nicht per SerializeField --> nicht alle Touchables brauchen das, daher iwie anders --> über Condition-Manager?
-    [SerializeField] private RandomCondition random = null;
+    private RandomCondition randomCondition = null;
 
     public List<Transform> TouchHandles { get => touchHandles; }
 
@@ -32,10 +30,16 @@ public class Touchable : WalkThroughable
 
     protected override void OnTriggerExit(Collider other)
     {
+        randomCondition = interactionManager.CurrentInteraction.gameObject.GetComponent<RandomCondition>();
+
         if (other.GetComponent<CharController>() != null)
         {
             isTriggered = false;
-            random.IsExecuted = false;
+
+            if(randomCondition != null)
+            {
+                randomCondition.IsExecuted = false;
+            }
         }
     }
 

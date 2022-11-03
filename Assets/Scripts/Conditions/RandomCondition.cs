@@ -8,7 +8,6 @@ public class RandomCondition : Condition
     private bool result = false;
     private bool isExecuted = false;
 
-    // DEBUG
     public bool IsExecuted { get => isExecuted; set => isExecuted = value; }
 
     public override bool CheckCondition()
