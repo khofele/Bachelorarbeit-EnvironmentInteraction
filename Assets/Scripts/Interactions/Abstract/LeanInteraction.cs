@@ -62,7 +62,6 @@ public abstract class LeanInteraction : Interaction
                 if (CheckConditions() == true)
                 {
                     ExecuteInteraction();
-                    ResetInteraction();
                 }
             }
         }
@@ -78,9 +77,7 @@ public abstract class LeanInteraction : Interaction
 
             if (CheckTerminationCondition())
             {
-                ResetValues();
-                ResetCharacter();
-                StopAnimation();
+                ResetInteraction();
             }
         }
     }
@@ -101,6 +98,9 @@ public abstract class LeanInteraction : Interaction
     protected override void ResetInteraction()
     {
         currentLeanableObject = null;
+        ResetValues();
+        ResetCharacter();
+        StopAnimation();
     }
 
     protected abstract void ExecuteAnimation();
