@@ -9,11 +9,6 @@ public abstract class FixedLeanInteraction : LeanInteraction
     private bool isLeaningFixedObject = false;
     private bool isTerminating = false;
 
-    protected override void Start()
-    {
-        base.Start();
-    }
-
     // TODO FIXED LEAN GEHT NICHT MEHR! --> Ticket: FixedLeanInteractions funktionieren nicht mehr 
 
     protected override void ExecuteLeanInteraction()

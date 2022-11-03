@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class CrouchLeanInteraction : LeanInteraction
 {
-    protected override void Start()
-    {
-        base.Start();
-    }
     protected override void ExecuteAnimation()
     {
         animationManager.ExecuteCrouchLeanAnimation(charController.XAxis);
