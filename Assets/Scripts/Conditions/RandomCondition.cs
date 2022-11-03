@@ -18,7 +18,7 @@ public class RandomCondition : Condition
 
     private bool CalculateResult()
     {
-        if(isExecuted == false)
+        if (isExecuted == false)
         {
             isExecuted = true;
 

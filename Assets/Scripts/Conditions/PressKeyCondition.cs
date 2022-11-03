@@ -9,7 +9,7 @@ public class PressKeyCondition : Condition
 
     private void Update()
     {
-        if(Input.GetKeyDown(keyCode))
+        if (Input.GetKeyDown(keyCode))
         {
             isButtonPressed = true;
         }

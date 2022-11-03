@@ -50,7 +50,7 @@ public class CharController : MonoBehaviour
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, -groundMask);
 
-        if(isGrounded && velocity.y < 0 && interactionManager.IsJumping == false)
+        if (isGrounded && velocity.y < 0 && interactionManager.IsJumping == false)
         {
             velocity.y = -2f;
         }
@@ -58,7 +58,7 @@ public class CharController : MonoBehaviour
         moveDirection = new Vector3(xAxis, 0f, zAxis).normalized;
         moveDirection = Camera.main.transform.TransformDirection(moveDirection);
 
-        if(interactionManager.IsFixedLeaning == true)
+        if (interactionManager.IsFixedLeaning == true)
         {
             zAxis = 0;
         }
@@ -67,7 +67,7 @@ public class CharController : MonoBehaviour
             zAxis = Input.GetAxis("Vertical");
         }
 
-        if(interactionManager.IsJumping == true)
+        if (interactionManager.IsJumping == true)
         {
             xAxis = 0;
             zAxis = 0;
@@ -111,7 +111,7 @@ public class CharController : MonoBehaviour
         }
 
         // move character
-        if(interactionManager.IsJumping == false)
+        if (interactionManager.IsJumping == false)
         {
             characterController.Move(speed * Time.deltaTime * moveDirection);
             velocity.y += gravity * Time.deltaTime;
@@ -134,7 +134,7 @@ public class CharController : MonoBehaviour
         }
 
         // Walking bool Toggle
-        if(speed == 3f)
+        if (speed == 3f)
         {
             isWalking = true;
         }

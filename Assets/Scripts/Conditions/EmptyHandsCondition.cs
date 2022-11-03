@@ -11,7 +11,7 @@ public class EmptyHandsCondition : Condition
 
     private void Update()
     {
-        if(rightHand.childCount == 0 && leftHand.childCount == 0)
+        if (rightHand.childCount == 0 && leftHand.childCount == 0)
         {
             isHandsEmpty = true;
         }

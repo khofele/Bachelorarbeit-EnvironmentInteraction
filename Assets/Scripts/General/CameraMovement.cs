@@ -39,7 +39,7 @@ public class CameraMovement : MonoBehaviour
     {
         foreach(CinemachineVirtualCamera vCam in virtualCameras)
         {
-            if(vCam == camera)
+            if (vCam == camera)
             {
                 vCam.enabled = true;
             }

@@ -56,7 +56,7 @@ public class IKController : MonoBehaviour
         {
             if (isIkActive == true)
             {
-                if(interactionManager.CurrentInteraction != null)
+                if (interactionManager.CurrentInteraction != null)
                 {
                     GameObject currentInteractionGameObject = interactionManager.CurrentInteraction.gameObject;
 
@@ -66,22 +66,22 @@ public class IKController : MonoBehaviour
                         ThrowObjectIK();
                     }
                     // Lean: Passage
-                    else if(currentInteractionGameObject.GetComponent<PassageLeanInteraction>() != null)
+                    else if (currentInteractionGameObject.GetComponent<PassageLeanInteraction>() != null)
                     {
                         PassageLeanIK();
                     }
                     // Lean: Crouch, on Edge and Stand
-                    else if(currentInteractionGameObject.GetComponent<LeanInteraction>() != null)
+                    else if (currentInteractionGameObject.GetComponent<LeanInteraction>() != null)
                     {
                         LeanIK();
                     }
                     // Touch door
-                    else if(currentInteractionGameObject.GetComponent<TouchObjectInteraction>() != null)
+                    else if (currentInteractionGameObject.GetComponent<TouchObjectInteraction>() != null)
                     {
                         TouchIK();
                     }
                     // Jump over
-                    else if(currentInteractionGameObject.GetComponent<JumpOverObstacleInteraction>() != null)
+                    else if (currentInteractionGameObject.GetComponent<JumpOverObstacleInteraction>() != null)
                     {
                         JumpIK();
                     }
@@ -210,7 +210,7 @@ public class IKController : MonoBehaviour
         List<Transform> touchHandles = currentInteractable.TouchHandles;
 
 
-        if(isTouchHandleChosen == false)
+        if (isTouchHandleChosen == false)
         {
             closestTouchHandleLeft = FindClosestTouchHandleLeft(touchHandles);
             closestTouchHandleRight = FindClosestTouchHandleRight(touchHandles);
@@ -218,7 +218,7 @@ public class IKController : MonoBehaviour
             isLeftTouchHandleChosen = DecideTouchHandle(Vector3.Distance(leftHandGrabHandle.position, closestTouchHandleLeft.position), Vector3.Distance(rightHandGrabHandle.position, closestTouchHandleRight.position));
         }
 
-        if(isLeftTouchHandleChosen == true)
+        if (isLeftTouchHandleChosen == true)
         {
             // left
             animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
@@ -251,7 +251,7 @@ public class IKController : MonoBehaviour
         foreach(Transform transform in transforms)
         {
             float distance = Vector3.Distance(leftHandGrabHandle.position, transform.position);
-            if(distance < shortestDistanceLeft)
+            if (distance < shortestDistanceLeft)
             {
                 shortestDistanceLeft = distance;
                 closestTransformLeft = transform;
@@ -280,7 +280,7 @@ public class IKController : MonoBehaviour
 
     private bool DecideTouchHandle(float distanceLeft, float distanceRight)
     {
-        if(distanceLeft < distanceRight)
+        if (distanceLeft < distanceRight)
         {
             return true;
         }

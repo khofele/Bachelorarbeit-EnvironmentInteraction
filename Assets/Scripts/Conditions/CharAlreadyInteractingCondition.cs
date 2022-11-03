@@ -6,7 +6,7 @@ public class CharAlreadyInteractingCondition : Condition
 {
     public override bool CheckCondition()
     {
-        if(GetComponent<Interaction>().IsCharInteracting == false)
+        if (GetComponent<Interaction>().IsCharInteracting == false)
         {
             return true;
         }

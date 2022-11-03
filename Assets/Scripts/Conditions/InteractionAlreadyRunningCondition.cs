@@ -6,7 +6,7 @@ public class InteractionAlreadyRunningCondition : Condition
 {
     public override bool CheckCondition()
     {
-        if(interactionManager.CurrentInteraction != null)
+        if (interactionManager.CurrentInteraction != null)
         {
             return !interactionManager.CurrentInteraction.IsInteractionRunning;
         }
