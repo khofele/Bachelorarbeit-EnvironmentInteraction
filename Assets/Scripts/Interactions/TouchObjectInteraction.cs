@@ -5,6 +5,9 @@ using UnityEngine;
 public class TouchObjectInteraction : Interaction
 {
     private Touchable currentTouchable = null;
+    private bool isInteractionOver = false;
+
+    public bool IsInteractionOver { get => isInteractionOver; set => isInteractionOver = value; }
 
     protected override void Start()
     {
@@ -28,17 +31,21 @@ public class TouchObjectInteraction : Interaction
             {
                 iKController.IsIkActive = true;
             }
+            else
+            {
+                iKController.IsIkActive = false;
+                isInteractionRunning = false;
+            }
         }
         else
         {
             iKController.IsIkActive = false;
+            isInteractionRunning = false;
         }
     }
 
     protected override void ResetInteraction()
     {
-        // TODO prüfen ob nicht doch notwendig ansonsten verzögern
-        //currentTouchable = null;
     }
 
     protected override void SetMatchingInteractable()
