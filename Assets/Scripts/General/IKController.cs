@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class IKController : MonoBehaviour
 {
-    // TODO bessere Lösung für Hände finden?
+    // TODO bessere Lösung für Hände finden? --> Ticket: IK-Controller refactoren
     // right hand
     [SerializeField] private Transform rightHandGrabHandle = null;
     [SerializeField] private Transform rightHandWatchHandle = null;
@@ -70,7 +70,7 @@ public class IKController : MonoBehaviour
                     {
                         PassageLeanIK();
                     }
-                    // Lean: Crouch, on Edge and Cover
+                    // Lean: Crouch, on Edge and Stand
                     else if(currentInteractionGameObject.GetComponent<LeanInteraction>() != null)
                     {
                         LeanIK();
@@ -129,7 +129,7 @@ public class IKController : MonoBehaviour
             }
         }
         
-        // TODO Objekt anschauen nach aufnehmen --> Code refactoren? Interaktion aufteilen in Aufnehmen und Werfen?
+        // TODO Objekt anschauen nach aufnehmen --> Code refactoren? Interaktion aufteilen in Aufnehmen und Werfen? --> Ticket: Aufnehmen und Werfen trennen
         //else if (rightHand.GetComponentInChildren<Interactable>() != null)
         //{
         //    animator.SetIKPosition(AvatarIKGoal.RightHand, watchHandle.position);
