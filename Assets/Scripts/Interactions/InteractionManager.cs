@@ -8,6 +8,8 @@ public class InteractionManager : MonoBehaviour
     private Interaction lastInteraction = null;
     private Interaction currentInteraction = null;
     private bool isInteractionTriggered = false;
+    private List<Interaction> allInteractions = new List<Interaction>();
+    private InteractableManager interactableManager = null;
 
     // Interaction bools
     private bool isLeaning = false;
@@ -30,6 +32,12 @@ public class InteractionManager : MonoBehaviour
     public Interaction CurrentInteraction { get => currentInteraction; set => currentInteraction = value; }
     public bool IsInteractionTriggered { get => isInteractionTriggered; set => isInteractionTriggered = value; }
 
+    private void Start()
+    {
+        interactableManager = FindObjectOfType<InteractableManager>();
+
+        FillInteractionList();
+    }
 
     private void Update()
     {
@@ -50,6 +58,38 @@ public class InteractionManager : MonoBehaviour
         {
             isFixedLeaning = false;
         }
+    }
+
+    private void FillInteractionList()
+    {
+        Interaction[] children = GetComponentsInChildren<Interaction>();
+        allInteractions = children.ToList<Interaction>();
+    }
+
+    private Interaction GetCurrentInteractionFromTriggeredInteractable()
+    {
+        foreach(Interaction interaction in allInteractions)
+        {
+            if (interactableManager.CurrentInteractable.GetType() == interaction.MatchingInteractable)
+            {
+                return interaction;
+            }
+        }
+
+        return null;
+    }
+
+    public bool CheckAllInteractionsRunning()
+    {
+        foreach(Interaction interaction in allInteractions)
+        {
+            if (GetCurrentInteractionFromTriggeredInteractable() != interaction && interaction.IsInteractionRunning == true)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public void SetLastInteraction()

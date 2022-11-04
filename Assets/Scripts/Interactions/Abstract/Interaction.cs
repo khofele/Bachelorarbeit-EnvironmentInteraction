@@ -18,6 +18,7 @@ public abstract class Interaction : MonoBehaviour
 
     public bool IsInteractionRunning { get => isInteractionRunning; set => isInteractionRunning = value; }
     public bool IsCharInteracting { get => isCharInteracting; }
+    public Type MatchingInteractable { get => matchingInteractable; }
 
     protected bool CheckMatchingInteractable()
     {
@@ -50,12 +51,15 @@ public abstract class Interaction : MonoBehaviour
         {
             if (CheckMatchingInteractable() == true)
             {
-                if (CheckConditions() == true)
+                if (CheckOtherInteractionsRunning() == true)
                 {
-                    ExecuteInteraction();
+                    if (CheckConditions() == true)
+                    {
+                        ExecuteInteraction();
+                    }
                 }
             }
-        }
+        }   
     }
 
     protected virtual bool CheckTrigger()
@@ -83,6 +87,15 @@ public abstract class Interaction : MonoBehaviour
         interactionManager.SetLastInteraction();
     }
 
-    protected abstract void ResetInteraction();
+    protected virtual bool CheckOtherInteractionsRunning()
+    {
+        return interactionManager.CheckAllInteractionsRunning();
+    }
+
+    protected virtual void ResetInteraction()
+    {
+        isInteractionRunning = false;
+        iKController.IsIkActive = false;
+    }
     protected abstract void SetMatchingInteractable();
 }
