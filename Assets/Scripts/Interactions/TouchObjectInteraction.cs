@@ -8,11 +8,6 @@ public class TouchObjectInteraction : WalkThroughInteraction
 
     public bool IsInteractionOver { get => isInteractionOver; set => isInteractionOver = value; }
 
-    protected override void ResetInteraction()
-    {
-        currentInteractable = null;
-    }
-
     protected override void SetCurrentInteraction()
     {
         currentInteractable = (Touchable)interactableManager.CurrentInteractable;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class JumpOverObstacleInteraction : Interaction
 {
-    protected override void ResetInteraction()
+    private void Reset()
     {
         StartCoroutine(WaitAndReset());
     }
@@ -29,7 +29,7 @@ public class JumpOverObstacleInteraction : Interaction
                 if (CheckConditions() == true)
                 {
                     ExecuteInteraction();
-                    ResetInteraction();
+                    Reset();
                 }
             }
         }
@@ -52,8 +52,8 @@ public class JumpOverObstacleInteraction : Interaction
     private IEnumerator WaitAndReset()
     {
         yield return new WaitForSeconds(1f);
+        base.ResetInteraction();
         interactionManager.IsJumping = false;
-        isInteractionRunning = false;
         animationManager.StopJumpAnimation();
         animationManager.DisableArmsLayer();
     }
