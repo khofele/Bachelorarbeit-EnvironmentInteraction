@@ -30,7 +30,13 @@ public class Touchable : WalkThroughable
 
     protected override void OnTriggerExit(Collider other)
     {
-        randomCondition = interactionManager.CurrentInteraction.gameObject.GetComponent<RandomCondition>();
+        if(interactionManager.CurrentInteraction != null)
+        {
+            if (interactionManager.CurrentInteraction.gameObject.GetComponent<RandomCondition>() != null)
+            {
+                randomCondition = interactionManager.CurrentInteraction.gameObject.GetComponent<RandomCondition>();
+            }
+        }
 
         if (other.GetComponent<CharController>() != null)
         {
@@ -41,11 +47,5 @@ public class Touchable : WalkThroughable
                 randomCondition.IsExecuted = false;
             }
         }
-    }
-
-    protected override void SetCurrentInteraction()
-    {
-        currentInteraction = (TouchObjectInteraction)currentInteraction;
-        currentInteraction = (TouchObjectInteraction)interactionManager.CurrentInteraction;
     }
 }

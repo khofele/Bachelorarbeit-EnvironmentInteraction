@@ -6,7 +6,6 @@ public abstract class WalkThroughable : Interactable
 {
     protected bool isTriggered = false;
     protected InteractionManager interactionManager = null;
-    protected WalkThroughInteraction currentInteraction = null;
 
     public bool IsTriggered { get => isTriggered; }
 
@@ -22,7 +21,6 @@ public abstract class WalkThroughable : Interactable
         if (other.GetComponent<CharController>() != null)
         {
             isTriggered = true;
-            SetCurrentInteraction();
         }
     }
 
@@ -33,6 +31,4 @@ public abstract class WalkThroughable : Interactable
             isTriggered = false;
         }
     }
-
-    protected abstract void SetCurrentInteraction();
 }
