@@ -30,7 +30,6 @@ public class CharController : MonoBehaviour
     public float XAxis { get => xAxis; set => xAxis = value; }
     public float ZAxis { get => zAxis; }
 
-    // DEBUG
     public Vector3 MoveDirection { get => moveDirection; }
 
     private void Start()
