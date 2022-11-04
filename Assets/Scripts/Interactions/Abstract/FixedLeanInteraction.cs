@@ -10,6 +10,7 @@ public abstract class FixedLeanInteraction : LeanInteraction
     private bool isTerminating = false;
 
     // TODO FIXED LEAN GEHT NICHT MEHR! --> Ticket: FixedLeanInteractions funktionieren nicht mehr 
+    // TODO Reset-Interaction einbauen --> Lean und Fixed  --> Ticket: FixedLeanInteractions funktionieren nicht mehr
 
     protected override void ExecuteLeanInteraction()
     {

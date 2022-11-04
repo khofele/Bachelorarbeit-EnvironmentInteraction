@@ -95,8 +95,10 @@ public abstract class LeanInteraction : Interaction
         snapCollider = currentLeanableObject.SnapCollider;
     }
 
+    // TODO siehe Fixed: Reset-Interaction vorgeben und einbauen --> Ticket: FixedLeanInteractions funktionieren nicht mehr
     protected override void ResetInteraction()
     {
+        base.ResetInteraction();
         currentLeanableObject = null;
         ResetValues();
         ResetCharacter();
