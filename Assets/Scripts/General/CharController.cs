@@ -55,7 +55,8 @@ public class CharController : MonoBehaviour
         }
 
         moveDirection = new Vector3(xAxis, 0f, zAxis).normalized;
-        moveDirection = Camera.main.transform.TransformDirection(moveDirection);
+        moveDirection = Camera.main.transform.TransformDirection(moveDirection);    
+
 
         if (interactionManager.IsFixedLeaning == true)
         {
@@ -109,14 +110,13 @@ public class CharController : MonoBehaviour
             speed = 0;
         }
 
-        // move character
-        if (interactionManager.IsJumping == false)
+        // move 
+        if (interactionManager.IsJumping == false && interactionManager.IsFixedSnapping == false)
         {
             characterController.Move(speed * Time.deltaTime * moveDirection);
             velocity.y += gravity * Time.deltaTime;
             characterController.Move(velocity * Time.deltaTime);
         }
-
 
         animationManager.SetSpeed(speed);
 

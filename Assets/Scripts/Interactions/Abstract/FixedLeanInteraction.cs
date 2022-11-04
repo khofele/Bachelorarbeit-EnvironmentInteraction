@@ -8,9 +8,9 @@ public abstract class FixedLeanInteraction : LeanInteraction
     protected FixedLeanable currentLeanable = null;
     private bool isLeaningFixedObject = false;
     private bool isTerminating = false;
+    private bool isSnapping = false;
 
-    // TODO FIXED LEAN GEHT NICHT MEHR! --> Ticket: FixedLeanInteractions funktionieren nicht mehr 
-    // TODO Reset-Interaction einbauen --> Lean und Fixed  --> Ticket: FixedLeanInteractions funktionieren nicht mehr
+    public bool IsSnapping { get => isSnapping; }
 
     protected override void ExecuteLeanInteraction()
     {
@@ -18,13 +18,11 @@ public abstract class FixedLeanInteraction : LeanInteraction
         {
             if (isLeaningFixedObject == true)
             {
-                Debug.Log("true");
                 LeanOnObject();
-                DetectWall();
+                DetectObject();
             }
             else
             {
-                Debug.Log("snap");
                 SnapToFixedObject();
             }
 
@@ -38,7 +36,7 @@ public abstract class FixedLeanInteraction : LeanInteraction
         if (isTerminating == true)
         {
             charController.XAxis *= 0;
-            ResetCharacter();
+            ResetInteraction();
             StopAnimation();
         }
     }
@@ -94,8 +92,10 @@ public abstract class FixedLeanInteraction : LeanInteraction
         Transform resetTransform = CheckResetTransform();
         Vector3 position = new Vector3(resetTransform.position.x, charController.transform.position.y, resetTransform.position.z);
 
-        if (charController.transform.position == position)
+        interactionManager.IsFixedSnapping = true;
+        if (Vector3.Distance(charController.transform.position, position) < 0.001f)
         {
+            interactionManager.IsFixedSnapping = false;
             ResetValues();
             StopAnimation();
         }
@@ -142,21 +142,23 @@ public abstract class FixedLeanInteraction : LeanInteraction
         Transform snapTransform = CheckSnapTransform();
         Vector3 position = new Vector3(snapTransform.position.x, charController.transform.position.y, snapTransform.position.z);
 
-        if (charController.transform.position == position)
+        interactionManager.IsFixedSnapping = true;
+        if (Vector3.Distance(charController.transform.position, position) < 0.001f)
         {
             isLeaningFixedObject = true;
             isCharInteracting = true;
+            interactionManager.IsFixedSnapping = false;
         }
         else
         {
-            charController.transform.position = Vector3.MoveTowards(charController.transform.position, position, 2 * Time.deltaTime);
+            charController.transform.position = Vector3.MoveTowards(charController.transform.position, position, 3 * Time.deltaTime);
         }
 
-        DetectWall();
+        DetectObject();
         ExecuteAnimation();
     }
 
-    private void DetectWall()
+    protected override void DetectObject()
     {
         Ray rayFront = new Ray(charController.transform.position, charController.transform.forward);
         Ray rayBack = new Ray(charController.transform.position, -charController.transform.forward);
@@ -166,7 +168,7 @@ public abstract class FixedLeanInteraction : LeanInteraction
         RaycastHit hit;
 
         // ignores children of interactables!
-        if ((Physics.Raycast(rayFront, out hit, 0.5f, LayerMask.NameToLayer("Child"))) || (Physics.Raycast(rayBack, out hit, 0.5f, LayerMask.NameToLayer("Child"))) || (Physics.Raycast(rayRight, out hit, 0.5f, LayerMask.NameToLayer("Child"))) || (Physics.Raycast(rayLeft, out hit, 0.5f, LayerMask.NameToLayer("Child"))))
+        if ((Physics.Raycast(rayFront, out hit, 0.5f, -LayerMask.NameToLayer("Child"))) || (Physics.Raycast(rayBack, out hit, 0.5f, -LayerMask.NameToLayer("Child"))) || (Physics.Raycast(rayRight, out hit, 0.5f, -LayerMask.NameToLayer("Child"))) || (Physics.Raycast(rayLeft, out hit, 0.5f, -LayerMask.NameToLayer("Child"))))
         {
             if (hit.transform.gameObject.GetComponent<FixedLeanable>() != null)
             {

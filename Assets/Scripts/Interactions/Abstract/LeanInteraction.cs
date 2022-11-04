@@ -23,7 +23,10 @@ public abstract class LeanInteraction : Interaction
             SetLeanBool(true);
             ExecuteAnimation();
         }
+    }
 
+    protected virtual void DetectObject()
+    {
         Ray rayFront = new Ray(charController.transform.position, charController.transform.forward);
         Ray rayBack = new Ray(charController.transform.position, -charController.transform.forward);
         Ray rayRight = new Ray(charController.transform.position, charController.transform.right);
@@ -74,6 +77,7 @@ public abstract class LeanInteraction : Interaction
         if (isInteractionRunning == true)
         {
             LeanOnObject();
+            DetectObject();
 
             if (CheckTerminationCondition())
             {
@@ -95,7 +99,6 @@ public abstract class LeanInteraction : Interaction
         snapCollider = currentLeanableObject.SnapCollider;
     }
 
-    // TODO siehe Fixed: Reset-Interaction vorgeben und einbauen --> Ticket: FixedLeanInteractions funktionieren nicht mehr
     protected override void ResetInteraction()
     {
         base.ResetInteraction();
