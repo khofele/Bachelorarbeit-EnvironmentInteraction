@@ -6,13 +6,30 @@ public class ThrowObjectInteraction : Interaction
 {
     private GameObject enemy = null;
     private SphereCollider sphereCollider = null;
+    private List<GameObject> enemies = new List<GameObject>();
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy") && enemy == null)
+        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            enemy = other.gameObject;
+            enemies.Add(other.gameObject);
         }
+    }
+
+    private GameObject GetClosestEnemy()
+    {
+        float distance = 1000f;
+        GameObject closestEnemy = null;
+        foreach(GameObject enemy in enemies)
+        {
+            if (Vector3.Distance(charController.transform.position, enemy.transform.position) < distance)
+            {
+                distance = Vector3.Distance(charController.transform.position, enemy.transform.position);
+                closestEnemy = enemy;
+            }
+        }
+
+        return closestEnemy;
     }
 
     protected override void Start()
@@ -57,6 +74,8 @@ public class ThrowObjectInteraction : Interaction
             Rigidbody rigidBody = interactableManager.CurrentInteractable.GetComponent<Rigidbody>();
             rigidBody.isKinematic = false;
             rigidBody.useGravity = true;
+            enemy = GetClosestEnemy();
+
             if (enemy != null)
             {
                 Vector3 direction = enemy.transform.position - charController.transform.position;
@@ -70,6 +89,7 @@ public class ThrowObjectInteraction : Interaction
             animationManager.StopThrowAnimation();
             iKController.IsIkActive = false;
             isInteractionRunning = false;
+            enemies.Clear();
         }
     }
 

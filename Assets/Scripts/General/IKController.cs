@@ -28,6 +28,10 @@ public class IKController : MonoBehaviour
     private AnimationManager animationManager = null;
     private InteractableManager interactableManager = null;
 
+    // throw
+    private bool isThrowHandChosen = false;
+    private Transform closestHand = null;
+
     // lean
     private Vector3 closestPointRightHand = Vector3.zero;
     private Vector3 closestPointLeftHand = Vector3.zero;
@@ -96,6 +100,7 @@ public class IKController : MonoBehaviour
                 animator.SetLookAtWeight(0);
 
                 isTouchHandleChosen = false;
+                isThrowHandChosen = false;
             }
         }
     }
@@ -103,17 +108,33 @@ public class IKController : MonoBehaviour
     private void ThrowObjectIK()
     {        
         Throwable currentInteractable = (Throwable)interactableManager.CurrentInteractable;
-        // pick up
+
         if (currentInteractable != null)
         {
             grabHandle = currentInteractable.GetGrabHandle();
 
             if (grabHandle.gameObject != null)
             {
-                animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
-                animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0.5f);
-                animator.SetIKPosition(AvatarIKGoal.RightHand, grabHandle.position);
-                animator.SetIKRotation(AvatarIKGoal.RightHand, grabHandle.rotation);
+                if(isThrowHandChosen == false)
+                {
+                    isThrowHandChosen = true;
+                    closestHand = GetClosestHand();
+                }
+
+                if (closestHand == rightHandGrabHandle)
+                {
+                    animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
+                    animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0.5f);
+                    animator.SetIKPosition(AvatarIKGoal.RightHand, grabHandle.position);
+                    animator.SetIKRotation(AvatarIKGoal.RightHand, grabHandle.rotation);
+                }
+                else
+                {
+                    animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
+                    animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 0.5f);
+                    animator.SetIKPosition(AvatarIKGoal.LeftHand, grabHandle.position);
+                    animator.SetIKRotation(AvatarIKGoal.LeftHand, grabHandle.rotation);
+                }
 
                 currentInteractable.GetComponent<Rigidbody>().useGravity = false;
                 currentInteractable.GetComponent<Rigidbody>().isKinematic = true;
@@ -121,15 +142,15 @@ public class IKController : MonoBehaviour
                 animator.SetLookAtPosition(grabHandle.position);
                 animator.SetLookAtWeight(1);
 
-                currentInteractable.transform.position = rightHandGrabHandle.position;
-                currentInteractable.transform.SetParent(rightHandGrabHandle);
 
+                currentInteractable.transform.position = closestHand.position;
+                currentInteractable.transform.SetParent(closestHand);
 
-                animationManager.ExecuteThrowAnimation();
+                ExecuteThrowAnimation(closestHand);
             }
         }
         
-        // TODO Objekt anschauen nach aufnehmen --> Code refactoren? Interaktion aufteilen in Aufnehmen und Werfen? --> Ticket: Aufnehmen und Werfen trennen
+        // TODO Objekt anschauen nach aufnehmen --> Code refactoren? Interaktion aufteilen in Aufnehmen und Werfen? --> Ticket: Aufnehmen und Werfen trennen/IK Refactoring
         //else if (rightHand.GetComponentInChildren<Interactable>() != null)
         //{
         //    animator.SetIKPosition(AvatarIKGoal.RightHand, watchHandle.position);
@@ -139,6 +160,35 @@ public class IKController : MonoBehaviour
 
         //    animationManager.ExecuteThrowAnimation();
         //}
+    }
+
+    private Transform GetClosestHand()
+    {
+        Throwable currentThrowable = (Throwable)interactableManager.CurrentInteractable;
+
+        float distanceLeftHand = Vector3.Distance(leftHandGrabHandle.position, currentThrowable.transform.position);
+        float distanceRightHand = Vector3.Distance(rightHandGrabHandle.position, currentThrowable.transform.position);
+
+        if (distanceLeftHand < distanceRightHand)
+        {
+            return leftHandGrabHandle;
+        }
+        else
+        {
+            return rightHandGrabHandle;
+        }
+    }
+
+    private void ExecuteThrowAnimation(Transform closestHand)
+    {
+        if (closestHand == leftHandGrabHandle)
+        {
+            animationManager.ExecuteThrowAnimation("isThrowingLeft");
+        }
+        else
+        {
+            animationManager.ExecuteThrowAnimation("isThrowingRight");
+        }
     }
 
     private void LeanIK()

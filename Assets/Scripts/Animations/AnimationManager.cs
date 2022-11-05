@@ -11,14 +11,15 @@ public class AnimationManager : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    public void ExecuteThrowAnimation()
+    public void ExecuteThrowAnimation(string animationBool)
     {
-        animator.SetBool("isThrowing", true);
+        animator.SetBool(animationBool, true);
     }
 
     public void StopThrowAnimation()
     {
-        animator.SetBool("isThrowing", false);
+        animator.SetBool("isThrowingLeft", false);
+        animator.SetBool("isThrowingRight", false);
     }
 
     public void ExecuteRunAnimation(float zAxis, float xAxis)
