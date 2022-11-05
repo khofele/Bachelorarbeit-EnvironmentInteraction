@@ -36,7 +36,7 @@ public abstract class FixedLeanInteraction : LeanInteraction
         if (isTerminating == true)
         {
             charController.XAxis *= 0;
-            ResetInteraction();
+            ResetCharacter();
             StopAnimation();
         }
     }
@@ -87,6 +87,12 @@ public abstract class FixedLeanInteraction : LeanInteraction
         SetLeanBool(false);
     }
 
+    protected override void ResetInteraction()
+    {
+        ResetValues();
+        currentLeanableObject = null;
+    }
+
     protected override void ResetCharacter()
     {
         Transform resetTransform = CheckResetTransform();
@@ -96,7 +102,7 @@ public abstract class FixedLeanInteraction : LeanInteraction
         if (Vector3.Distance(charController.transform.position, position) < 0.001f)
         {
             interactionManager.IsFixedSnapping = false;
-            ResetValues();
+            ResetInteraction();
             StopAnimation();
         }
         else

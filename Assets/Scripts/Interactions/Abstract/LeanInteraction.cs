@@ -102,9 +102,9 @@ public abstract class LeanInteraction : Interaction
     protected override void ResetInteraction()
     {
         base.ResetInteraction();
+        ResetCharacter();
         currentLeanableObject = null;
         ResetValues();
-        ResetCharacter();
         StopAnimation();
     }
 

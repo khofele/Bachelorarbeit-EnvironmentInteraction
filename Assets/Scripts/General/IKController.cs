@@ -160,7 +160,7 @@ public class IKController : MonoBehaviour
         animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1f);
 
         // viewing direction
-        FaceWalkingDirection();
+        FaceDirection();
     }
 
     private void PassageLeanIK()
@@ -181,26 +181,43 @@ public class IKController : MonoBehaviour
         animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1f);
 
         // viewing direction
-        FaceWalkingDirection();
+        ReverseFaceDirection();
     }
 
-    private void FaceWalkingDirection()
+    private void FaceDirection()
     {
-        if (charController.XAxis >= 1)
+        if (charController.XAxis == 1)
         {
             animator.SetLookAtPosition(leftHandWatchHandle.position);
-            animator.SetLookAtWeight(1);
         }
-        else if (charController.XAxis <= -1)
+        else if (charController.XAxis == -1)
         {
             animator.SetLookAtPosition(rightHandWatchHandle.position);
-            animator.SetLookAtWeight(1);
         }
         else if (charController.XAxis == 0)
         {
             animator.SetLookAtPosition(watchHandle.position);
-            animator.SetLookAtWeight(1);
         }
+        animator.SetLookAtWeight(1);
+
+    }    
+    
+    private void ReverseFaceDirection()
+    {
+        if (charController.XAxis == -1)
+        {
+            animator.SetLookAtPosition(leftHandWatchHandle.position);
+        }
+        else if (charController.XAxis == 1)
+        {
+            animator.SetLookAtPosition(rightHandWatchHandle.position);
+        }
+        else if (charController.XAxis == 0)
+        {
+            animator.SetLookAtPosition(watchHandle.position);
+        }
+        animator.SetLookAtWeight(1);
+
     }
 
     private void TouchIK()

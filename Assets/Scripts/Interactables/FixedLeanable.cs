@@ -20,6 +20,7 @@ public class FixedLeanable : Leanable
 
     private void OnTriggerEnter(Collider other)
     {
+        // TODO siehe todoist --> Ticket: Passage-Lean überarbeiten, nur für Passage!
         if (other.gameObject.GetComponent<CharController>() != null)
         {
             triggerCount++;

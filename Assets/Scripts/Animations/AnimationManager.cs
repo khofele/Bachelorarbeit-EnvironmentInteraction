@@ -64,7 +64,7 @@ public class AnimationManager : MonoBehaviour
     public void ExecuteStandLeanAnimation(float xAxis)
     {
         animator.SetBool("isCovering", true);
-        animator.SetFloat("horizontal", xAxis * 2f);
+        animator.SetFloat("horizontal", xAxis*0.5f);
     }
 
     public void StopStandLeanAnimation()
