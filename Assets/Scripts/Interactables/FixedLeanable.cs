@@ -16,11 +16,10 @@ public class FixedLeanable : Leanable
     public Transform ResetTransformTwo { get => resetTransformTwo; }
     public Transform SnapTransformOne { get => snapTransformOne; }
     public Transform SnapTransformTwo { get => snapTransformTwo; }
-    public int TriggerCount { get => triggerCount; set => triggerCount = value; }
+    public int TriggerCount { get => triggerCount; set => triggerCount = value; }   
 
     private void OnTriggerEnter(Collider other)
     {
-        // TODO siehe todoist --> Ticket: Passage-Lean überarbeiten, nur für Passage!
         if (other.gameObject.GetComponent<CharController>() != null)
         {
             triggerCount++;
