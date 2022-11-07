@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ThrowObjectInteraction : Interaction
 {
+    [SerializeField] private GameObject interactablesGameObject = null;
     private GameObject enemy = null;
     private SphereCollider sphereCollider = null;
     private List<GameObject> enemies = new List<GameObject>();
@@ -66,11 +67,8 @@ public class ThrowObjectInteraction : Interaction
     {
         if (interactableManager.CurrentInteractable != null)
         {
-            interactableManager.CurrentInteractable.transform.SetParent(iKController.Interactables.transform, true);
+            interactableManager.CurrentInteractable.transform.SetParent(interactablesGameObject.transform, true);
 
-            // Throw
-            // TODO in IKController --> Ticket: IK-Controller Refactoring
-            charController.Animator.SetLookAtWeight(0.8f);
             Rigidbody rigidBody = interactableManager.CurrentInteractable.GetComponent<Rigidbody>();
             rigidBody.isKinematic = false;
             rigidBody.useGravity = true;

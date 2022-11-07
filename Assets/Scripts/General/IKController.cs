@@ -4,25 +4,23 @@ using UnityEngine;
 
 public class IKController : MonoBehaviour
 {
-    // TODO bessere Lösung für Hände finden? --> Ticket: IK-Controller refactoren
     // right hand
+    [Header("Right Hand Transforms")]
     [SerializeField] private Transform rightHandGrabHandle = null;
-    [SerializeField] private Transform rightHandWatchHandle = null;
-    [SerializeField] private Transform leanRightHand = null;
-    [SerializeField] private Transform passageLeanRightHand = null;
+    [SerializeField] private Transform rightHandLookTarget = null;
+    [SerializeField] private Transform leanTargetRightHand = null;
+    [SerializeField] private Transform passageLeanTargetRightHand = null;
 
     // left hand
+    [Header("Left Hand Transforms")]
     [SerializeField] private Transform leftHandGrabHandle = null;
-    [SerializeField] private Transform leftHandWatchHandle = null;
-    [SerializeField] private Transform leanLeftHand = null;
-    [SerializeField] private Transform passageLeanLeftHand = null;
+    [SerializeField] private Transform leftHandLookTarget = null;
+    [SerializeField] private Transform leanTargetLeftHand = null;
+    [SerializeField] private Transform passageLeanTargetLeftHand = null;
 
     // general
-    [SerializeField] private GameObject interactables = null;
-    [SerializeField] private Transform watchHandle = null;
     private bool isIkActive = false;
     private Animator animator = null;
-    private Transform grabHandle = null;
     private CharController charController = null;
     private InteractionManager interactionManager = null;
     private AnimationManager animationManager = null;
@@ -31,6 +29,7 @@ public class IKController : MonoBehaviour
     // throw
     private bool isThrowHandChosen = false;
     private Transform closestHand = null;
+    private Transform grabHandleOfThrowable = null;
 
     // lean
     private Vector3 closestPointRightHand = Vector3.zero;
@@ -42,7 +41,6 @@ public class IKController : MonoBehaviour
     private Transform closestTouchHandleRight = null;
     private Transform closestTouchHandleLeft = null;
 
-    public GameObject Interactables { get => interactables; }
     public bool IsIkActive { get => isIkActive; set => isIkActive = value; }
 
     private void Start()
@@ -111,9 +109,9 @@ public class IKController : MonoBehaviour
 
         if (currentInteractable != null)
         {
-            grabHandle = currentInteractable.GetGrabHandle();
+            grabHandleOfThrowable = currentInteractable.GetGrabHandle();
 
-            if (grabHandle.gameObject != null)
+            if (grabHandleOfThrowable.gameObject != null)
             {
                 if(isThrowHandChosen == false)
                 {
@@ -125,21 +123,21 @@ public class IKController : MonoBehaviour
                 {
                     animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
                     animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0.5f);
-                    animator.SetIKPosition(AvatarIKGoal.RightHand, grabHandle.position);
-                    animator.SetIKRotation(AvatarIKGoal.RightHand, grabHandle.rotation);
+                    animator.SetIKPosition(AvatarIKGoal.RightHand, grabHandleOfThrowable.position);
+                    animator.SetIKRotation(AvatarIKGoal.RightHand, grabHandleOfThrowable.rotation);
                 }
                 else
                 {
                     animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
                     animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 0.5f);
-                    animator.SetIKPosition(AvatarIKGoal.LeftHand, grabHandle.position);
-                    animator.SetIKRotation(AvatarIKGoal.LeftHand, grabHandle.rotation);
+                    animator.SetIKPosition(AvatarIKGoal.LeftHand, grabHandleOfThrowable.position);
+                    animator.SetIKRotation(AvatarIKGoal.LeftHand, grabHandleOfThrowable.rotation);
                 }
 
                 currentInteractable.GetComponent<Rigidbody>().useGravity = false;
                 currentInteractable.GetComponent<Rigidbody>().isKinematic = true;
 
-                animator.SetLookAtPosition(grabHandle.position);
+                animator.SetLookAtPosition(grabHandleOfThrowable.position);
                 animator.SetLookAtWeight(1);
 
 
@@ -149,17 +147,6 @@ public class IKController : MonoBehaviour
                 ExecuteThrowAnimation(closestHand);
             }
         }
-        
-        // TODO Objekt anschauen nach aufnehmen --> Code refactoren? Interaktion aufteilen in Aufnehmen und Werfen? --> Ticket: Aufnehmen und Werfen trennen/IK Refactoring
-        //else if (rightHand.GetComponentInChildren<Interactable>() != null)
-        //{
-        //    animator.SetIKPosition(AvatarIKGoal.RightHand, watchHandle.position);
-        //    animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
-        //    animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 0.5f);
-        //    animator.SetLookAtWeight(0.5f);
-
-        //    animationManager.ExecuteThrowAnimation();
-        //}
     }
 
     private Transform GetClosestHand()
@@ -196,17 +183,17 @@ public class IKController : MonoBehaviour
         Leanable currentInteractable = (Leanable)interactableManager.CurrentInteractable;
 
         // right hand
-        closestPointRightHand = currentInteractable.SnapCollider.ClosestPoint(leanRightHand.position);
+        closestPointRightHand = currentInteractable.SnapCollider.ClosestPoint(leanTargetRightHand.position);
         animator.SetIKPosition(AvatarIKGoal.RightHand, closestPointRightHand);
         animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1f);
-        animator.SetIKRotation(AvatarIKGoal.RightHand, leanRightHand.rotation);
+        animator.SetIKRotation(AvatarIKGoal.RightHand, leanTargetRightHand.rotation);
         animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1f);
 
         // left hand
-        closestPointLeftHand = currentInteractable.SnapCollider.ClosestPoint(leanLeftHand.position);
+        closestPointLeftHand = currentInteractable.SnapCollider.ClosestPoint(leanTargetLeftHand.position);
         animator.SetIKPosition(AvatarIKGoal.LeftHand, closestPointLeftHand);
         animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1f);
-        animator.SetIKRotation(AvatarIKGoal.LeftHand, leanLeftHand.rotation);
+        animator.SetIKRotation(AvatarIKGoal.LeftHand, leanTargetLeftHand.rotation);
         animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1f);
 
         // viewing direction
@@ -217,17 +204,17 @@ public class IKController : MonoBehaviour
     {
         PassageLeanable currentInteractable = (PassageLeanable)interactableManager.CurrentInteractable;
         // right hand
-        closestPointRightHand = currentInteractable.OppositeWall.ClosestPoint(passageLeanRightHand.position);
+        closestPointRightHand = currentInteractable.OppositeWall.ClosestPoint(passageLeanTargetRightHand.position);
         animator.SetIKPosition(AvatarIKGoal.RightHand, closestPointRightHand);
         animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1f);
-        animator.SetIKRotation(AvatarIKGoal.RightHand, passageLeanRightHand.rotation);
+        animator.SetIKRotation(AvatarIKGoal.RightHand, passageLeanTargetRightHand.rotation);
         animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1f);
 
         // left hand
-        closestPointLeftHand = currentInteractable.OppositeWall.ClosestPoint(passageLeanLeftHand.position);
+        closestPointLeftHand = currentInteractable.OppositeWall.ClosestPoint(passageLeanTargetLeftHand.position);
         animator.SetIKPosition(AvatarIKGoal.LeftHand, closestPointLeftHand);
         animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1f);
-        animator.SetIKRotation(AvatarIKGoal.LeftHand, passageLeanLeftHand.rotation);
+        animator.SetIKRotation(AvatarIKGoal.LeftHand, passageLeanTargetLeftHand.rotation);
         animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1f);
 
         // viewing direction
@@ -238,36 +225,28 @@ public class IKController : MonoBehaviour
     {
         if (charController.XAxis == 1)
         {
-            animator.SetLookAtPosition(leftHandWatchHandle.position);
+            animator.SetLookAtPosition(leftHandLookTarget.position);
         }
         else if (charController.XAxis == -1)
         {
-            animator.SetLookAtPosition(rightHandWatchHandle.position);
+            animator.SetLookAtPosition(rightHandLookTarget.position);
         }
-        else if (charController.XAxis == 0)
-        {
-            animator.SetLookAtPosition(watchHandle.position);
-        }
-        animator.SetLookAtWeight(1);
 
+        animator.SetLookAtWeight(1f);
     }    
     
     private void ReverseFaceDirection()
     {
         if (charController.XAxis == -1)
         {
-            animator.SetLookAtPosition(leftHandWatchHandle.position);
+            animator.SetLookAtPosition(leftHandLookTarget.position);
         }
         else if (charController.XAxis == 1)
         {
-            animator.SetLookAtPosition(rightHandWatchHandle.position);
+            animator.SetLookAtPosition(rightHandLookTarget.position);
         }
-        else if (charController.XAxis == 0)
-        {
-            animator.SetLookAtPosition(watchHandle.position);
-        }
-        animator.SetLookAtWeight(1);
 
+        animator.SetLookAtWeight(1f);
     }
 
     private void TouchIK()
@@ -375,5 +354,10 @@ public class IKController : MonoBehaviour
         animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1f);
         animator.SetIKPosition(AvatarIKGoal.LeftHand, closestPointLeftHand);
         animator.SetIKRotation(AvatarIKGoal.LeftHand, Quaternion.LookRotation(closestPointLeftHand));
+    }
+
+    public void SetLookAtWeight(float weight)
+    {
+        animator.SetLookAtWeight(weight);
     }
 }
