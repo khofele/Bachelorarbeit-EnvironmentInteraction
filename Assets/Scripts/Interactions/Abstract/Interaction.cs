@@ -12,6 +12,7 @@ public abstract class Interaction : MonoBehaviour
     protected InteractableManager interactableManager = null;
     protected CharController charController = null;
     protected IKController iKController = null;
+    protected FinalIKController finalIKController = null;
     protected bool isInteractionRunning = false;
     protected bool isCharInteracting = false;
     protected Type matchingInteractable = null;
@@ -40,6 +41,7 @@ public abstract class Interaction : MonoBehaviour
         interactableManager = FindObjectOfType<InteractableManager>();
         charController = GetComponentInParent<CharController>();
         iKController = GetComponentInParent<IKController>();
+        finalIKController = GetComponentInParent<FinalIKController>();
 
         conditionManager.FillConditionsList();
         SetMatchingInteractable();
@@ -81,7 +83,7 @@ public abstract class Interaction : MonoBehaviour
 
     protected virtual void ExecuteInteraction()
     {
-        iKController.IsIkActive = true;
+        finalIKController.IsIkActive = true;
         interactionManager.CurrentInteraction = this;
         isInteractionRunning = true;
         interactionManager.SetLastInteraction();
@@ -95,7 +97,7 @@ public abstract class Interaction : MonoBehaviour
     protected virtual void ResetInteraction()
     {
         isInteractionRunning = false;
-        iKController.IsIkActive = false;
+        finalIKController.IsIkActive = false;
     }
     protected abstract void SetMatchingInteractable();
 }
