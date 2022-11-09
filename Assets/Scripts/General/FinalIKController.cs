@@ -31,6 +31,12 @@ public class FinalIKController : MonoBehaviour
     private Transform closestHand = null;
     private Transform grabHandleOfThrowable = null;
 
+    // touch
+    private bool isLeftTouchHandleChosen = false;
+    private bool isTouchHandleChosen = false;
+    private Transform closestTouchHandleRight = null;
+    private Transform closestTouchHandleLeft = null;
+
     public bool IsIkActive { get => isIkActive; set => isIkActive = value; }
 
     private void Start()
@@ -58,21 +64,21 @@ public class FinalIKController : MonoBehaviour
                     {
                         ThrowObjectIK();
                     }
-                    //// Lean: Passage
-                    //else if (currentInteractionGameObject.GetComponent<PassageLeanInteraction>() != null)
-                    //{
-                    //    PassageLeanIK();
-                    //}
+                    // Lean: Passage
+                    else if (currentInteractionGameObject.GetComponent<PassageLeanInteraction>() != null)
+                    {
+                        PassageLeanIK();
+                    }
                     // Lean: Crouch, on Edge and Stand
                     else if (currentInteractionGameObject.GetComponent<LeanInteraction>() != null)
                     {
                         LeanIK();
                     }
-                    //// Touch door
-                    //else if (currentInteractionGameObject.GetComponent<TouchObjectInteraction>() != null)
-                    //{
-                    //    TouchIK();
-                    //}
+                    // Touch object
+                    else if (currentInteractionGameObject.GetComponent<TouchObjectInteraction>() != null)
+                    {
+                        TouchIK();
+                    }
                     // Jump over
                     else if (currentInteractionGameObject.GetComponent<JumpOverObstacleInteraction>() != null)
                     {
@@ -84,9 +90,12 @@ public class FinalIKController : MonoBehaviour
             {
                 Reset();
                 isThrowHandChosen = false;
+                isTouchHandleChosen = false;
+            }
         }
     }
-    }
+
+    // ---------- THROW -------------------------------------------------------------------------------------
 
     private void ThrowObjectIK()
     {
@@ -168,23 +177,30 @@ public class FinalIKController : MonoBehaviour
         }
     }
 
-    private void JumpIK()
+    // ---------- PASSAGE LEAN -----------------------------------------------------------------------------
+    private void PassageLeanIK()
     {
-        Jumpable currentInteractable = (Jumpable)interactableManager.CurrentInteractable;
+        PassageLeanable currentInteractable = (PassageLeanable)interactableManager.CurrentInteractable;
 
-        Collider jumpCollider = currentInteractable.JumpCollider;
-
-        Vector3 closestPointRightHand = jumpCollider.ClosestPoint(rightHandGrabHandle.position);
-        Vector3 closestPointLeftHand = jumpCollider.ClosestPoint(leftHandGrabHandle.position);
-
+        // right hand
+        Vector3 closestPointRightHand = currentInteractable.OppositeWall.ClosestPoint(passageLeanTargetRightHand.position);
         fullBodyIK.solver.rightHandEffector.position = closestPointRightHand;
         fullBodyIK.solver.rightHandEffector.positionWeight = 1f;
+        fullBodyIK.solver.rightHandEffector.rotation = passageLeanTargetRightHand.rotation;
         fullBodyIK.solver.rightHandEffector.rotationWeight = 1f;
 
+        // left hand
+        Vector3 closestPointLeftHand = currentInteractable.OppositeWall.ClosestPoint(passageLeanTargetLeftHand.position);
         fullBodyIK.solver.leftHandEffector.position = closestPointLeftHand;
         fullBodyIK.solver.leftHandEffector.positionWeight = 1f;
+        fullBodyIK.solver.leftHandEffector.rotation = passageLeanTargetLeftHand.rotation;
         fullBodyIK.solver.leftHandEffector.rotationWeight = 1f;
+
+        // viewing direction
+        FaceDirection();
     }
+
+    // ---------- LEAN -------------------------------------------------------------------------------------
 
     private void LeanIK()
     {
@@ -202,29 +218,141 @@ public class FinalIKController : MonoBehaviour
         fullBodyIK.solver.leftHandEffector.position = closestPointLeftHand;
         fullBodyIK.solver.leftHandEffector.positionWeight = 1f;
         fullBodyIK.solver.leftHandEffector.rotation = leanTargetLeftHand.rotation;
-        fullBodyIK.solver.leftHandEffector.rotationWeight = 1f; 
+        fullBodyIK.solver.leftHandEffector.rotationWeight = 1f;
 
         // viewing direction
         FaceDirection();
     }
+
+    // ---------- JUMP -------------------------------------------------------------------------------------
+
+    private void TouchIK()
+    {
+        Touchable currentInteractable = (Touchable)interactableManager.CurrentInteractable;
+
+        List<Transform> touchHandles = currentInteractable.TouchHandles;
+
+
+        if (isTouchHandleChosen == false)
+        {
+            closestTouchHandleLeft = FindClosestTouchHandleLeft(touchHandles);
+            closestTouchHandleRight = FindClosestTouchHandleRight(touchHandles);
+            isTouchHandleChosen = true;
+            isLeftTouchHandleChosen = DecideTouchHandle(Vector3.Distance(leftHandGrabHandle.position, closestTouchHandleLeft.position), Vector3.Distance(rightHandGrabHandle.position, closestTouchHandleRight.position));
+        }
+
+        if (isLeftTouchHandleChosen == true)
+        {
+            // left
+            fullBodyIK.solver.leftHandEffector.position = closestTouchHandleLeft.position;
+            fullBodyIK.solver.leftHandEffector.rotation = closestTouchHandleLeft.rotation;
+            fullBodyIK.solver.leftHandEffector.positionWeight = 1f;
+            fullBodyIK.solver.leftHandEffector.rotationWeight = 0.5f;
+
+            // right
+            fullBodyIK.solver.rightHandEffector.positionWeight = 0;
+            fullBodyIK.solver.rightHandEffector.rotationWeight = 0;
+        }
+        else
+        {
+            // right
+            fullBodyIK.solver.rightHandEffector.position = closestTouchHandleRight.position;
+            fullBodyIK.solver.rightHandEffector.rotation = closestTouchHandleRight.rotation;
+            fullBodyIK.solver.rightHandEffector.positionWeight = 1f;
+            fullBodyIK.solver.rightHandEffector.rotationWeight = 0.5f;
+
+            // left
+            fullBodyIK.solver.leftHandEffector.positionWeight = 0;
+            fullBodyIK.solver.leftHandEffector.rotationWeight = 0;
+        }
+    }
+
+    private Transform FindClosestTouchHandleLeft(List<Transform> transforms)
+    {
+        float shortestDistanceLeft = 100f;
+        Transform closestTransformLeft = null;
+        foreach (Transform transform in transforms)
+        {
+            float distance = Vector3.Distance(leftHandGrabHandle.position, transform.position);
+            if (distance < shortestDistanceLeft)
+            {
+                shortestDistanceLeft = distance;
+                closestTransformLeft = transform;
+            }
+        }
+
+        return closestTransformLeft;
+    }
+
+    private Transform FindClosestTouchHandleRight(List<Transform> transforms)
+    {
+        float shortestDistanceRight = 100f;
+        Transform closestTransformRight = null;
+        foreach (Transform transform in transforms)
+        {
+            float distance = Vector3.Distance(rightHandGrabHandle.position, transform.position);
+            if (distance < shortestDistanceRight)
+            {
+                shortestDistanceRight = distance;
+                closestTransformRight = transform;
+            }
+        }
+
+        return closestTransformRight;
+    }
+
+    private bool DecideTouchHandle(float distanceLeft, float distanceRight)
+    {
+        if (distanceLeft < distanceRight)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    // ---------- JUMP -------------------------------------------------------------------------------------
+
+    private void JumpIK()
+    {
+        Jumpable currentInteractable = (Jumpable)interactableManager.CurrentInteractable;
+
+        Collider jumpCollider = currentInteractable.JumpCollider;
+
+        Vector3 closestPointRightHand = jumpCollider.ClosestPoint(rightHandGrabHandle.position);
+        Vector3 closestPointLeftHand = jumpCollider.ClosestPoint(leftHandGrabHandle.position);
+
+        fullBodyIK.solver.rightHandEffector.position = closestPointRightHand;
+        fullBodyIK.solver.rightHandEffector.positionWeight = 1f;
+        fullBodyIK.solver.rightHandEffector.rotationWeight = 1f;
+
+        fullBodyIK.solver.leftHandEffector.position = closestPointLeftHand;
+        fullBodyIK.solver.leftHandEffector.positionWeight = 1f;
+        fullBodyIK.solver.leftHandEffector.rotation = Quaternion.Euler(60f, 230f, 104f);  // linke Hand dreht sich sonst seltsam
+        fullBodyIK.solver.leftHandEffector.rotationWeight = 1f;
+    }
+
+    // ---------- ADDITIONAL METHODS ------------------------------------------------------------------------
 
     private void FaceDirection()
     {
         if (charController.XAxis == 1)
         {
             lookAtIK.solver.target = leftHandLookTarget;
+            lookAtIK.solver.IKPositionWeight = 1f;
         }
         else if (charController.XAxis == -1)
         {
             lookAtIK.solver.target = rightHandLookTarget;
+            lookAtIK.solver.IKPositionWeight = 1f;
         }
         else
         {
             lookAtIK.solver.target = null;
             lookAtIK.solver.IKPositionWeight = 0f;
         }
-
-        lookAtIK.solver.IKPositionWeight = 1f;
     }
 
     private void Reset()
