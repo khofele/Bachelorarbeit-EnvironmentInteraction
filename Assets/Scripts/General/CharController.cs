@@ -111,7 +111,7 @@ public class CharController : MonoBehaviour
         }
 
         // move 
-        if (interactionManager.IsJumping == false && interactionManager.IsFixedSnapping == false)
+        if (interactionManager.IsJumping == false && interactionManager.IsFixedSnapping == false && interactionManager.IsLeaningSnapping == false)
         {
             characterController.Move(speed * Time.deltaTime * moveDirection);
             velocity.y += gravity * Time.deltaTime;

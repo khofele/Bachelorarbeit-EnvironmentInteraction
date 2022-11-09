@@ -12,13 +12,39 @@ public abstract class FixedLeanInteraction : LeanInteraction
 
     public bool IsSnapping { get => isSnapping; }
 
+    protected override void ExecuteInteraction()
+    {
+        finalIKController.IsIkActive = true;
+        interactionManager.CurrentInteraction = this;
+        isInteractionRunning = true;
+        interactionManager.SetLastInteraction();
+
+        currentLeanableObject = (Leanable)interactableManager.CurrentInteractable;
+        snapCollider = currentLeanableObject.SnapCollider;
+        SetLeanBool(true);
+
+        if (isInteractionRunning == false)
+        {
+            LeanOnObject();
+            DetectObject();
+        }
+    }
+
     protected override void ExecuteLeanInteraction()
     {
         if (isInteractionRunning == true && isTerminating == false)
         {
             if (isLeaningFixedObject == true)
             {
-                LeanOnObject();
+                if (Vector3.Distance(charController.transform.position, snapCollider.ClosestPoint(charController.transform.position)) > 0.35f)
+                {
+                    LeanOnObject();
+                }
+                else
+                {
+                    interactionManager.IsLeaningSnapping = false;
+                }
+
                 DetectObject();
             }
             else
@@ -49,6 +75,7 @@ public abstract class FixedLeanInteraction : LeanInteraction
 
         if (offset.magnitude < snapDistance)
         {
+            interactionManager.IsLeaningSnapping = true;
             charController.transform.position += offset;
             SetLeanBool(true);
             ExecuteAnimation();
@@ -91,6 +118,7 @@ public abstract class FixedLeanInteraction : LeanInteraction
     {
         ResetValues();
         currentLeanableObject = null;
+        interactionManager.IsLeaningSnapping = false;
     }
 
     protected override void ResetCharacter()
@@ -174,16 +202,12 @@ public abstract class FixedLeanInteraction : LeanInteraction
         RaycastHit hit;
 
         // ignores children of interactables!
-        if ((Physics.Raycast(rayFront, out hit, 0.5f, -LayerMask.NameToLayer("Child"))) || (Physics.Raycast(rayBack, out hit, 0.5f, -LayerMask.NameToLayer("Child"))) || (Physics.Raycast(rayRight, out hit, 0.5f, -LayerMask.NameToLayer("Child"))) || (Physics.Raycast(rayLeft, out hit, 0.5f, -LayerMask.NameToLayer("Child"))))
+        if ((Physics.Raycast(rayFront, out hit, 0.5f, LayerMask.NameToLayer("Child"))) || (Physics.Raycast(rayBack, out hit, 0.5f, LayerMask.NameToLayer("Child"))) || (Physics.Raycast(rayRight, out hit, 0.5f, LayerMask.NameToLayer("Child"))) || (Physics.Raycast(rayLeft, out hit, 0.5f, LayerMask.NameToLayer("Child"))))
         {
             if (hit.transform.gameObject.GetComponent<FixedLeanable>() != null)
             {
                 charController.transform.rotation = Quaternion.LookRotation(hit.normal);
             }
-        }
-        else
-        {
-            charController.transform.rotation = Quaternion.LookRotation(new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized, Camera.main.transform.up);
         }
     }
 

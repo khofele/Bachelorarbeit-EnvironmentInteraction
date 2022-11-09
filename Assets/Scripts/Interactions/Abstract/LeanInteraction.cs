@@ -18,8 +18,9 @@ public abstract class LeanInteraction : Interaction
 
         if (offset.magnitude < snapDistance)
         {
+            interactionManager.IsLeaningSnapping = true;
             charController.transform.position += offset;
-            iKController.IsIkActive = true;
+            finalIKController.IsIkActive = true;
             SetLeanBool(true);
             ExecuteAnimation();
         }
@@ -76,7 +77,15 @@ public abstract class LeanInteraction : Interaction
     {
         if (isInteractionRunning == true)
         {
-            LeanOnObject();
+            if(Vector3.Distance(charController.transform.position, snapCollider.ClosestPoint(charController.transform.position)) > 0.3f)
+            {
+                LeanOnObject();
+            }
+            else
+            {
+                interactionManager.IsLeaningSnapping = false;
+            }
+
             DetectObject();
 
             if (CheckTerminationCondition())
@@ -89,14 +98,20 @@ public abstract class LeanInteraction : Interaction
     protected virtual void ResetValues()
     {
         isInteractionRunning = false;
-        iKController.IsIkActive = false;
+        finalIKController.IsIkActive = false;
     }
 
     protected override void ExecuteInteraction()
     {
+        if (isInteractionRunning == false)
+        {
+            interactionManager.IsLeaningSnapping = true;
+        }
+
         base.ExecuteInteraction();
         currentLeanableObject = (Leanable)interactableManager.CurrentInteractable;
         snapCollider = currentLeanableObject.SnapCollider;
+        LeanOnObject();
     }
 
     protected override void ResetInteraction()
@@ -106,6 +121,7 @@ public abstract class LeanInteraction : Interaction
         currentLeanableObject = null;
         ResetValues();
         StopAnimation();
+        interactionManager.IsLeaningSnapping = false;
     }
 
     protected abstract void ExecuteAnimation();

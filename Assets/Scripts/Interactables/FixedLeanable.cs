@@ -39,15 +39,15 @@ public class FixedLeanable : Leanable
         {
             triggerOne = GetComponent<BoxCollider>();
             triggerOne.isTrigger = true;
-            triggerOne.size = new Vector3(0.1f, 1f, 2.4f);
-            triggerOne.center = new Vector3(0.45f, 0f, -0.7f);
+            triggerOne.size = new Vector3(0.01f, 1f, 2.4f);
+            triggerOne.center = new Vector3(0.5f, 0f, -0.7f);
         }
         else
         {
             triggerOne = gameObject.AddComponent<BoxCollider>();
             triggerOne.isTrigger = true;
-            triggerOne.size = new Vector3(0.1f, 1f, 2.4f);
-            triggerOne.center = new Vector3(0.45f, 0f, -0.7f);
+            triggerOne.size = new Vector3(0.01f, 1f, 2.4f);
+            triggerOne.center = new Vector3(0.5f, 0f, -0.7f);
         }
 
         // Trigger 2
