@@ -85,7 +85,7 @@ public class ThrowObjectInteraction : Interaction
             }
 
             animationManager.StopThrowAnimation();
-            iKController.IsIkActive = false;
+            finalIKController.IsIkActive = false;
             isInteractionRunning = false;
             enemies.Clear();
         }

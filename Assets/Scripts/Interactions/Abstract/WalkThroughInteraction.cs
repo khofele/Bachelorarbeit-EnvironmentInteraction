@@ -20,11 +20,11 @@ public abstract class WalkThroughInteraction : Interaction
         {
             if (currentInteractable.IsTriggered == true)
             {
-                iKController.IsIkActive = true;
+                finalIKController.IsIkActive = true;
             }
             else
             {
-                iKController.IsIkActive = false;
+                finalIKController.IsIkActive = false;
                 isInteractionRunning = false;
                 ResetInteraction();
             }

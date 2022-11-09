@@ -11,7 +11,6 @@ public abstract class Interaction : MonoBehaviour
     protected AnimationManager animationManager = null;
     protected InteractableManager interactableManager = null;
     protected CharController charController = null;
-    protected IKController iKController = null;
     protected FinalIKController finalIKController = null;
     protected bool isInteractionRunning = false;
     protected bool isCharInteracting = false;
@@ -40,7 +39,6 @@ public abstract class Interaction : MonoBehaviour
         animationManager = GetComponentInParent<AnimationManager>();
         interactableManager = FindObjectOfType<InteractableManager>();
         charController = GetComponentInParent<CharController>();
-        iKController = GetComponentInParent<IKController>();
         finalIKController = GetComponentInParent<FinalIKController>();
 
         conditionManager.FillConditionsList();
