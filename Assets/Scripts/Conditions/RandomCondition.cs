@@ -15,6 +15,16 @@ public class RandomCondition : Condition
         return CalculateResult();
     }
 
+    protected override void Start()
+    {
+        base.Start();
+
+        if(probabilityCases <= 0)
+        {
+            probabilityCases = 1;
+        }
+    }
+
     private bool CalculateResult()
     {
         if (isExecuted == false)
@@ -33,5 +43,5 @@ public class RandomCondition : Condition
             }
         }
         return result;
-    }
+    }       
 }
