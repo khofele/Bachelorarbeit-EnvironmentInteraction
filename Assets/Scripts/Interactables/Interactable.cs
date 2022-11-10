@@ -4,6 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(InteractableTriggerProperty))]
 public abstract class Interactable : MonoBehaviour
 {
     protected virtual void Start()

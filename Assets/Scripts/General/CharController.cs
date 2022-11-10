@@ -10,9 +10,9 @@ public class CharController : MonoBehaviour
     private LayerMask groundMask;
     private bool isGrounded = false;
     private CharacterController characterController = null;
-    private Animator animator = null;
     private AnimationManager animationManager = null;
     private InteractionManager interactionManager = null;
+    private TriggerCheckManager triggerCheckManager = null;
 
     // Movement fields
     private float speed = 0f;
@@ -24,18 +24,21 @@ public class CharController : MonoBehaviour
     private float xAxis = 0f;
     private float zAxis = 0f;
 
-    public Animator Animator { get => animator; }
     public bool IsCrouching { get => isCrouching; }
     public bool IsWalking { get => isWalking; }
     public float XAxis { get => xAxis; set => xAxis = value; }
     public float ZAxis { get => zAxis; }
-
     public Vector3 MoveDirection { get => moveDirection; }
+    public TriggerCheckManager TriggerCheckManager { get => triggerCheckManager; }
+
+    private void Awake()
+    {
+        triggerCheckManager = GetComponentInChildren<TriggerCheckManager>();
+    }
 
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
-        animator = GetComponent<Animator>();
         animationManager = GetComponent<AnimationManager>();
         interactionManager = GetComponentInChildren<InteractionManager>();
         groundMask = LayerMask.NameToLayer("Environment");
