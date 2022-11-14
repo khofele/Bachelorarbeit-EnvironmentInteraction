@@ -14,7 +14,7 @@ public abstract class Interactable : MonoBehaviour
 
     protected virtual void Validate()
     {
-        GetComponent<Collider>().isTrigger = true;
+        GetComponent<BoxCollider>().isTrigger = true;
         GetComponent<Rigidbody>().isKinematic = true;
     }
 }

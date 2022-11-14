@@ -113,4 +113,39 @@ public class AnimationManager : MonoBehaviour
     {
         animator.SetLayerWeight(animator.GetLayerIndex("Arms"), 0f);
     }
+
+    public void ExecuteCrossPunchLeft()
+    {
+        animator.SetTrigger("crossPunchLeft");
+    }
+
+    public void ExecuteCrossPunchRight()
+    {
+        animator.SetTrigger("crossPunchRight");
+    }
+
+    public void ExecuteBasicHipPunchLeft()
+    {
+        animator.SetTrigger("basicHipPunchLeft");
+    }
+
+    public void ExecuteBasicHipPunchRight()
+    {
+        animator.SetTrigger("basicHipPunchRight");
+    }
+
+    public void ExecuteBasicPunchLeft()
+    {
+        animator.SetTrigger("basicPunchLeft");
+    }
+
+    public void ExecuteBasicPunchRight()
+    {
+        animator.SetTrigger("basicPunchRight");
+    }
+
+    public void EnableHeadLayer()
+    {
+        animator.SetLayerWeight(animator.GetLayerIndex("Head"), 1f);
+    }
 }

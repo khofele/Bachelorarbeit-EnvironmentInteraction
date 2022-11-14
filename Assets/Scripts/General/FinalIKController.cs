@@ -57,32 +57,36 @@ public class FinalIKController : MonoBehaviour
             {
                 if (interactionManager.CurrentInteraction != null)
                 {
-                    GameObject currentInteractionGameObject = interactionManager.CurrentInteraction.gameObject;
+                    Interaction currentInteraction = interactionManager.CurrentInteraction;
 
                     // Throw
-                    if (currentInteractionGameObject.GetComponent<ThrowObjectInteraction>() != null)
+                    if (currentInteraction.GetType() == typeof(ThrowObjectInteraction))
                     {
                         ThrowObjectIK();
                     }
                     // Lean: Passage
-                    else if (currentInteractionGameObject.GetComponent<PassageLeanInteraction>() != null)
+                    else if (currentInteraction.GetType() == typeof(PassageLeanInteraction))
                     {
                         PassageLeanIK();
                     }
                     // Lean: Crouch, on Edge and Stand
-                    else if (currentInteractionGameObject.GetComponent<LeanInteraction>() != null)
+                    else if (currentInteraction.GetType() == typeof(LeanInteraction))
                     {
                         LeanIK();
                     }
                     // Touch object
-                    else if (currentInteractionGameObject.GetComponent<TouchObjectInteraction>() != null)
+                    else if (currentInteraction.GetType() == typeof(TouchObjectInteraction))
                     {
                         TouchIK();
                     }
                     // Jump over
-                    else if (currentInteractionGameObject.GetComponent<JumpOverObstacleInteraction>() != null)
+                    else if (currentInteraction.GetType() == typeof(JumpOverObstacleInteraction))
                     {
                         JumpIK();
+                    }
+                    else if (currentInteraction.GetType() == typeof(FistFightInteraction))
+                    {
+                        FistFightIK();
                     }
                 }
             }
@@ -115,8 +119,8 @@ public class FinalIKController : MonoBehaviour
 
                 if (closestHand == rightHandGrabHandle)
                 {
-                    // TODO Karo Ball richtig in Hand nehmen --> siehe Videotutorial --> Ticket: Wurfoptimierung 2
-                    // TODO Karo evtl. Bodyweight --> Ticket: Wurfoptimierung 2
+                    // TODO Karo PAUSIERT/ABGEBROCHEN Ball richtig in Hand nehmen --> siehe Videotutorial --> Ticket: Wurfoptimierung 2
+                    // TODO Karo PAUSIERT/ABGEBROCHEN evtl. Bodyweight --> Ticket: Wurfoptimierung 2
                     fullBodyIK.solver.rightHandEffector.position = grabHandleOfThrowable.position;
                     fullBodyIK.solver.rightHandEffector.rotation = grabHandleOfThrowable.rotation;
                     fullBodyIK.solver.rightHandEffector.positionWeight = 1f;
@@ -124,8 +128,8 @@ public class FinalIKController : MonoBehaviour
                 }
                 else
                 {
-                    // TODO Karo Ball richtig in Hand nehmen --> siehe Videotutorial --> Ticket: Wurfoptimierung 2
-                    // TODO Karo evtl. Bodyweight --> Ticket: Wurfoptimierung 2
+                    // TODO Karo PAUSIERT/ABGEBROCHEN Ball richtig in Hand nehmen --> siehe Videotutorial --> Ticket: Wurfoptimierung 2
+                    // TODO Karo PAUSIERT/ABGEBROCHEN evtl. Bodyweight --> Ticket: Wurfoptimierung 2
                     fullBodyIK.solver.leftHandEffector.position = grabHandleOfThrowable.position;
                     fullBodyIK.solver.leftHandEffector.rotation = grabHandleOfThrowable.rotation;
                     fullBodyIK.solver.leftHandEffector.positionWeight = 1f;
@@ -332,6 +336,31 @@ public class FinalIKController : MonoBehaviour
         fullBodyIK.solver.leftHandEffector.positionWeight = 1f;
         fullBodyIK.solver.leftHandEffector.rotation = Quaternion.Euler(60f, 230f, 104f);  // linke Hand dreht sich sonst seltsam
         fullBodyIK.solver.leftHandEffector.rotationWeight = 1f;
+    }
+
+    // ---------- FIST FIGHT --------------------------------------------------------------------------------
+
+    private void FistFightIK()
+    {
+        Enemy currentInteractable = (Enemy)interactableManager.CurrentInteractable;
+        Collider bodyCollider = currentInteractable.BodyCollider;
+
+        FistFightInteraction currentInteraction = (FistFightInteraction)interactionManager.CurrentInteraction;
+
+
+        if(currentInteraction.CurrentHand == Hands.RIGHT)
+        {
+            Vector3 closestPointRight = bodyCollider.ClosestPoint(fullBodyIK.solver.rightHandEffector.position);
+            //fullBodyIK.solver.rightHandEffector.position = closestPointRight;
+        }
+        else if (currentInteraction.CurrentHand == Hands.LEFT)
+        {
+            Vector3 closestPointLeft = bodyCollider.ClosestPoint(fullBodyIK.solver.leftHandEffector.position);
+            //fullBodyIK.solver.leftHandEffector.position = closestPointLeft;
+        }
+
+        //lookAtIK.solver.target = test.transform;
+        //lookAtIK.solver.IKPositionWeight = 1f;
     }
 
     // ---------- ADDITIONAL METHODS ------------------------------------------------------------------------

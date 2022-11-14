@@ -21,6 +21,7 @@ public class InteractionManager : MonoBehaviour
     private bool isLeaningInPassage = false;
     private bool isJumping = false;
     private bool isFixedSnapping = false;
+    private bool isFighting = false;
 
 
     public bool IsLeaning { get => isLeaning; }
@@ -31,6 +32,7 @@ public class InteractionManager : MonoBehaviour
     public bool IsLeaningInPassage { get => isLeaningInPassage; set => isLeaningInPassage = value; }
     public bool IsJumping { get => isJumping; set => isJumping = value; }
     public bool IsFixedSnapping { get => isFixedSnapping; set => isFixedSnapping = value; }
+    public bool IsFighting { get => isFighting; set => isFighting = value; }
 
     public Interaction LastInteraction { get => lastInteraction; set => lastInteraction = value; }
     public Interaction CurrentInteraction { get => currentInteraction; set => currentInteraction = value; }

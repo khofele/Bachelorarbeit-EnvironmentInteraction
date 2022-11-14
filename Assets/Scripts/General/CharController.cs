@@ -70,7 +70,7 @@ public class CharController : MonoBehaviour
             zAxis = Input.GetAxis("Vertical");
         }
 
-        if (interactionManager.IsJumping == true)
+        if (interactionManager.IsJumping == true || interactionManager.IsFighting == true)
         {
             xAxis = 0;
             zAxis = 0;
@@ -80,7 +80,7 @@ public class CharController : MonoBehaviour
             xAxis = Input.GetAxis("Horizontal");
         }
 
-        if (interactionManager.IsLeaning == false)
+        if (interactionManager.IsLeaning == false && interactionManager.IsJumping == false && interactionManager.IsFighting == false)
         {
             transform.rotation = Quaternion.LookRotation(new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized, Camera.main.transform.up);
         }
@@ -114,7 +114,7 @@ public class CharController : MonoBehaviour
         }
 
         // move 
-        if (interactionManager.IsJumping == false && interactionManager.IsFixedSnapping == false && interactionManager.IsLeaningSnapping == false)
+        if (interactionManager.IsFighting == false && interactionManager.IsJumping == false && interactionManager.IsFixedSnapping == false && interactionManager.IsLeaningSnapping == false)
         {
             characterController.Move(speed * Time.deltaTime * moveDirection);
             velocity.y += gravity * Time.deltaTime;
