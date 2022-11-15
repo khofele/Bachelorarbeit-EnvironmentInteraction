@@ -2,11 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Hands
-{
-    LEFT, RIGHT, NULL
-}
-
 public class FistFightInteraction : Interaction
 {
     private Hands lastHand = Hands.NULL;
@@ -57,7 +52,6 @@ public class FistFightInteraction : Interaction
         lastHand = currentHand;
     }
 
-    // TODO Karo Gegner entsprechend treffen --> nicht nur in Luft schlagen, sondern Gegner anvisieren --> TICKET: FAUSTKAMPF
     private void Punch()
     {
         interactionManager.IsFighting = true;
@@ -95,11 +89,10 @@ public class FistFightInteraction : Interaction
     private void ExecutePunchAnimation()
     {
         int random = Random.Range(1, 4);
-        // TODO Karo dafür sorgen, dass keine Animation zweimal hintereinander abgespielt wird --> siehe Randomisierung  --> TICKET: FAUSTKAMPF
 
         if (currentHand == Hands.LEFT)
         {
-            switch(random)
+            switch (random)
             {
                 case 1:
                     animationManager.ExecuteBasicHipPunchLeft();
@@ -135,7 +128,7 @@ public class FistFightInteraction : Interaction
 
     private IEnumerator WaitAndReset()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
         interactionManager.IsFighting = false;
         base.ResetInteraction();
     }

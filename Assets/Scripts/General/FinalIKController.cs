@@ -37,6 +37,11 @@ public class FinalIKController : MonoBehaviour
     private Transform closestTouchHandleRight = null;
     private Transform closestTouchHandleLeft = null;
 
+    // fight
+    private bool isClosestPointFound = false;
+    private Vector3 closestPointRight = Vector3.zero;
+    private Vector3 closestPointLeft = Vector3.zero;
+
     public bool IsIkActive { get => isIkActive; set => isIkActive = value; }
 
     private void Start()
@@ -95,6 +100,7 @@ public class FinalIKController : MonoBehaviour
                 Reset();
                 isThrowHandChosen = false;
                 isTouchHandleChosen = false;
+                isClosestPointFound = false;        
             }
         }
     }
@@ -119,8 +125,6 @@ public class FinalIKController : MonoBehaviour
 
                 if (closestHand == rightHandGrabHandle)
                 {
-                    // TODO Karo PAUSIERT/ABGEBROCHEN Ball richtig in Hand nehmen --> siehe Videotutorial --> Ticket: Wurfoptimierung 2
-                    // TODO Karo PAUSIERT/ABGEBROCHEN evtl. Bodyweight --> Ticket: Wurfoptimierung 2
                     fullBodyIK.solver.rightHandEffector.position = grabHandleOfThrowable.position;
                     fullBodyIK.solver.rightHandEffector.rotation = grabHandleOfThrowable.rotation;
                     fullBodyIK.solver.rightHandEffector.positionWeight = 1f;
@@ -128,8 +132,6 @@ public class FinalIKController : MonoBehaviour
                 }
                 else
                 {
-                    // TODO Karo PAUSIERT/ABGEBROCHEN Ball richtig in Hand nehmen --> siehe Videotutorial --> Ticket: Wurfoptimierung 2
-                    // TODO Karo PAUSIERT/ABGEBROCHEN evtl. Bodyweight --> Ticket: Wurfoptimierung 2
                     fullBodyIK.solver.leftHandEffector.position = grabHandleOfThrowable.position;
                     fullBodyIK.solver.leftHandEffector.rotation = grabHandleOfThrowable.rotation;
                     fullBodyIK.solver.leftHandEffector.positionWeight = 1f;
@@ -347,20 +349,30 @@ public class FinalIKController : MonoBehaviour
 
         FistFightInteraction currentInteraction = (FistFightInteraction)interactionManager.CurrentInteraction;
 
-
-        if(currentInteraction.CurrentHand == Hands.RIGHT)
+        if(isClosestPointFound == false)
         {
-            Vector3 closestPointRight = bodyCollider.ClosestPoint(fullBodyIK.solver.rightHandEffector.position);
-            //fullBodyIK.solver.rightHandEffector.position = closestPointRight;
+            isClosestPointFound = true;
+            closestPointRight = bodyCollider.ClosestPoint(fullBodyIK.solver.rightHandEffector.position);
+            closestPointLeft = bodyCollider.ClosestPoint(fullBodyIK.solver.leftHandEffector.position);
+        }
+
+        if (currentInteraction.CurrentHand == Hands.RIGHT && isClosestPointFound == true)
+        {
+            fullBodyIK.solver.rightHandEffector.position = closestPointRight;
         }
         else if (currentInteraction.CurrentHand == Hands.LEFT)
         {
-            Vector3 closestPointLeft = bodyCollider.ClosestPoint(fullBodyIK.solver.leftHandEffector.position);
-            //fullBodyIK.solver.leftHandEffector.position = closestPointLeft;
+            fullBodyIK.solver.leftHandEffector.position = closestPointLeft;
         }
 
-        //lookAtIK.solver.target = test.transform;
-        //lookAtIK.solver.IKPositionWeight = 1f;
+        lookAtIK.solver.target = currentInteractable.transform;
+        lookAtIK.solver.IKPositionWeight = 1f;
+        lookAtIK.solver.headWeight = 1f;
+    }
+
+    public void SetRightHandPositionWeightToMin()
+    {
+        fullBodyIK.solver.rightHandEffector.positionWeight = 0f;
     }
 
     // ---------- ADDITIONAL METHODS ------------------------------------------------------------------------
@@ -392,6 +404,7 @@ public class FinalIKController : MonoBehaviour
         fullBodyIK.solver.rightHandEffector.rotationWeight = 0f;
         lookAtIK.solver.target = null;
         lookAtIK.solver.IKPositionWeight = 0f;
+        lookAtIK.solver.headWeight = 0f;
         isIkActive = false;
     }
 }
