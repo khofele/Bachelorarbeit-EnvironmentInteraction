@@ -11,6 +11,7 @@ public abstract class Outcome : MonoBehaviour
     protected InteractionManager interactionManager = null;
     protected AnimationManager animationManager = null;
     protected FinalIKController iKController = null;
+    protected InteractableManager interactableManager = null;
 
     public List<Condition> Conditions { get => conditions; }
 
@@ -24,6 +25,7 @@ public abstract class Outcome : MonoBehaviour
         interactionManager = FindObjectOfType<InteractionManager>();
         animationManager = FindObjectOfType<AnimationManager>();
         iKController = FindObjectOfType<FinalIKController>();
+        interactableManager = FindObjectOfType<InteractableManager>();
     }
 
     public bool CheckConditions()
@@ -44,5 +46,9 @@ public abstract class Outcome : MonoBehaviour
         iKController.IsIkActive = true;
     }
 
-    public abstract void ResetOutcome();
+    public virtual void ResetOutcome()
+    {
+        outcomeManager.CurrentOutcome = null;
+        iKController.IsIkActive = false;
+    }
 }

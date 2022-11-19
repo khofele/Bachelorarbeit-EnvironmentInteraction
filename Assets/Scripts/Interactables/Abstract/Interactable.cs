@@ -7,8 +7,12 @@ using UnityEngine;
 [RequireComponent(typeof(InteractableTriggerProperty))]
 public abstract class Interactable : MonoBehaviour
 {
+    protected InteractableManager interactableManager = null;
+
     protected virtual void Start()
     {
+        interactableManager = FindObjectOfType<InteractableManager>();
+
         Validate();
     }
 

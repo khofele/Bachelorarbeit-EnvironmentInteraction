@@ -10,10 +10,12 @@ public class Enemy : Interactable
     private bool isDead = false;
     private bool gotHit = false;
     private Rigidbody[] rigidbodies;
+    private bool isOnFloor = false;
 
     public CapsuleCollider BodyCollider { get => bodyCollider; }
     public float Health { get => health; set => health = value; }
     public bool IsDead { get => isDead; }
+    public bool IsOnFloor { get => isOnFloor; }
 
     protected override void Start()
     {
@@ -38,7 +40,7 @@ public class Enemy : Interactable
     {
         if (interactionManager.CurrentInteraction != null)
         {
-            if (interactionManager.CurrentInteraction.GetType() == typeof(FistFightInteraction) && interactionManager.CurrentInteraction.IsInteractionRunning == true && isDead == false && gotHit == false) {
+            if (interactionManager.CurrentInteraction.GetType() == typeof(FistFightInteraction) && interactionManager.CurrentInteraction.IsInteractionRunning == true && isDead == false && gotHit == false && interactableManager.CurrentInteractable == this) {
                 
                 MultipleOutcomesInteraction current = (MultipleOutcomesInteraction)interactionManager.CurrentInteraction;
 
@@ -48,6 +50,9 @@ public class Enemy : Interactable
                     {
                         gotHit = true;
                         health -= 10f;
+
+                        FallOnFloor();
+
                         if(health <= 0) 
                         {
                             StartCoroutine(new WaitForSecondsRealtime(1f));
@@ -104,6 +109,18 @@ public class Enemy : Interactable
         {
             health -= 100f;
             EnableRagdollPhysics();
+        }
+    }
+
+    private void FallOnFloor()
+    {
+        int random = Random.Range(1, 11);
+
+        // TODO KARO Wahrscheinlichkeit anpassen
+        if(random % 1 == 0)
+        {
+            EnableRagdollPhysics();
+            isOnFloor = true;
         }
     }
 }

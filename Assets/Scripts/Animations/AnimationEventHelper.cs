@@ -15,7 +15,6 @@ public class AnimationEventHelper : MonoBehaviour
         fullBodyIK = GetComponent<FullBodyBipedIK>();
 
         strikeEnemyOnObject = GetComponentInChildren<StrikeEnemyOnObjectOutcome>();
-
     }
 
     public void ExecuteThrow()
@@ -51,6 +50,16 @@ public class AnimationEventHelper : MonoBehaviour
     public void SetLeftHandPositionWeightToMin()
     {
         fullBodyIK.solver.leftHandEffector.positionWeight = 0f;
+    }
+
+    public void SetRightFootPositionWeightToMax()
+    {
+        fullBodyIK.solver.rightFootEffector.positionWeight = 1f;
+    }    
+    
+    public void SetRightFootPositionWeightToMin()
+    {
+        fullBodyIK.solver.rightFootEffector.positionWeight = 0f;
     }
 
     public void ExecuteEnableRagdollPhysics()

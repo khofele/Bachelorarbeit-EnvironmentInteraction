@@ -5,19 +5,11 @@ using UnityEngine;
 public class StrikeEnemyOnObjectOutcome : Outcome
 {
     [SerializeField] private Transform grabHandle = null;
-    private InteractableManager interactableManager = null;
     private Enemy currentEnemy = null;
     private TargetObject target = null;
 
     public TargetObject Target { get => target; }
     public Enemy CurrentEnemy { get => currentEnemy; }
-
-    protected override void Start()
-    {
-        base.Start();
-
-        interactableManager = FindObjectOfType<InteractableManager>();
-    }
 
     public override void ExecuteOutcome()
     {
@@ -41,8 +33,7 @@ public class StrikeEnemyOnObjectOutcome : Outcome
     public override void ResetOutcome()
     {
         GetComponent<RandomCondition>().IsExecuted = false;
-        outcomeManager.CurrentOutcome = null;
-        iKController.IsIkActive = false;
+        base.ResetOutcome();
     }
 
     private Enemy GetCurrentEnemy()

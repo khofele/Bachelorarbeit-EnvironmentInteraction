@@ -1,5 +1,4 @@
 using RootMotion.FinalIK;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +15,10 @@ public class FinalIKController : MonoBehaviour
     [SerializeField] private Transform leftHandLookTarget = null;
     [SerializeField] private Transform leanTargetLeftHand = null;
     [SerializeField] private Transform passageLeanTargetLeftHand = null;
+
+    // DEBUG
+    [SerializeField] private Transform hitSpot = null;
+    // DEBUG
 
     // general
     private FullBodyBipedIK fullBodyIK = null;
@@ -113,7 +116,11 @@ public class FinalIKController : MonoBehaviour
                             // Strike head
                             if (multipleOutcomesInteraction.OutcomeManager.CurrentOutcome.GetType() == typeof(StrikeEnemyOnObjectOutcome))
                             {
-                                StrikeHeadIK();
+                                StrikeBodyIK();
+                            }
+                            else if (multipleOutcomesInteraction.OutcomeManager.CurrentOutcome.GetType() == typeof(StompOnEnemyOutcome))
+                            {
+                                StompOnEnemyIK();
                             }
                         }
                         // Fistfight
@@ -380,8 +387,6 @@ public class FinalIKController : MonoBehaviour
 
         FistFightInteraction currentInteraction = (FistFightInteraction)interactionManager.CurrentInteraction;
 
-        Debug.Log(bodyCollider);
-
         if(isClosestPointFound == false)
         {
             isClosestPointFound = true;
@@ -398,9 +403,7 @@ public class FinalIKController : MonoBehaviour
             fullBodyIK.solver.leftHandEffector.position = closestPointLeft;
         }
 
-        lookAtIK.solver.target = currentInteractable.transform;
-        lookAtIK.solver.IKPositionWeight = 1f;
-        lookAtIK.solver.headWeight = 0.4f;
+        LookAtCurrentInteractable(currentInteractable);
     }
 
     public void SetRightHandPositionWeightToMin()
@@ -409,8 +412,7 @@ public class FinalIKController : MonoBehaviour
     }
 
     // Strike Head Outcome
-
-    private void StrikeHeadIK()
+    private void StrikeBodyIK()
     {
         FistFightInteraction currentInteraction = (FistFightInteraction)interactionManager.CurrentInteraction;
         StrikeEnemyOnObjectOutcome currentOutcome = (StrikeEnemyOnObjectOutcome)currentInteraction.OutcomeManager.CurrentOutcome;
@@ -419,6 +421,17 @@ public class FinalIKController : MonoBehaviour
         
         targetPosition = targetCollider.ClosestPoint(fullBodyIK.solver.rightHandEffector.position);
         fullBodyIK.solver.rightHandEffector.position = targetPosition;
+    }
+
+
+    // Stomp on Enemy Outcome
+    private void StompOnEnemyIK()
+    {
+        Enemy currentInteractable = (Enemy)interactableManager.CurrentInteractable;
+
+        fullBodyIK.solver.rightFootEffector.position = hitSpot.transform.position;
+
+        LookAtCurrentInteractable(currentInteractable);
     }
 
     // ---------- ADDITIONAL METHODS ------------------------------------------------------------------------
@@ -440,6 +453,13 @@ public class FinalIKController : MonoBehaviour
             lookAtIK.solver.target = null;
             lookAtIK.solver.IKPositionWeight = 0f;
         }
+    }
+
+    private void LookAtCurrentInteractable(Interactable currentInteractable)
+    {
+        lookAtIK.solver.target = currentInteractable.transform;
+        lookAtIK.solver.IKPositionWeight = 1f;
+        lookAtIK.solver.headWeight = 0.4f;
     }
 
     private void Reset()

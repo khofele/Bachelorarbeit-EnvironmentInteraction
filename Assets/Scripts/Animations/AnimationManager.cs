@@ -148,4 +148,9 @@ public class AnimationManager : MonoBehaviour
     {
         animator.SetLayerWeight(animator.GetLayerIndex("Head"), 1f);
     }
+
+    public void ExecuteStomp()
+    {
+        animator.SetTrigger("stomp");
+    }
 }
