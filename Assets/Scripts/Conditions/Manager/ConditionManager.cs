@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class ConditionManager : MonoBehaviour
 {
-    private List<Condition> conditions = new List<Condition>();
+    private List<Condition> baseConditions = new List<Condition>();
 
     public bool CheckConditions()
     {
-        foreach (Condition condition in conditions)
+        foreach (Condition condition in baseConditions)
         {
             if (condition.CheckCondition() == false)
             {
@@ -21,6 +21,6 @@ public class ConditionManager : MonoBehaviour
 
     public void FillConditionsList()
     {
-        conditions = GetComponents<Condition>().ToList(); 
+        baseConditions = GetComponents<Condition>().ToList();
     }
 }
