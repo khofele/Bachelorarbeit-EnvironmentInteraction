@@ -5,23 +5,23 @@ using UnityEngine;
 public class ThrowObjectInteraction : Interaction
 {
     [SerializeField] private GameObject interactablesGameObject = null;
-    private GameObject enemy = null;
+    private Enemy enemy = null;
     private SphereCollider sphereCollider = null;
-    private List<GameObject> enemies = new List<GameObject>();
+    private List<Enemy> enemies = new List<Enemy>();
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (other.gameObject.GetComponent<Enemy>() != null)
         {
-            enemies.Add(other.gameObject);
+            enemies.Add(other.gameObject.GetComponent<Enemy>());
         }
     }
 
-    private GameObject GetClosestEnemy()
+    private Enemy GetClosestEnemy()
     {
         float distance = 1000f;
-        GameObject closestEnemy = null;
-        foreach(GameObject enemy in enemies)
+        Enemy closestEnemy = null;
+        foreach(Enemy enemy in enemies)
         {
             if (Vector3.Distance(charController.transform.position, enemy.transform.position) < distance)
             {
@@ -29,7 +29,6 @@ public class ThrowObjectInteraction : Interaction
                 closestEnemy = enemy;
             }
         }
-
         return closestEnemy;
     }
 
@@ -38,7 +37,6 @@ public class ThrowObjectInteraction : Interaction
         base.Start();
         sphereCollider = GetComponent<SphereCollider>();
 
-        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Interactable"), LayerMask.NameToLayer("Checkbox"));
         sphereCollider.enabled = false;
     }
 
@@ -73,6 +71,9 @@ public class ThrowObjectInteraction : Interaction
             rigidBody.isKinematic = false;
             rigidBody.useGravity = true;
             enemy = GetClosestEnemy();
+
+            // Disable Boxcollider while throwing
+            rigidBody.gameObject.GetComponent<BoxCollider>().enabled = false;
 
             if (enemy != null)
             {
