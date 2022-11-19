@@ -7,11 +7,15 @@ public class AnimationEventHelper : MonoBehaviour
 {
     private ThrowObjectInteraction throwObjectInteraction = null;
     private FullBodyBipedIK fullBodyIK = null;
+    private StrikeEnemyOnObjectOutcome strikeEnemyOnObject = null;
 
     private void Start()
     {
         throwObjectInteraction = GetComponentInChildren<ThrowObjectInteraction>();
         fullBodyIK = GetComponent<FullBodyBipedIK>();
+
+        strikeEnemyOnObject = GetComponentInChildren<StrikeEnemyOnObjectOutcome>();
+
     }
 
     public void ExecuteThrow()
@@ -47,5 +51,29 @@ public class AnimationEventHelper : MonoBehaviour
     public void SetLeftHandPositionWeightToMin()
     {
         fullBodyIK.solver.leftHandEffector.positionWeight = 0f;
+    }
+
+    public void ExecuteEnableRagdollPhysics()
+    {
+        if(strikeEnemyOnObject.CurrentEnemy!= null)
+        {
+            strikeEnemyOnObject.CurrentEnemy.EnableRagdollPhysics();
+        }
+    }    
+    
+    public void ExecuteDisableRagdollPhysics()
+    {
+        if(strikeEnemyOnObject.CurrentEnemy!= null)
+        {
+            strikeEnemyOnObject.CurrentEnemy.DisableRagdollPhysics();
+        }
+    }
+
+    public void ExecuteDropEnemy()
+    {
+        if (strikeEnemyOnObject.CurrentEnemy != null)
+        {
+            strikeEnemyOnObject.DropEnemy();
+        }
     }
 }

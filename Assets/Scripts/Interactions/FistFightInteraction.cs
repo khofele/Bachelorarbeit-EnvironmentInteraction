@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FistFightInteraction : Interaction
-{
+public class FistFightInteraction : MultipleOutcomesInteraction
+{ 
     private Hands lastHand = Hands.NULL;
     private Hands currentHand = Hands.NULL;
 
@@ -27,24 +27,6 @@ public class FistFightInteraction : Interaction
     protected override void ResetInteraction()
     {
         StartCoroutine(WaitAndReset());
-    }
-
-    protected override void Update()
-    {
-        if (CheckTrigger() == true)
-        {
-            if (CheckMatchingInteractable() == true)
-            {
-                if (CheckOtherInteractionsRunning() == true)
-                {
-                    if (CheckConditions() == true)
-                    {
-                        ExecuteInteraction();
-                        ResetInteraction();
-                    }
-                }
-            }
-        }
     }
 
     private void SetLastHand()
@@ -131,6 +113,7 @@ public class FistFightInteraction : Interaction
         yield return new WaitForSeconds(1.5f);
         interactionManager.IsFighting = false;
         base.ResetInteraction();
+        outcomeManager.ResetOutcomes();
     }
 }
 

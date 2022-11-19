@@ -25,6 +25,8 @@ public class FinalIKController : MonoBehaviour
     private InteractionManager interactionManager = null;
     private AnimationManager animationManager = null;
     private InteractableManager interactableManager = null;
+    private MultipleOutcomesInteraction multipleOutcomesInteraction = null;
+    private Interaction currentInteraction = null;
 
     // throw
     private bool isThrowHandChosen = false;
@@ -41,6 +43,7 @@ public class FinalIKController : MonoBehaviour
     private bool isClosestPointFound = false;
     private Vector3 closestPointRight = Vector3.zero;
     private Vector3 closestPointLeft = Vector3.zero;
+    private Vector3 targetPosition = Vector3.zero;
 
     public bool IsIkActive { get => isIkActive; set => isIkActive = value; }
 
@@ -62,37 +65,65 @@ public class FinalIKController : MonoBehaviour
             {
                 if (interactionManager.CurrentInteraction != null)
                 {
-                    Interaction currentInteraction = interactionManager.CurrentInteraction;
+                    if (interactionManager.CurrentInteraction.GetComponent<MultipleOutcomesInteraction>() != null)
+                    {
+                        multipleOutcomesInteraction = (MultipleOutcomesInteraction)interactionManager.CurrentInteraction;
+                    }
+                    else
+                    {
+                        multipleOutcomesInteraction = null;
+                    }
 
-                    // Throw
-                    if (currentInteraction.GetType() == typeof(ThrowObjectInteraction))
+                    currentInteraction = interactionManager.CurrentInteraction;
+
+                    if (multipleOutcomesInteraction == null)
                     {
-                        ThrowObjectIK();
+                        // Throw
+                        if (currentInteraction.GetType() == typeof(ThrowObjectInteraction))
+                        {
+                            ThrowObjectIK();
+                        }
+                        // Lean: Passage
+                        else if (currentInteraction.GetType() == typeof(PassageLeanInteraction))
+                        {
+                            PassageLeanIK();
+                        }
+                        // Lean: Crouch, on Edge and Stand
+                        else if (currentInteraction.GetType() == typeof(LeanInteraction))
+                        {
+                            LeanIK();
+                        }
+                        // Touch object
+                        else if (currentInteraction.GetType() == typeof(TouchObjectInteraction))
+                        {
+                            TouchIK();
+                        }
+                        // Jump over
+                        else if (currentInteraction.GetType() == typeof(JumpOverObstacleInteraction))
+                        {
+                            JumpIK();
+                        }
                     }
-                    // Lean: Passage
-                    else if (currentInteraction.GetType() == typeof(PassageLeanInteraction))
+                    // Multiple Outcomes Interactions
+                    // Fistfight + Outcomes
+                    else
                     {
-                        PassageLeanIK();
+                        if(multipleOutcomesInteraction.OutcomeManager.CurrentOutcome != null)
+                        {
+                            // Strike head
+                            if (multipleOutcomesInteraction.OutcomeManager.CurrentOutcome.GetType() == typeof(StrikeEnemyOnObjectOutcome))
+                            {
+                                StrikeHeadIK();
+                            }
+                        }
+                        // Fistfight
+                        else if (currentInteraction.GetType() == typeof(FistFightInteraction))
+                        {
+                            FistFightIK();
+                        }
                     }
-                    // Lean: Crouch, on Edge and Stand
-                    else if (currentInteraction.GetType() == typeof(LeanInteraction))
-                    {
-                        LeanIK();
-                    }
-                    // Touch object
-                    else if (currentInteraction.GetType() == typeof(TouchObjectInteraction))
-                    {
-                        TouchIK();
-                    }
-                    // Jump over
-                    else if (currentInteraction.GetType() == typeof(JumpOverObstacleInteraction))
-                    {
-                        JumpIK();
-                    }
-                    else if (currentInteraction.GetType() == typeof(FistFightInteraction))
-                    {
-                        FistFightIK();
-                    }
+
+
                 }
             }
             else
@@ -345,9 +376,11 @@ public class FinalIKController : MonoBehaviour
     private void FistFightIK()
     {
         Enemy currentInteractable = (Enemy)interactableManager.CurrentInteractable;
-        Collider bodyCollider = currentInteractable.BodyCollider;
+        CapsuleCollider bodyCollider = currentInteractable.BodyCollider;
 
         FistFightInteraction currentInteraction = (FistFightInteraction)interactionManager.CurrentInteraction;
+
+        Debug.Log(bodyCollider);
 
         if(isClosestPointFound == false)
         {
@@ -367,12 +400,25 @@ public class FinalIKController : MonoBehaviour
 
         lookAtIK.solver.target = currentInteractable.transform;
         lookAtIK.solver.IKPositionWeight = 1f;
-        lookAtIK.solver.headWeight = 1f;
+        lookAtIK.solver.headWeight = 0.4f;
     }
 
     public void SetRightHandPositionWeightToMin()
     {
         fullBodyIK.solver.rightHandEffector.positionWeight = 0f;
+    }
+
+    // Strike Head Outcome
+
+    private void StrikeHeadIK()
+    {
+        FistFightInteraction currentInteraction = (FistFightInteraction)interactionManager.CurrentInteraction;
+        StrikeEnemyOnObjectOutcome currentOutcome = (StrikeEnemyOnObjectOutcome)currentInteraction.OutcomeManager.CurrentOutcome;
+
+        Collider targetCollider = currentOutcome.Target.GetComponent<Collider>();
+        
+        targetPosition = targetCollider.ClosestPoint(fullBodyIK.solver.rightHandEffector.position);
+        fullBodyIK.solver.rightHandEffector.position = targetPosition;
     }
 
     // ---------- ADDITIONAL METHODS ------------------------------------------------------------------------
