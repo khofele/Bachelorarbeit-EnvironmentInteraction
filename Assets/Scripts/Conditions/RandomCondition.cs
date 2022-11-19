@@ -42,6 +42,7 @@ public class RandomCondition : Condition
                 result = false;
             }
         }
+
         return result;
     }       
 }
