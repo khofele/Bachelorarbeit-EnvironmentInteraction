@@ -17,9 +17,7 @@ public class StrikeEnemyOnObjectOutcome : Outcome
 
         currentEnemy = GetCurrentEnemy();
         currentEnemy.Health = 0f;
-        MoveToTarget();
-        
-        ResetOutcome();
+        SnapToTarget();
     }
 
     private void Update()
@@ -41,12 +39,6 @@ public class StrikeEnemyOnObjectOutcome : Outcome
         return (Enemy)interactableManager.CurrentInteractable;
     }
 
-    private void MoveToTarget()
-    {
-        target = GetCurrentTarget();
-        SnapToTarget();
-    }
-
     private TargetObject GetCurrentTarget()
     {
         return GetComponent<ObjectNearbyCondition>().Target;
@@ -54,6 +46,8 @@ public class StrikeEnemyOnObjectOutcome : Outcome
 
     private void SnapToTarget()
     {
+        target = GetCurrentTarget();
+
         Vector3 position = target.GetComponent<Collider>().ClosestPoint(charController.transform.position);
 
         interactionManager.IsCharSnappingToEnemy = true;
@@ -62,7 +56,8 @@ public class StrikeEnemyOnObjectOutcome : Outcome
         {
             animationManager.ExecuteCrossPunchRight();
             DropEnemy();
-            
+            ResetOutcome();
+
             interactionManager.IsCharSnappingToEnemy = false;
         }
         else
