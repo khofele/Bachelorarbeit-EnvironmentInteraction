@@ -8,6 +8,7 @@ public class AnimationEventHelper : MonoBehaviour
     private ThrowObjectInteraction throwObjectInteraction = null;
     private FullBodyBipedIK fullBodyIK = null;
     private StrikeEnemyOnObjectOutcome strikeEnemyOnObject = null;
+    private PushEnemyOutcome pushEnemy = null;
 
     private void Start()
     {
@@ -15,6 +16,7 @@ public class AnimationEventHelper : MonoBehaviour
         fullBodyIK = GetComponent<FullBodyBipedIK>();
 
         strikeEnemyOnObject = GetComponentInChildren<StrikeEnemyOnObjectOutcome>();
+        pushEnemy = GetComponentInChildren<PushEnemyOutcome>();
     }
 
     public void ExecuteThrow()
@@ -64,11 +66,16 @@ public class AnimationEventHelper : MonoBehaviour
 
     public void ExecuteEnableRagdollPhysics()
     {
-        if(strikeEnemyOnObject.CurrentEnemy!= null)
+        if (strikeEnemyOnObject.CurrentEnemy!= null)
         {
             strikeEnemyOnObject.CurrentEnemy.EnableRagdollPhysics();
         }
-    }    
+
+        if (pushEnemy.CurrentEnemy != null)
+        {
+            pushEnemy.CurrentEnemy.EnableRagdollPhysics();
+        }
+    } 
     
     public void ExecuteDisableRagdollPhysics()
     {

@@ -153,4 +153,14 @@ public class AnimationManager : MonoBehaviour
     {
         animator.SetTrigger("stomp");
     }
+
+    public void ExecutePush()
+    {
+        animator.SetTrigger("push");
+    }
+
+    public void ExecuteIdle()
+    {
+        animator.SetTrigger("idle");
+    }
 }

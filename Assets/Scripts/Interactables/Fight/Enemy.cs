@@ -5,6 +5,8 @@ using UnityEngine;
 public class Enemy : Interactable
 {
     [SerializeField] private Collider stompCollider = null;
+    [SerializeField] private Transform pushHandleLeft = null;
+    [SerializeField] private Transform pushHandleRight = null;
     private CapsuleCollider bodyCollider = null;
     private float health = 100f;
     private InteractionManager interactionManager = null;
@@ -18,6 +20,8 @@ public class Enemy : Interactable
     public float Health { get => health; set => health = value; }
     public bool IsDead { get => isDead; }
     public bool IsOnFloor { get => isOnFloor; }
+    public Transform PushHandleLeft { get => pushHandleLeft; }
+    public Transform PushHandleRight { get => pushHandleRight; }
 
     protected override void Start()
     {

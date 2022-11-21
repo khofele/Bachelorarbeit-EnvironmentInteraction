@@ -1,4 +1,5 @@
 using RootMotion.FinalIK;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -114,10 +115,15 @@ public class FinalIKController : MonoBehaviour
                             {
                                 StrikeBodyIK();
                             }
+                            // Stomp
                             else if (multipleOutcomesInteraction.OutcomeManager.CurrentOutcome.GetType() == typeof(StompOnEnemyOutcome))
                             {
                                 StompOnEnemyIK();
                             }
+                            else if (multipleOutcomesInteraction.OutcomeManager.CurrentOutcome.GetType() == typeof(PushEnemyOutcome))
+                            {
+                                PushEnemyIK();
+                            } 
                         }
                         // Fistfight
                         else if (currentInteraction.GetType() == typeof(FistFightInteraction))
@@ -407,6 +413,7 @@ public class FinalIKController : MonoBehaviour
         fullBodyIK.solver.rightHandEffector.positionWeight = 0f;
     }
 
+
     // Strike Head Outcome
     private void StrikeBodyIK()
     {
@@ -429,6 +436,16 @@ public class FinalIKController : MonoBehaviour
         fullBodyIK.solver.rightFootEffector.position = targetPosition;
 
         LookAtCurrentInteractable(currentInteractable);
+    }
+
+
+    // Push enemy
+    private void PushEnemyIK()
+    {
+        Enemy currentInteractable = (Enemy)interactableManager.CurrentInteractable;
+
+        fullBodyIK.solver.rightHandEffector.position = currentInteractable.PushHandleRight.position;
+        fullBodyIK.solver.leftHandEffector.position = currentInteractable.PushHandleLeft.position;
     }
 
     // ---------- ADDITIONAL METHODS ------------------------------------------------------------------------
