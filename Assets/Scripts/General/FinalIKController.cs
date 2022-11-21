@@ -16,10 +16,6 @@ public class FinalIKController : MonoBehaviour
     [SerializeField] private Transform leanTargetLeftHand = null;
     [SerializeField] private Transform passageLeanTargetLeftHand = null;
 
-    // DEBUG
-    [SerializeField] private Transform hitSpot = null;
-    // DEBUG
-
     // general
     private FullBodyBipedIK fullBodyIK = null;
     private LookAtIK lookAtIK = null;
@@ -429,7 +425,8 @@ public class FinalIKController : MonoBehaviour
     {
         Enemy currentInteractable = (Enemy)interactableManager.CurrentInteractable;
 
-        fullBodyIK.solver.rightFootEffector.position = hitSpot.transform.position;
+        targetPosition = currentInteractable.StompCollider.ClosestPoint(fullBodyIK.solver.rightFootEffector.position);
+        fullBodyIK.solver.rightFootEffector.position = targetPosition;
 
         LookAtCurrentInteractable(currentInteractable);
     }

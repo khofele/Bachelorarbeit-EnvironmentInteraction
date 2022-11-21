@@ -12,12 +12,39 @@ public class StompOnEnemyOutcome : Outcome
 
         currentEnemy = GetCurrentEnemy();
         currentEnemy.Health = 0f;
+        SnapToEnemy();
+    }
 
-        animationManager.ExecuteStomp();
+    private void Update()
+    {
+        if (interactionManager.IsCharSnappingToEnemy == true && outcomeManager.CurrentOutcome == this)
+        {
+            SnapToEnemy();
+        }
     }
 
     private Enemy GetCurrentEnemy()
     {
         return (Enemy)interactableManager.CurrentInteractable;
+    }
+
+    private void SnapToEnemy()
+    {
+        Vector3 position = currentEnemy.StompCollider.gameObject.GetComponent<Collider>().ClosestPoint(charController.transform.position);
+
+        interactionManager.IsCharSnappingToEnemy = true;
+
+        if(Vector3.Distance(charController.transform.position, position) < 0.5f)
+        {
+            animationManager.ExecuteStomp();
+
+            interactionManager.IsCharSnappingToEnemy = false;
+
+            ResetOutcome();
+        }
+        else
+        {
+            charController.transform.position = Vector3.MoveTowards(charController.transform.position, position, 3 * Time.deltaTime);
+        }
     }
 }

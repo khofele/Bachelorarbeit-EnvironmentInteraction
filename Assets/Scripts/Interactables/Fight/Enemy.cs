@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : Interactable
 {
+    [SerializeField] private Collider stompCollider = null;
     private CapsuleCollider bodyCollider = null;
     private float health = 100f;
     private InteractionManager interactionManager = null;
@@ -12,6 +13,7 @@ public class Enemy : Interactable
     private Rigidbody[] rigidbodies;
     private bool isOnFloor = false;
 
+    public Collider StompCollider { get => stompCollider; }
     public CapsuleCollider BodyCollider { get => bodyCollider; }
     public float Health { get => health; set => health = value; }
     public bool IsDead { get => isDead; }
@@ -116,8 +118,7 @@ public class Enemy : Interactable
     {
         int random = Random.Range(1, 11);
 
-        // TODO KARO Wahrscheinlichkeit anpassen
-        if(random % 1 == 0)
+        if(random % 5 == 0)
         {
             EnableRagdollPhysics();
             isOnFloor = true;
