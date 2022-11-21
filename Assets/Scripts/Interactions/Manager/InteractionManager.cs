@@ -24,7 +24,7 @@ public class InteractionManager : MonoBehaviour
     private bool isJumping = false;
     private bool isFixedSnapping = false;
     private bool isFighting = false;
-    private bool isFightSnapping = false;
+    private bool isCharSnappingToEnemy = false;
 
 
     public bool IsLeaning { get => isLeaning; }
@@ -38,7 +38,7 @@ public class InteractionManager : MonoBehaviour
     public bool IsJumping { get => isJumping; set => isJumping = value; }
     public bool IsFixedSnapping { get => isFixedSnapping; set => isFixedSnapping = value; }
     public bool IsFighting { get => isFighting; set => isFighting = value; }
-    public bool IsFightSnapping { get => isFightSnapping; set => isFightSnapping = value; }
+    public bool IsCharSnappingToEnemy { get => isCharSnappingToEnemy; set => isCharSnappingToEnemy = value; }
 
     public Interaction LastInteraction { get => lastInteraction; set => lastInteraction = value; }
     public Interaction CurrentInteraction { get => currentInteraction; set => currentInteraction = value; }
@@ -72,7 +72,7 @@ public class InteractionManager : MonoBehaviour
             isFixedLeaning = false;
         }
 
-        if(isFixedSnapping == false && isLeaningSnapping == false && isFightSnapping == false)
+        if(isFixedSnapping == false && isLeaningSnapping == false && isCharSnappingToEnemy == false)
         {
             isSnapping = false;
         }

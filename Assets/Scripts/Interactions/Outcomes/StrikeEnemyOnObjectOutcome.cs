@@ -24,7 +24,7 @@ public class StrikeEnemyOnObjectOutcome : Outcome
 
     private void Update()
     {
-        if(interactionManager.IsFightSnapping == true)
+        if(interactionManager.IsCharSnappingToEnemy == true && outcomeManager.CurrentOutcome == this)
         {
             SnapToTarget();
         }
@@ -56,14 +56,14 @@ public class StrikeEnemyOnObjectOutcome : Outcome
     {
         Vector3 position = target.GetComponent<Collider>().ClosestPoint(charController.transform.position);
 
-        interactionManager.IsFightSnapping = true;
+        interactionManager.IsCharSnappingToEnemy = true;
 
         if(Vector3.Distance(charController.transform.position, position) < 1f)
         {
             animationManager.ExecuteCrossPunchRight();
             DropEnemy();
             
-            interactionManager.IsFightSnapping = false;
+            interactionManager.IsCharSnappingToEnemy = false;
         }
         else
         {
