@@ -163,4 +163,19 @@ public class AnimationManager : MonoBehaviour
     {
         animator.SetTrigger("idle");
     }
+
+    public void ExecuteClimb()
+    {
+        animator.SetBool("isClimbing", true);
+    }
+
+    public void StopClimb()
+    {
+        animator.SetBool("isClimbing", false);
+    }
+
+    public void ExecuteClimbToTop()
+    {
+        animator.SetTrigger("climbToTop");
+    }
 }

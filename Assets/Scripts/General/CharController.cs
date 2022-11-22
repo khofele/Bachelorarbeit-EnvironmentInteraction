@@ -52,14 +52,33 @@ public class CharController : MonoBehaviour
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, -groundMask);
 
-        if (isGrounded && velocity.y < 0 && interactionManager.IsJumping == false)
+        if (isGrounded && velocity.y < 0 && interactionManager.IsJumping == false && interactionManager.IsClimbing == false)
         {
             velocity.y = -2f;
         }
 
-        moveDirection = new Vector3(xAxis, 0f, zAxis).normalized;
-        moveDirection = Camera.main.transform.TransformDirection(moveDirection);    
+        if(interactionManager.IsClimbing == true)
+        {
+            moveDirection = new Vector3(-xAxis, zAxis, 0f).normalized;
 
+            if (zAxis > 0f)
+            {
+                velocity.y = 0.025f;
+            }
+            else if (zAxis < 0f)
+            {
+                velocity.y = -0.025f;
+            }
+            else
+            {
+                velocity.y = 0f;
+            }
+        }
+        else
+        {        
+            moveDirection = new Vector3(xAxis, 0f, zAxis).normalized;
+            moveDirection = Camera.main.transform.TransformDirection(moveDirection);
+        }
 
         if (interactionManager.IsFixedLeaning == true)
         {
@@ -80,7 +99,7 @@ public class CharController : MonoBehaviour
             xAxis = Input.GetAxis("Horizontal");
         }
 
-        if (interactionManager.IsLeaning == false && interactionManager.IsJumping == false && interactionManager.IsFighting == false)
+        if (interactionManager.IsLeaning == false && interactionManager.IsJumping == false && interactionManager.IsFighting == false && interactionManager.IsClimbing == false)
         {
             transform.rotation = Quaternion.LookRotation(new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized, Camera.main.transform.up);
         }
@@ -93,7 +112,7 @@ public class CharController : MonoBehaviour
                 // Running
                 speed = 10f;
                 animationManager.ExecuteRunAnimation(zAxis, xAxis);
-            }
+            } 
             else if (isCrouching == true)
             {
                 // Crouching
@@ -117,7 +136,12 @@ public class CharController : MonoBehaviour
         if (interactionManager.IsFighting == false && interactionManager.IsJumping == false && interactionManager.IsSnapping == false)
         {
             characterController.Move(speed * Time.deltaTime * moveDirection);
-            velocity.y += gravity * Time.deltaTime;
+
+            if (interactionManager.IsClimbing == false)
+            {
+                velocity.y += gravity * Time.deltaTime;
+            }
+
             characterController.Move(velocity * Time.deltaTime);
         }
 
