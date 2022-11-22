@@ -63,9 +63,12 @@ public abstract class LeanInteraction : Interaction
         {
             if (CheckMatchingInteractable() == true)
             {
-                if (CheckConditions() == true)
+                if (CheckOtherInteractionsRunning() == true)
                 {
-                    ExecuteInteraction();
+                    if (CheckConditions() == true)
+                    {
+                        ExecuteInteraction();
+                    }
                 }
             }
         }
