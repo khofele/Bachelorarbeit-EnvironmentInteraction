@@ -2,43 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PushEnemyOutcome : Outcome
+public class PushEnemyOutcome : FightOutcome
 {
     [SerializeField] private Transform grabHandle = null;
-    private Enemy currentEnemy = null;
-    private TargetObject target = null;
 
-    public Enemy CurrentEnemy { get => currentEnemy; }
-
-    public override void ExecuteOutcome()
-    {
-        base.ExecuteOutcome();
-
-        currentEnemy = GetCurrentEnemy();
-        currentEnemy.Health = 0f;
-
-        SnapToTarget();
-    }
-
-    private Enemy GetCurrentEnemy()
-    {
-        return (Enemy)interactableManager.CurrentInteractable;
-    }
-
-    private TargetObject GetCurrentTarget()
-    {
-        return GetComponent<ObjectNearbyCondition>().Target;
-    }
-
-    private void Update()
-    {
-        if (interactionManager.IsCharSnappingToEnemy == true && outcomeManager.CurrentOutcome == this)
-        {
-            SnapToTarget();
-        }
-    }
-
-    private void SnapToTarget()
+    protected override void SnapToTarget()
     {
         target = GetCurrentTarget();
 
@@ -62,6 +30,14 @@ public class PushEnemyOutcome : Outcome
         }
     }
 
+    private IEnumerator WaitAndReset()
+    {
+        yield return new WaitForSeconds(1f);
+
+        ResetOutcome();
+        animationManager.ExecuteIdle();
+    }
+
     public void GrabEnemy()
     {
         currentEnemy.transform.SetParent(grabHandle);
@@ -70,13 +46,5 @@ public class PushEnemyOutcome : Outcome
     public void DropEnemy()
     {
         currentEnemy.transform.SetParent(null);
-    }
-
-    private IEnumerator WaitAndReset()
-    {
-        yield return new WaitForSeconds(1f);
-
-        ResetOutcome();
-        animationManager.ExecuteIdle();
     }
 }

@@ -2,33 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StompOnEnemyOutcome : Outcome
+public class StompOnEnemyOutcome : FightOutcome
 {
-    private Enemy currentEnemy = null;
-
-    public override void ExecuteOutcome()
-    {
-        base.ExecuteOutcome();
-
-        currentEnemy = GetCurrentEnemy();
-        currentEnemy.Health = 0f;
-        SnapToEnemy();
-    }
-
-    private void Update()
-    {
-        if (interactionManager.IsCharSnappingToEnemy == true && outcomeManager.CurrentOutcome == this)
-        {
-            SnapToEnemy();
-        }
-    }
-
-    private Enemy GetCurrentEnemy()
-    {
-        return (Enemy)interactableManager.CurrentInteractable;
-    }
-
-    private void SnapToEnemy()
+    protected override void SnapToTarget()
     {
         Vector3 position = currentEnemy.StompCollider.gameObject.GetComponent<Collider>().ClosestPoint(charController.transform.position);
 

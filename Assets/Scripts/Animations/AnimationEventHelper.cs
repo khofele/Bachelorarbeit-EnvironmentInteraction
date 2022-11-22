@@ -66,7 +66,7 @@ public class AnimationEventHelper : MonoBehaviour
 
     public void ExecuteEnableRagdollPhysics()
     {
-        if (strikeEnemyOnObject.CurrentEnemy!= null)
+        if (strikeEnemyOnObject.CurrentEnemy != null)
         {
             strikeEnemyOnObject.CurrentEnemy.EnableRagdollPhysics();
         }

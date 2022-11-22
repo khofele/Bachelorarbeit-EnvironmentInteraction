@@ -2,31 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StrikeEnemyOnObjectOutcome : Outcome
+public class StrikeEnemyOnObjectOutcome : FightOutcome
 {
     [SerializeField] private Transform grabHandle = null;
-    private Enemy currentEnemy = null;
-    private TargetObject target = null;
-
-    public TargetObject Target { get => target; }
-    public Enemy CurrentEnemy { get => currentEnemy; }
-
-    public override void ExecuteOutcome()
-    {
-        base.ExecuteOutcome();
-
-        currentEnemy = GetCurrentEnemy();
-        currentEnemy.Health = 0f;
-        SnapToTarget();
-    }
-
-    private void Update()
-    {
-        if(interactionManager.IsCharSnappingToEnemy == true && outcomeManager.CurrentOutcome == this)
-        {
-            SnapToTarget();
-        }
-    }
 
     public override void ResetOutcome()
     {
@@ -34,17 +12,7 @@ public class StrikeEnemyOnObjectOutcome : Outcome
         base.ResetOutcome();
     }
 
-    private Enemy GetCurrentEnemy()
-    {
-        return (Enemy)interactableManager.CurrentInteractable;
-    }
-
-    private TargetObject GetCurrentTarget()
-    {
-        return GetComponent<ObjectNearbyCondition>().Target;
-    }
-
-    private void SnapToTarget()
+    protected override void SnapToTarget()
     {
         target = GetCurrentTarget();
 
