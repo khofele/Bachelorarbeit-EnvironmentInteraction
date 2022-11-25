@@ -1,16 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Climbable : Interactable
 {
     [SerializeField] private Transform topTransform = null;
-    private TriggerCheckClimbable triggerCheck = null;
+    [SerializeField] private Transform climbDownTransform = null;
+    private TopClimbingTriggerCheck topClimbingTriggerCheck = null;
     private int triggerCount = 0;
 
-    public int TriggerCount { get => triggerCount; }
-    public TriggerCheckClimbable TriggerCheck { get => triggerCheck; }
+    // DEBUG
+    private List<ClimbingStone> climbingStones = new List<ClimbingStone>();
+    public List<ClimbingStone> ClimbingStones { get => climbingStones; }
+    // DEBUG
+
+    public int TriggerCount { get => triggerCount; set => triggerCount = value; }
+    public TopClimbingTriggerCheck TopClimbingTriggerCheck { get => topClimbingTriggerCheck; }
     public Transform TopTransform { get => topTransform; }
+    public Transform ClimbDownTransform { get => climbDownTransform; }
+
 
     // TODO KARO Trigger richtig erkennen zu zuweisen evtl.
     // TODO KARO Validate-Methode
@@ -19,7 +28,11 @@ public class Climbable : Interactable
     {
         base.Start();
 
-        triggerCheck = GetComponentInChildren<TriggerCheckClimbable>();
+        FillList();
+
+        GetComponent<Collider>().isTrigger = false; 
+
+        topClimbingTriggerCheck = GetComponentInChildren<TopClimbingTriggerCheck>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -28,5 +41,10 @@ public class Climbable : Interactable
         {
             triggerCount++;
         }
+    }
+
+    private void FillList()
+    {
+        climbingStones = GetComponentsInChildren<ClimbingStone>().ToList();
     }
 }

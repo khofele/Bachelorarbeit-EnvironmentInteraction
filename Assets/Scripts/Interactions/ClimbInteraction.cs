@@ -5,13 +5,15 @@ using UnityEngine;
 public class ClimbInteraction : Interaction
 {
     private Climbable currentClimbable = null;
-    private Vector3 moveDirection = Vector3.zero;
 
     // DEBUG
-    private bool isTerminating = false;
+    private bool isClimbingUp = false;
+
+    private bool isClimbingDown = false;
     // DEBUG
 
     public Climbable CurrentClimbable { get => currentClimbable; }
+
 
     protected override void SetMatchingInteractable()
     {
@@ -23,6 +25,18 @@ public class ClimbInteraction : Interaction
         base.ExecuteInteraction();
 
         currentClimbable = (Climbable)interactableManager.CurrentInteractable;
+
+        if (currentClimbable.TopClimbingTriggerCheck.IsOnTopOfWall == true)
+        {
+            currentClimbable.TriggerCount++;
+            animationManager.SetIsOnTop(true);
+            animationManager.ExecuteClimbDown();
+            isClimbingDown = true;
+        }
+        else
+        {
+            animationManager.SetIsOnTop(false);
+        }
     }
 
     protected override void Update()
@@ -41,24 +55,41 @@ public class ClimbInteraction : Interaction
             }
         }
 
-        ExecuteClimbInteraction();
-
-        if(isTerminating == true)
+        if(isClimbingDown == true)
         {
-            interactionManager.IsClimbingSnapping = true;
-            charController.transform.position = Vector3.MoveTowards(charController.transform.position, new Vector3(charController.transform.position.x, currentClimbable.TopTransform.position.y, charController.transform.position.z), 1 * Time.deltaTime);
+                if (Vector3.Distance(charController.transform.position, new Vector3(charController.transform.position.x, currentClimbable.ClimbDownTransform.position.y, currentClimbable.ClimbDownTransform.position.z)) < 0.01f)
+                {
+                    StartCoroutine(WaitAndReset());
+                    isClimbingDown = false;
+                    interactionManager.IsClimbingSnapping = false;
+                }
+                else
+                {
+                    interactionManager.IsClimbingSnapping = true;
+                    charController.transform.position = Vector3.MoveTowards(charController.transform.position, new Vector3(charController.transform.position.x, currentClimbable.ClimbDownTransform.position.y, currentClimbable.ClimbDownTransform.position.z), 1 * Time.deltaTime);
+                }
+        }
 
-            Debug.Log("Snap");
+        if(isClimbingDown == false)
+        {
+            ExecuteClimbInteraction();
+        }
 
-            if (Vector3.Distance(charController.transform.position, new Vector3(charController.transform.position.x, currentClimbable.TopTransform.position.y, charController.transform.position.z)) < 0.001f)
+        if (isClimbingUp == true && charController.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Climbing To Top"))
+        {
+            if (Vector3.Distance(charController.transform.position, new Vector3(charController.transform.position.x, currentClimbable.TopTransform.position.y, currentClimbable.TopTransform.position.z)) < 0.01f)
             {
-                Debug.Log("feddich");
-                isTerminating = false;
+                StartCoroutine(WaitAndReset());
+                isClimbingUp = false;
                 interactionManager.IsClimbing = false;
                 interactionManager.IsClimbingSnapping = false;
             }
+            else
+            {
+                interactionManager.IsClimbingSnapping = true;
+                charController.transform.position = Vector3.MoveTowards(charController.transform.position, new Vector3(charController.transform.position.x, currentClimbable.TopTransform.position.y, currentClimbable.TopTransform.position.z), 1 * Time.deltaTime);
+            }
         }
-
     }
 
     private void ExecuteClimbInteraction()
@@ -91,36 +122,35 @@ public class ClimbInteraction : Interaction
 
     protected override void ResetInteraction()
     {
-        base.ResetInteraction();
 
-        if (currentClimbable.TriggerCheck.IsTopReached == true)
+        animationManager.StopClimb();
+
+        if(currentClimbable.TopClimbingTriggerCheck.IsOnTopOfWall == true)
         {
-            // TODO KARO vollns hoch klettern und dann Interaktion beenden --> Transform erstellt, dessen Höhe genommen werden kann, um den Charakter hochzusnappen?
-            animationManager.StopClimb();
             animationManager.ExecuteClimbToTop();
-
-            isTerminating = true; 
-
-
-            // TODO KARO erst zurücksetzen, wenn Char ganz oben ist
-            //interactionManager.IsClimbing = false;
+            isClimbingUp = true;
+            animationManager.SetIsOnTop(true);
         }
         else
         {
-            animationManager.StopClimb();
             interactionManager.IsClimbing = false;
+            animationManager.SetIsOnTop(false);
         }
+        currentClimbable.TriggerCount = 0;
+
+        base.ResetInteraction();
     }
 
     private void DetectWall()
     {
         Ray rayFront = new Ray(charController.transform.position, charController.transform.forward);
+        Ray rayBack = new Ray(charController.transform.position, -charController.transform.forward);
         Ray rayRight = new Ray(charController.transform.position, charController.transform.right);
         Ray rayLeft = new Ray(charController.transform.position, -charController.transform.right);
 
         RaycastHit hit;
 
-        if (((Physics.Raycast(rayFront, out hit, 1f, LayerMask.NameToLayer("Checkbox"))) || (Physics.Raycast(rayRight, out hit, 1f, LayerMask.NameToLayer("Checkbox"))) || (Physics.Raycast(rayLeft, out hit, 1f, LayerMask.NameToLayer("Checkbox"))))
+        if (((Physics.Raycast(rayFront, out hit, 1f, LayerMask.NameToLayer("Checkbox"))) || (Physics.Raycast(rayBack, out hit, 1f, LayerMask.NameToLayer("Checkbox"))) || (Physics.Raycast(rayRight, out hit, 1f, LayerMask.NameToLayer("Checkbox"))) || (Physics.Raycast(rayLeft, out hit, 1f, LayerMask.NameToLayer("Checkbox"))))
             && interactionManager.IsClimbing == true)
         {
             if (hit.transform.gameObject.GetComponent<Climbable>() != null)
@@ -128,9 +158,10 @@ public class ClimbInteraction : Interaction
                 charController.transform.rotation = Quaternion.LookRotation(-hit.normal);
             }
         }
-        else
-        {
-            ResetInteraction();
-        }
+    }
+
+    private IEnumerator WaitAndReset()
+    {
+        yield return new WaitForSeconds(10f);
     }
 }

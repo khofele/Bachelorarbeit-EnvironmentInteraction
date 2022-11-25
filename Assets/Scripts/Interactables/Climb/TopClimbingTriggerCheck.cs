@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TriggerCheckClimbable : MonoBehaviour
+public class TopClimbingTriggerCheck : MonoBehaviour
 {
-    private bool isTopReached = false;
+    private bool isOnTopOfWall = false;
 
-    public bool IsTopReached { get => isTopReached; }
+    public bool IsOnTopOfWall { get => isOnTopOfWall; set => isOnTopOfWall = value; }
 
     private void OnTriggerEnter(Collider other)
     {
+
         if (other.gameObject.GetComponent<CharController>() != null)
         {
-            isTopReached = true;
+            isOnTopOfWall = true;
         }
     }
 
@@ -20,7 +21,7 @@ public class TriggerCheckClimbable : MonoBehaviour
     {
         if (other.gameObject.GetComponent<CharController>() != null)
         {
-            isTopReached = false;
+            isOnTopOfWall = false;
         }
     }
 }

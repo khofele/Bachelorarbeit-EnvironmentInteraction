@@ -17,7 +17,6 @@ public abstract class MultipleOutcomesInteraction : Interaction
         outcomeManager.FillOutcomesList();
     }
 
-
     protected override void Update()
     {
         if(outcomeManager.CurrentOutcome == null)

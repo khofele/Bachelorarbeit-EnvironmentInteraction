@@ -178,4 +178,14 @@ public class AnimationManager : MonoBehaviour
     {
         animator.SetTrigger("climbToTop");
     }
+
+    public void ExecuteClimbDown()
+    {
+        animator.SetTrigger("climbDown");
+    }
+
+    public void SetIsOnTop(bool value)
+    {
+        animator.SetBool("isOnTop", value);
+    }
 }
