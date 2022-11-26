@@ -21,8 +21,8 @@ public class Climbable : Interactable
     public Transform ClimbDownTransform { get => climbDownTransform; }
 
 
-    // TODO KARO Trigger richtig erkennen zu zuweisen evtl.
-    // TODO KARO Validate-Methode
+    // TODO KARO Trigger richtig erkennen zu zuweisen evtl.  --> TICKET: KLETTERN OPTIMIERUNGEN
+    // TODO KARO Validate-Methode  --> TICKET: KLETTERN OPTIMIERUNGEN
 
     protected override void Start()
     {

@@ -5,15 +5,10 @@ using UnityEngine;
 public class ClimbInteraction : Interaction
 {
     private Climbable currentClimbable = null;
-
-    // DEBUG
     private bool isClimbingUp = false;
-
     private bool isClimbingDown = false;
-    // DEBUG
 
     public Climbable CurrentClimbable { get => currentClimbable; }
-
 
     protected override void SetMatchingInteractable()
     {

@@ -17,6 +17,13 @@ public class FinalIKController : MonoBehaviour
     [SerializeField] private Transform leanTargetLeftHand = null;
     [SerializeField] private Transform passageLeanTargetLeftHand = null;
 
+    [Header("Foot Transforms")]
+    [SerializeField] private Transform leftFootGrabHandle = null;
+    [SerializeField] private Transform rightFootGrabHandle = null;
+
+    [Header("Up")]
+    [SerializeField] private Transform upLookTarget = null;
+
     // general
     private FullBodyBipedIK fullBodyIK = null;
     private LookAtIK lookAtIK = null;
@@ -44,6 +51,9 @@ public class FinalIKController : MonoBehaviour
     private Vector3 closestPointRight = Vector3.zero;
     private Vector3 closestPointLeft = Vector3.zero;
     private Vector3 targetPosition = Vector3.zero;
+
+    // climb
+    private ClimbingStone closestClimbingStone = null;
 
     public bool IsIkActive { get => isIkActive; set => isIkActive = value; }
 
@@ -102,6 +112,10 @@ public class FinalIKController : MonoBehaviour
                         else if (currentInteraction.GetType() == typeof(JumpOverObstacleInteraction))
                         {
                             JumpIK();
+                        }
+                        else if (currentInteraction.GetType() == typeof(ClimbInteraction))
+                        {
+                            ClimbIK();
                         }
                     }
                     // Multiple Outcomes Interactions
@@ -448,6 +462,82 @@ public class FinalIKController : MonoBehaviour
         fullBodyIK.solver.leftHandEffector.position = currentInteractable.PushHandleLeft.position;
     }
 
+    // ---------- CLIMB -------------------------------------------------------------------------------------
+
+    private void ClimbIK()
+    {
+     
+        fullBodyIK.solver.leftHandEffector.position = FindClosestClimbingStone(leftHandGrabHandle.position).transform.position;
+        fullBodyIK.solver.rightHandEffector.position = FindClosestClimbingStone(rightHandGrabHandle.position).transform.position;
+        fullBodyIK.solver.rightFootEffector.position = FindClosestClimbingStone(rightFootGrabHandle.position).transform.position;
+        fullBodyIK.solver.leftFootEffector.position = FindClosestClimbingStone(leftFootGrabHandle.position).transform.position;
+
+
+
+        fullBodyIK.solver.rightHandEffector.positionWeight = 1f;
+        fullBodyIK.solver.leftHandEffector.positionWeight = 1f;
+        fullBodyIK.solver.rightFootEffector.positionWeight = 1f;
+        fullBodyIK.solver.leftFootEffector.positionWeight = 1f;
+
+        ClimbFaceDirection();
+    }
+
+    private ClimbingStone FindClosestClimbingStone(Vector3 target)
+    {
+        Climbable currentClimable = (Climbable)interactableManager.CurrentInteractable;
+        
+        float shortestDistance = Mathf.Infinity;
+
+        foreach (ClimbingStone stone in currentClimable.ClimbingStones)
+        {
+            float distance = Vector3.Distance(target, stone.transform.position);
+
+            if(distance < shortestDistance && distance < 1.5f)
+            {
+                shortestDistance = distance;
+                closestClimbingStone = stone;
+            }
+        }
+
+        // TODO KARO v funktioniert nicht, Hände zurücksetzen wenn kein Stein mehr in Reichweite gefunden werden kann --> TICKET: KLETTERN OPTIMIERUNGEN
+        if(closestClimbingStone == null)
+        {
+            isIkActive = false;
+            return null;
+            
+        }
+
+        return closestClimbingStone;
+    }
+
+    private void ClimbFaceDirection()
+    {
+        if (charController.ZAxis == 1)
+        {
+            lookAtIK.solver.target = upLookTarget;
+            lookAtIK.solver.IKPositionWeight = 1f;
+            lookAtIK.solver.headWeight = 1f;
+        }
+        else if (charController.XAxis == -1)
+        {
+            lookAtIK.solver.target = leftHandLookTarget;
+            lookAtIK.solver.IKPositionWeight = 1f;
+            lookAtIK.solver.headWeight = 1f;
+        }
+        else if (charController.XAxis == 1)
+        {
+            lookAtIK.solver.target = rightHandLookTarget;
+            lookAtIK.solver.IKPositionWeight = 1f;
+            lookAtIK.solver.headWeight = 1f;
+        }
+        else
+        {
+            lookAtIK.solver.target = null;
+            lookAtIK.solver.IKPositionWeight = 0f;
+            lookAtIK.solver.headWeight = 0f;
+        }
+    }
+
     // ---------- ADDITIONAL METHODS ------------------------------------------------------------------------
 
     private void FaceDirection()
@@ -456,11 +546,13 @@ public class FinalIKController : MonoBehaviour
         {
             lookAtIK.solver.target = leftHandLookTarget;
             lookAtIK.solver.IKPositionWeight = 1f;
+            lookAtIK.solver.headWeight = 1f;
         }
         else if (charController.XAxis == -1)
         {
             lookAtIK.solver.target = rightHandLookTarget;
             lookAtIK.solver.IKPositionWeight = 1f;
+            lookAtIK.solver.headWeight = 1f;
         }
         else
         {
@@ -482,6 +574,10 @@ public class FinalIKController : MonoBehaviour
         fullBodyIK.solver.leftHandEffector.rotationWeight = 0f;
         fullBodyIK.solver.rightHandEffector.positionWeight = 0f;
         fullBodyIK.solver.rightHandEffector.rotationWeight = 0f;
+        fullBodyIK.solver.leftFootEffector.positionWeight = 0f;
+        fullBodyIK.solver.leftFootEffector.rotationWeight = 0f;
+        fullBodyIK.solver.rightFootEffector.positionWeight = 0f;
+        fullBodyIK.solver.rightFootEffector.rotationWeight = 0f;
         lookAtIK.solver.target = null;
         lookAtIK.solver.IKPositionWeight = 0f;
         lookAtIK.solver.headWeight = 0f;
