@@ -9,16 +9,13 @@ public class Climbable : Interactable
     [SerializeField] private Transform climbDownTransform = null;
     private TopClimbingTriggerCheck topClimbingTriggerCheck = null;
     private int triggerCount = 0;
-
-    // DEBUG
     private List<ClimbingStone> climbingStones = new List<ClimbingStone>();
-    public List<ClimbingStone> ClimbingStones { get => climbingStones; }
-    // DEBUG
 
     public int TriggerCount { get => triggerCount; set => triggerCount = value; }
     public TopClimbingTriggerCheck TopClimbingTriggerCheck { get => topClimbingTriggerCheck; }
     public Transform TopTransform { get => topTransform; }
     public Transform ClimbDownTransform { get => climbDownTransform; }
+    public List<ClimbingStone> ClimbingStones { get => climbingStones; }
 
     protected override void Start()
     {
