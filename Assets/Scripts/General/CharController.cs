@@ -119,6 +119,11 @@ public class CharController : MonoBehaviour
                 speed = 2.5f;
                 animationManager.ExecuteCrouchAnimation(zAxis, xAxis);
             }
+            else if (interactionManager.IsClimbing == true)
+            {
+                // Climbing
+                speed = 1f;
+            }
             else
             {
                 // Walking

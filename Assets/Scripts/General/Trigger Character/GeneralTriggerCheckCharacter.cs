@@ -21,6 +21,7 @@ public class GeneralTriggerCheckCharacter : MonoBehaviour
         {
             interactableManager.CurrentInteractable = other.gameObject.GetComponent<Interactable>();
 
+
             if (interactableManager.CurrentInteractable.GetComponent<InteractableTriggerProperty>() != null)
             {
                 if (interactableManager.CurrentInteractable.GetComponent<InteractableTriggerProperty>().IsActivatedFromEverySide == false)

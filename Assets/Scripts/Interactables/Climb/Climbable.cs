@@ -20,19 +20,35 @@ public class Climbable : Interactable
     public Transform TopTransform { get => topTransform; }
     public Transform ClimbDownTransform { get => climbDownTransform; }
 
-
-    // TODO KARO Trigger richtig erkennen zu zuweisen evtl.  --> TICKET: KLETTERN OPTIMIERUNGEN
-    // TODO KARO Validate-Methode  --> TICKET: KLETTERN OPTIMIERUNGEN
-
     protected override void Start()
     {
-        base.Start();
-
         FillList();
 
         GetComponent<Collider>().isTrigger = false; 
 
         topClimbingTriggerCheck = GetComponentInChildren<TopClimbingTriggerCheck>();
+
+        base.Start();
+    }
+
+    protected override void Validate()
+    {
+        base.Validate();
+
+        if(topTransform == null)
+        {
+            Debug.LogWarning("Top transform is not assigned!");
+        }
+
+        if(climbDownTransform == null)
+        {
+            Debug.LogWarning("Climb down transform is not assigned!");
+        }
+
+        if(topClimbingTriggerCheck == null)
+        {
+            Debug.LogWarning("Triggercheck is not assigned!");
+        }
     }
 
     private void OnTriggerEnter(Collider other)

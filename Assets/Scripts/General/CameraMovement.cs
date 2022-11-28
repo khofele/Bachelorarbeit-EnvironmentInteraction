@@ -8,6 +8,7 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private CinemachineFreeLook freeLookCamera = null;
     [SerializeField] private CinemachineVirtualCamera leanCamera = null;
     [SerializeField] private CinemachineVirtualCamera topDownCamera = null;
+    [SerializeField] private CinemachineVirtualCamera climbCamera = null;
     private InteractionManager interactionManager = null;
     private List<CinemachineVirtualCamera> virtualCameras = new List<CinemachineVirtualCamera>();
 
@@ -21,7 +22,11 @@ public class CameraMovement : MonoBehaviour
 
     private void Update()
     {
-        if (interactionManager.IsLeaning == false)
+        if(interactionManager.IsClimbing == true)
+        {
+            EnableVirtualCamera(climbCamera);
+        }
+        else if (interactionManager.IsLeaning == false)
         {
             freeLookCamera.enabled = true;
         }

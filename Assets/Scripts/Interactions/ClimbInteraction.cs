@@ -26,6 +26,7 @@ public class ClimbInteraction : Interaction
             currentClimbable.TriggerCount++;
             animationManager.SetIsOnTop(true);
             animationManager.ExecuteClimbDown();
+            finalIKController.IsIkActive = false;
             isClimbingDown = true;
         }
         else
@@ -54,7 +55,6 @@ public class ClimbInteraction : Interaction
         {
                 if (Vector3.Distance(charController.transform.position, new Vector3(charController.transform.position.x, currentClimbable.ClimbDownTransform.position.y, currentClimbable.ClimbDownTransform.position.z)) < 0.01f)
                 {
-                    StartCoroutine(WaitAndReset());
                     isClimbingDown = false;
                     interactionManager.IsClimbingSnapping = false;
                 }
@@ -75,9 +75,6 @@ public class ClimbInteraction : Interaction
             if (Vector3.Distance(charController.transform.position, new Vector3(charController.transform.position.x, currentClimbable.TopTransform.position.y, currentClimbable.TopTransform.position.z)) < 0.01f)
             {
                 StartCoroutine(WaitAndReset());
-                isClimbingUp = false;
-                interactionManager.IsClimbing = false;
-                interactionManager.IsClimbingSnapping = false;
             }
             else
             {
@@ -157,6 +154,9 @@ public class ClimbInteraction : Interaction
 
     private IEnumerator WaitAndReset()
     {
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(1f);
+        isClimbingUp = false;
+        interactionManager.IsClimbing = false;
+        interactionManager.IsClimbingSnapping = false;
     }
 }

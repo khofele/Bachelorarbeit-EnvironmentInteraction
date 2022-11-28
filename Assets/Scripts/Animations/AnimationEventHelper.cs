@@ -9,14 +9,15 @@ public class AnimationEventHelper : MonoBehaviour
     private FullBodyBipedIK fullBodyIK = null;
     private StrikeEnemyOnObjectOutcome strikeEnemyOnObject = null;
     private PushEnemyOutcome pushEnemy = null;
+    private FinalIKController finalIKController = null;
 
     private void Start()
     {
         throwObjectInteraction = GetComponentInChildren<ThrowObjectInteraction>();
         fullBodyIK = GetComponent<FullBodyBipedIK>();
-
         strikeEnemyOnObject = GetComponentInChildren<StrikeEnemyOnObjectOutcome>();
         pushEnemy = GetComponentInChildren<PushEnemyOutcome>();
+        finalIKController = fullBodyIK.gameObject.GetComponent<FinalIKController>();
     }
 
     public void ExecuteThrow()
@@ -91,5 +92,10 @@ public class AnimationEventHelper : MonoBehaviour
         {
             strikeEnemyOnObject.DropEnemy();
         }
+    }
+
+    public void EnableIK()
+    {
+        finalIKController.IsIkActive = true;
     }
 }
