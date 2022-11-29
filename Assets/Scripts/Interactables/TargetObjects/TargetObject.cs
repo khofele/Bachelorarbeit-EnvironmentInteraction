@@ -7,7 +7,7 @@ public class TargetObject : MonoBehaviour
 {
     private Rigidbody rigidBody = null;
 
-    private void Start()
+    protected virtual void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
 
