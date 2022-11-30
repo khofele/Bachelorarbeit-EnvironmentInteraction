@@ -111,10 +111,21 @@ public class Enemy : Interactable
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<Throwable>() != null)
+        if (other.gameObject.GetComponent<Throwable>() != null) 
         {
             health -= 100f;
             EnableRagdollPhysics();
+        }
+        else if (other.gameObject.GetComponent<PushableTarget>() != null && interactionManager.CurrentInteraction != null)
+        {
+            if (interactionManager.CurrentInteraction.gameObject.GetComponent<OutcomeManager>() != null)
+            {
+                if (interactionManager.CurrentInteraction.gameObject.GetComponent<OutcomeManager>().CurrentOutcome.GetType() == typeof(PushObjectOnEnemyOutcome))
+                {
+                    EnableRagdollPhysics();
+                    // TODO KARO überlegen, ob Gegner stirbt oder nicht --> TICKET: Objekt schubsen
+                }
+            }
         }
     }
 
