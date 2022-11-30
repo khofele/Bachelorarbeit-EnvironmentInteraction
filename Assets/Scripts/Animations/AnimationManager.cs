@@ -188,4 +188,9 @@ public class AnimationManager : MonoBehaviour
     {
         animator.SetBool("isOnTop", value);
     }
+
+    public void ExecutePushObject()
+    {
+        animator.SetTrigger("pushObject");
+    }
 }
