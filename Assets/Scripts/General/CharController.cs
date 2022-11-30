@@ -99,7 +99,7 @@ public class CharController : MonoBehaviour
             xAxis = Input.GetAxis("Horizontal");
         }
 
-        if (interactionManager.IsLeaning == false && interactionManager.IsJumping == false && interactionManager.IsFighting == false && interactionManager.IsClimbing == false)
+        if (interactionManager.IsLeaning == false && interactionManager.IsJumping == false && interactionManager.IsFighting == false && interactionManager.IsClimbing == false && interactionManager.IsPushingObject == false)
         {
             transform.rotation = Quaternion.LookRotation(new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized, Camera.main.transform.up);
         }
