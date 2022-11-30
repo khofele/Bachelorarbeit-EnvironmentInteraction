@@ -137,7 +137,11 @@ public class FinalIKController : MonoBehaviour
                             else if (multipleOutcomesInteraction.OutcomeManager.CurrentOutcome.GetType() == typeof(PushEnemyOutcome))
                             {
                                 PushEnemyIK();
-                            } 
+                            }
+                            else if (multipleOutcomesInteraction.OutcomeManager.CurrentOutcome.GetType() == typeof(PushObjectOnEnemyOutcome))
+                            {
+                                PushObjectIK();
+                            }
                         }
                         // Fistfight
                         else if (currentInteraction.GetType() == typeof(FistFightInteraction))
@@ -460,6 +464,12 @@ public class FinalIKController : MonoBehaviour
 
         fullBodyIK.solver.rightHandEffector.position = currentInteractable.PushHandleRight.position;
         fullBodyIK.solver.leftHandEffector.position = currentInteractable.PushHandleLeft.position;
+    }
+
+    // Push object on enemy 
+    private void PushObjectIK()
+    {
+        // TODO KARO IK implementieren --> TICKET: OBJEKT SCHUBSEN
     }
 
     // ---------- CLIMB -------------------------------------------------------------------------------------
