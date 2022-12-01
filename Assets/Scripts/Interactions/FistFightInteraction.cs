@@ -116,5 +116,3 @@ public class FistFightInteraction : MultipleOutcomesInteraction
         outcomeManager.ResetOutcomes();
     }
 }
-
-

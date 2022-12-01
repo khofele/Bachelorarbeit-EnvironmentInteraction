@@ -29,6 +29,9 @@ public abstract class MultipleOutcomesInteraction : Interaction
                     {
                         if (CheckConditions() == true)
                         {
+                            interactionManager.CurrentInteraction = this;
+                            interactionManager.SetLastInteraction();
+
                             if(CheckAndExecuteOutcomes() == false)
                             {
                                 ExecuteInteraction();
@@ -37,6 +40,7 @@ public abstract class MultipleOutcomesInteraction : Interaction
                             else
                             {
                                 interactionManager.CurrentInteraction = this;
+                                ResetInteraction();
                             }
                         }
                     }
