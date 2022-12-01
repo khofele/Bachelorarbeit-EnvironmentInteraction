@@ -6,6 +6,10 @@ public class PushObjectOnEnemyOutcome : FightOutcome
 {
     [SerializeField] private Transform grabHandle = null;
     private PushableTarget pushTarget = null;
+    private Transform closestGrabHandle = null;
+
+    public PushableTarget PushTarget { get => pushTarget; }
+    public Transform ClosestGrabHandle { get => closestGrabHandle; }
 
     protected override void SnapToTarget()
     {
@@ -24,7 +28,6 @@ public class PushObjectOnEnemyOutcome : FightOutcome
             animationManager.ExecutePushObject();
             interactionManager.IsCharSnappingToEnemy = false;
             StartCoroutine(WaitAndReset());
-            // TODO KARO wo anders zurücksetzen oder zweiter Bool sonst dreht sich Char nicht interactionManager.IsCharSnappingToEnemy = false; --> TICKET: OBJEKTE SCHUBSEN
         }
         else
         {
@@ -35,7 +38,7 @@ public class PushObjectOnEnemyOutcome : FightOutcome
     private void GrabTargetObject()
     {
         pushTarget.transform.SetParent(grabHandle);
-        pushTarget.transform.localPosition = new Vector3(pushTarget.transform.localPosition.x, 0, pushTarget.transform.localPosition.z);
+        pushTarget.transform.localPosition = Vector3.zero;
     }
 
     public void DropTargetObject()
@@ -43,13 +46,12 @@ public class PushObjectOnEnemyOutcome : FightOutcome
         pushTarget.gameObject.GetComponent<Rigidbody>().isKinematic = false;
         pushTarget.gameObject.GetComponent<Rigidbody>().AddForce(charController.transform.forward * 4, ForceMode.Impulse);
         pushTarget.transform.SetParent(null);
-        // TODO KARO Position passt nicht --> siehe Block Problem --> TICKET: Objekt schubsen
     }
 
     private Transform GetClosestGrabHandle()
     {
         float shortestDistance = Mathf.Infinity;
-        Transform closestGrabHandle = null;
+        closestGrabHandle = null;
 
         foreach (Transform transform in pushTarget.GrabHandles)
         {
@@ -60,22 +62,26 @@ public class PushObjectOnEnemyOutcome : FightOutcome
                 closestGrabHandle = transform;
             }
         }
-
         return closestGrabHandle;
     }
 
     public override void ExecuteOutcome()
     {
         base.ExecuteOutcome();
-
-        // TODO KARO laut Base stirbt Gegner --> ggf. ändern; --> TICKET: OBJEKT SCHUBSEN
-
+        iKController.IsIkActive = false;
         interactionManager.IsPushingObject = true;
     }
 
     private IEnumerator WaitAndReset()
     {
         yield return new WaitForSeconds(1f);
+    }
+
+    public override void ResetOutcome()
+    {
+        base.ResetOutcome();
+
+        StartCoroutine(WaitAndReset());
         interactionManager.IsPushingObject = false;
     }
 }

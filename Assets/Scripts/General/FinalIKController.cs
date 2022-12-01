@@ -51,6 +51,8 @@ public class FinalIKController : MonoBehaviour
     private Vector3 closestPointRight = Vector3.zero;
     private Vector3 closestPointLeft = Vector3.zero;
     private Vector3 targetPosition = Vector3.zero;
+    private Transform leftTransform = null;
+    private Transform rightTransform = null;
 
     // climb
     private ClimbingStone closestClimbingStone = null;
@@ -204,6 +206,8 @@ public class FinalIKController : MonoBehaviour
 
                 currentInteractable.transform.position = closestHand.position;
                 currentInteractable.transform.SetParent(closestHand);
+
+                currentInteractable.transform.localPosition = Vector3.zero;
 
                 isIkActive = false;
 
@@ -469,7 +473,60 @@ public class FinalIKController : MonoBehaviour
     // Push object on enemy 
     private void PushObjectIK()
     {
-        // TODO KARO IK implementieren --> TICKET: OBJEKT SCHUBSEN
+        Enemy currentInteractable = (Enemy)interactableManager.CurrentInteractable;
+
+        PushObjectOnEnemyOutcome outcome = (PushObjectOnEnemyOutcome)multipleOutcomesInteraction.OutcomeManager.CurrentOutcome;
+
+        if(isClosestPointFound == false)
+        {
+            isClosestPointFound = true;
+            rightTransform = GetClosestRightGrabHandle(outcome);
+            leftTransform = GetClosestLeftGrabHandle(outcome);
+        }
+
+        fullBodyIK.solver.rightHandEffector.position = rightTransform.position;
+        fullBodyIK.solver.leftHandEffector.position = leftTransform.position;
+
+        fullBodyIK.solver.rightHandEffector.positionWeight = 0.5f;
+        fullBodyIK.solver.leftHandEffector.positionWeight = 0.5f;        
+    }
+
+    private Transform GetClosestLeftGrabHandle(PushObjectOnEnemyOutcome outcome)
+    {
+        float shortestDistance = Mathf.Infinity;
+        Transform closestGrabHandle = null;
+
+        foreach(Transform transform in outcome.PushTarget.GrabHandles)
+        {
+            float distance = Vector3.Distance(fullBodyIK.solver.leftHandEffector.position, transform.position);
+
+            if(distance < shortestDistance && transform != outcome.ClosestGrabHandle && transform != rightTransform)
+            {
+                shortestDistance = distance;
+                closestGrabHandle = transform;
+            }
+        }
+
+        return closestGrabHandle;
+    }
+
+    private Transform GetClosestRightGrabHandle(PushObjectOnEnemyOutcome outcome)
+    {
+        float shortestDistance = Mathf.Infinity;
+        Transform closestGrabHandle = null;
+
+        foreach (Transform transform in outcome.PushTarget.GrabHandles)
+        {
+            float distance = Vector3.Distance(fullBodyIK.solver.rightHandEffector.position, transform.position);
+
+            if (distance < shortestDistance && transform != outcome.ClosestGrabHandle && transform != leftTransform)
+            {
+                shortestDistance = distance;
+                closestGrabHandle = transform;
+            }
+        }
+
+        return closestGrabHandle;
     }
 
     // ---------- CLIMB -------------------------------------------------------------------------------------
