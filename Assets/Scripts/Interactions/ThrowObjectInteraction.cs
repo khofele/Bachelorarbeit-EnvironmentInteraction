@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ThrowObjectInteraction : Interaction
 {
-    [SerializeField] private GameObject interactablesGameObject = null;
     private Enemy enemy = null;
     private SphereCollider sphereCollider = null;
     private List<Enemy> enemies = new List<Enemy>();
@@ -65,7 +64,7 @@ public class ThrowObjectInteraction : Interaction
     {
         if (interactableManager.CurrentInteractable != null)
         {
-            interactableManager.CurrentInteractable.transform.SetParent(interactablesGameObject.transform, true);
+            interactableManager.CurrentInteractable.transform.SetParent(null);
 
             Rigidbody rigidBody = interactableManager.CurrentInteractable.GetComponent<Rigidbody>();
             rigidBody.isKinematic = false;
