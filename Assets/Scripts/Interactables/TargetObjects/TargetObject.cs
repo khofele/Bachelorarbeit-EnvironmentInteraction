@@ -12,5 +12,6 @@ public class TargetObject : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
 
         rigidBody.isKinematic = true;
+        gameObject.layer = LayerMask.NameToLayer("TargetObjects");
     }
 }
