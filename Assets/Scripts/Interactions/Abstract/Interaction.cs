@@ -22,14 +22,34 @@ public abstract class Interaction : MonoBehaviour
 
     protected bool CheckMatchingInteractable()
     {
-        if (interactableManager.CurrentInteractable.GetType() == matchingInteractable)
+        if (interactableManager.CurrentMultipleInteractable != null)
         {
-            return true;
+            foreach (Interactable interactable in interactableManager.CurrentMultipleInteractable.Interactables)
+            {
+                if (interactable.GetType() == matchingInteractable)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
         else
         {
-            return false;
+            if (interactableManager.CurrentInteractable != null)
+            {
+                if (interactableManager.CurrentInteractable.GetType() == matchingInteractable)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
+
+        return false;
     }
 
     protected virtual void Start()
@@ -85,6 +105,11 @@ public abstract class Interaction : MonoBehaviour
         interactionManager.CurrentInteraction = this;
         isInteractionRunning = true;
         interactionManager.SetLastInteraction();
+
+        if(interactableManager.CurrentMultipleInteractable != null)
+        {
+            SetCurrentInteractable();
+        }
     }
 
     protected virtual bool CheckOtherInteractionsRunning()
@@ -97,5 +122,17 @@ public abstract class Interaction : MonoBehaviour
         isInteractionRunning = false;
         finalIKController.IsIkActive = false;
     }
+
+    protected void SetCurrentInteractable()
+    {
+        foreach(Interactable interactable in interactableManager.CurrentMultipleInteractable.Interactables)
+        {
+            if(interactable.GetType() == matchingInteractable)
+            {
+                interactableManager.CurrentInteractable = interactable;
+            }
+        }
+    }
+
     protected abstract void SetMatchingInteractable();
 }

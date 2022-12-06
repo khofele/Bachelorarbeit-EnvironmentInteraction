@@ -107,17 +107,47 @@ public class InteractionManager : MonoBehaviour
         return null;
     }
 
-    public bool CheckAllInteractionsRunning()
+    private Interaction GetCurrentInteraction(Interactable interactable)
     {
         foreach(Interaction interaction in allInteractions)
         {
-            if (GetCurrentInteractionFromTriggeredInteractable() != interaction && interaction.IsInteractionRunning == true)
+            if(interactable.GetType() == interaction.MatchingInteractable)
             {
-                return false;
+                return interaction;
             }
         }
 
-        return true;
+        return null;
+    }
+
+    // TODO KARO Tests --> TICKET: Multiple Interactables
+    public bool CheckAllInteractionsRunning()
+    {
+        if(interactableManager.CurrentMultipleInteractable != null)
+        {
+            foreach(Interaction interaction in allInteractions)
+            {
+                foreach(Interactable interactable in interactableManager.CurrentMultipleInteractable.Interactables)
+                {
+                    if(GetCurrentInteraction(interactable) != interaction && interaction.IsInteractionRunning == true)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        else
+        {
+            foreach(Interaction interaction in allInteractions)
+            {
+                if (GetCurrentInteractionFromTriggeredInteractable() != interaction && interaction.IsInteractionRunning == true)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 
     public void SetLastInteraction()

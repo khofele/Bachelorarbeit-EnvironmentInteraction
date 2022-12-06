@@ -17,10 +17,16 @@ public class GeneralTriggerCheckCharacter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<Interactable>() != null && interactionManager.IsInteractionTriggered == false)
+        if (other.gameObject.GetComponent<MultipleInteractionsInteractable>() != null)
+        {
+            interactableManager.CurrentMultipleInteractable = other.gameObject.GetComponent<MultipleInteractionsInteractable>();
+            interactionManager.IsInteractionTriggered = true;
+
+            // TODO KARO TriggerProperty auch beim Multiple berücksichtigen -->  TICKET: Multiples Interactable
+        }
+        else if (other.gameObject.GetComponent<Interactable>() != null && interactionManager.IsInteractionTriggered == false && interactableManager.CurrentMultipleInteractable == null)
         {
             interactableManager.CurrentInteractable = other.gameObject.GetComponent<Interactable>();
-
 
             if (interactableManager.CurrentInteractable.GetComponent<InteractableTriggerProperty>() != null)
             {
@@ -56,5 +62,4 @@ public class GeneralTriggerCheckCharacter : MonoBehaviour
             checkObject.GetComponent<BoxCollider>().enabled = false;
         }
     }
-
 }
