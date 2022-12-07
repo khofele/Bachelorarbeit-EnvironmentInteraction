@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(TriggerCheckMultipleInteractable))]
 [RequireComponent(typeof(BoxCollider))]
-public class MultipleInteractionsInteractable : MonoBehaviour
+public class InteractableParentManager : MonoBehaviour
 {
     private List<Interactable> interactables = new List<Interactable>();
 
