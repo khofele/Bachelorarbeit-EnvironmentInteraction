@@ -43,6 +43,6 @@ public class StandLeanInteraction : LeanInteraction
 
     protected override void SetMatchingInteractable()
     {
-        matchingInteractable = typeof(Leanable);
+        matchingInteractable = typeof(StandLeanable);
     }
 }

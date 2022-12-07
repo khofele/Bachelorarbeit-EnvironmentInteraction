@@ -43,6 +43,6 @@ public class CrouchLeanInteraction : LeanInteraction
 
     protected override void SetMatchingInteractable()
     {
-        matchingInteractable = typeof(Leanable);
+        matchingInteractable = typeof(CrouchLeanable);
     }
 }
