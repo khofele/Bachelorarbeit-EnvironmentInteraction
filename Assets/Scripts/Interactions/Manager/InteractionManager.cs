@@ -7,7 +7,6 @@ public class InteractionManager : MonoBehaviour
 {
     private Interaction lastInteraction = null;
     private Interaction currentInteraction = null;
-    private bool isInteractionTriggered = false;
     private List<Interaction> allInteractions = new List<Interaction>();
     private InteractableManager interactableManager = null;
     private bool isLeaningSnapping = false;
@@ -48,7 +47,6 @@ public class InteractionManager : MonoBehaviour
 
     public Interaction LastInteraction { get => lastInteraction; set => lastInteraction = value; }
     public Interaction CurrentInteraction { get => currentInteraction; set => currentInteraction = value; }
-    public bool IsInteractionTriggered { get => isInteractionTriggered; set => isInteractionTriggered = value; }
     public bool IsLeaningSnapping { get => isLeaningSnapping; set => isLeaningSnapping = value; }
 
     private void Start()
@@ -107,7 +105,7 @@ public class InteractionManager : MonoBehaviour
         return null;
     }
 
-    private Interaction GetCurrentInteraction(Interactable interactable)
+    public Interaction GetCurrentInteraction(Interactable interactable)
     {
         foreach(Interaction interaction in allInteractions)
         {
@@ -123,11 +121,11 @@ public class InteractionManager : MonoBehaviour
     // TODO KARO Tests --> TICKET: Multiple Interactables
     public bool CheckAllInteractionsRunning()
     {
-        if(interactableManager.CurrentMultipleInteractable != null)
+        if(interactableManager.CurrentInteractableParent != null)
         {
             foreach(Interaction interaction in allInteractions)
             {
-                foreach(Interactable interactable in interactableManager.CurrentMultipleInteractable.Interactables)
+                foreach(Interactable interactable in interactableManager.CurrentInteractableParent.Interactables)
                 {
                     if(GetCurrentInteraction(interactable) != interaction && interaction.IsInteractionRunning == true)
                     {

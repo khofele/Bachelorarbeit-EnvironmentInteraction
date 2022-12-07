@@ -5,8 +5,8 @@ using UnityEngine;
 public class InteractableManager : MonoBehaviour
 {
     private Interactable currentInteractable = null;
-    private MultipleInteractionsInteractable currentMultipleInteractable = null;
+    private InteractableParentManager currentInteractableParent = null;
 
     public Interactable CurrentInteractable { get => currentInteractable; set => currentInteractable = value; }
-    public MultipleInteractionsInteractable CurrentMultipleInteractable { get => currentMultipleInteractable; set => currentMultipleInteractable = value; }
+    public InteractableParentManager CurrentInteractableParent { get => currentInteractableParent; set => currentInteractableParent = value; }
 }

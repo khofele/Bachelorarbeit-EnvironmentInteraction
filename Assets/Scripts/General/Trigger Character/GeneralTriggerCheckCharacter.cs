@@ -17,34 +17,54 @@ public class GeneralTriggerCheckCharacter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<MultipleInteractionsInteractable>() != null)
+        if (other.gameObject.GetComponent<InteractableParentManager>() != null)
         {
-            interactableManager.CurrentMultipleInteractable = other.gameObject.GetComponent<MultipleInteractionsInteractable>();
-            interactionManager.IsInteractionTriggered = true;
+            interactableManager.CurrentInteractableParent = other.gameObject.GetComponent<InteractableParentManager>();
 
-            // TODO KARO TriggerProperty auch beim Multiple berücksichtigen -->  TICKET: Multiples Interactable
-        }
-        else if (other.gameObject.GetComponent<Interactable>() != null && interactionManager.IsInteractionTriggered == false && interactableManager.CurrentMultipleInteractable == null)
-        {
-            interactableManager.CurrentInteractable = other.gameObject.GetComponent<Interactable>();
-
-            if (interactableManager.CurrentInteractable.GetComponent<InteractableTriggerProperty>() != null)
-            {
-                if (interactableManager.CurrentInteractable.GetComponent<InteractableTriggerProperty>().IsActivatedFromEverySide == false)
-                {
-                    EnableBoxes(interactableManager.CurrentInteractable);
-                }
-                else
-                {
-                    interactionManager.IsInteractionTriggered = true;
-                }
-            }
+            CheckInteractableProperties();
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        interactionManager.IsInteractionTriggered = false;
+        if(interactableManager.CurrentInteractableParent != null)
+        {
+            foreach (Interactable interactable in interactableManager.CurrentInteractableParent.Interactables)
+            {
+                interactionManager.GetCurrentInteraction(interactable).IsInteractionTriggered = false;
+            }
+        }
+    }
+
+    private void CheckInteractableProperties()
+    {
+        foreach(Interactable interactable in interactableManager.CurrentInteractableParent.Interactables)
+        {
+            if(interactable.GetComponent<InteractableTriggerProperty>().IsActivatedFromEverySide == false)
+            {
+                if(CheckTriggerCheckResults(interactable) == true)
+                {
+                    interactionManager.GetCurrentInteraction(interactable).IsInteractionTriggered = true;
+                }
+            }
+            else
+            {
+                interactionManager.GetCurrentInteraction(interactable).IsInteractionTriggered = true;
+            }
+        }
+    }
+
+    private bool CheckTriggerCheckResults(Interactable currentInteractable)
+    {
+        foreach (TriggerCheck checkObject in currentInteractable.GetComponent<InteractableTriggerProperty>().TriggerChecks)
+        {
+            if(checkObject.IsTriggered == true)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void EnableBoxes(Interactable currentInteractable)
@@ -59,6 +79,7 @@ public class GeneralTriggerCheckCharacter : MonoBehaviour
     {
         foreach (TriggerCheck checkObject in charController.TriggerCheckManager.AllChecks)
         {
+            checkObject.IsTriggered = false;
             checkObject.GetComponent<BoxCollider>().enabled = false;
         }
     }

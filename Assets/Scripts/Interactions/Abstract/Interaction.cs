@@ -15,16 +15,18 @@ public abstract class Interaction : MonoBehaviour
     protected bool isInteractionRunning = false;
     protected bool isCharInteracting = false;
     protected Type matchingInteractable = null;
+    protected bool isInteractionTriggered = false;
 
     public bool IsInteractionRunning { get => isInteractionRunning; set => isInteractionRunning = value; }
     public bool IsCharInteracting { get => isCharInteracting; }
     public Type MatchingInteractable { get => matchingInteractable; }
+    public bool IsInteractionTriggered { get => isInteractionTriggered; set => isInteractionTriggered = value; }
 
     protected bool CheckMatchingInteractable()
     {
-        if (interactableManager.CurrentMultipleInteractable != null)
+        if (interactableManager.CurrentInteractableParent != null)
         {
-            foreach (Interactable interactable in interactableManager.CurrentMultipleInteractable.Interactables)
+            foreach (Interactable interactable in interactableManager.CurrentInteractableParent.Interactables)
             {
                 if (interactable.GetType() == matchingInteractable)
                 {
@@ -84,14 +86,7 @@ public abstract class Interaction : MonoBehaviour
 
     protected virtual bool CheckTrigger()
     {
-        if (interactionManager.IsInteractionTriggered == true)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return isInteractionTriggered;
     }
 
     protected virtual bool CheckConditions()
@@ -106,10 +101,7 @@ public abstract class Interaction : MonoBehaviour
         isInteractionRunning = true;
         interactionManager.SetLastInteraction();
 
-        if(interactableManager.CurrentMultipleInteractable != null)
-        {
-            SetCurrentInteractable();
-        }
+        SetCurrentInteractable();
     }
 
     protected virtual bool CheckOtherInteractionsRunning()
@@ -120,12 +112,13 @@ public abstract class Interaction : MonoBehaviour
     protected virtual void ResetInteraction()
     {
         isInteractionRunning = false;
+        isInteractionTriggered = false;
         finalIKController.IsIkActive = false;
     }
 
     protected void SetCurrentInteractable()
     {
-        foreach(Interactable interactable in interactableManager.CurrentMultipleInteractable.Interactables)
+        foreach(Interactable interactable in interactableManager.CurrentInteractableParent.Interactables)
         {
             if(interactable.GetType() == matchingInteractable)
             {
