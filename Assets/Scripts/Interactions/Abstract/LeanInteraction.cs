@@ -7,7 +7,7 @@ public abstract class LeanInteraction : Interaction
     protected Collider snapCollider = null;
     protected Collider playerCollider = null;
     protected Leanable currentLeanableObject = null;
-    protected float snapDistance = 0.5f;
+    protected float snapDistance = 1f;
     protected Vector3 offset;
 
     protected virtual void LeanOnObject()
