@@ -18,7 +18,7 @@ public class ThrowObjectInteraction : Interaction
 
     private Enemy GetClosestEnemy()
     {
-        float distance = 1000f;
+        float distance = Mathf.Infinity;
         Enemy closestEnemy = null;
         foreach(Enemy enemy in enemies)
         {
@@ -64,7 +64,7 @@ public class ThrowObjectInteraction : Interaction
     {
         if (interactableManager.CurrentInteractable != null)
         {
-            interactableManager.CurrentInteractable.transform.SetParent(null);
+            interactableManager.CurrentInteractable.transform.parent.transform.SetParent(null);
 
             Rigidbody rigidBody = interactableManager.CurrentInteractable.GetComponent<Rigidbody>();
             rigidBody.isKinematic = false;
