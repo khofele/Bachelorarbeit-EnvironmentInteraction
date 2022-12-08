@@ -118,7 +118,6 @@ public class InteractionManager : MonoBehaviour
         return null;
     }
 
-    // TODO KARO Tests --> TICKET: Multiple Interactables
     public bool CheckAllInteractionsRunning()
     {
         if(interactableManager.CurrentInteractableParent != null)
