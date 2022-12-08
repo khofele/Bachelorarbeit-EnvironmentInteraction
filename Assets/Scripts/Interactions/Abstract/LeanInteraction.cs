@@ -7,7 +7,7 @@ public abstract class LeanInteraction : Interaction
     protected Collider snapCollider = null;
     protected Collider playerCollider = null;
     protected Leanable currentLeanableObject = null;
-    protected float snapDistance = 1f;
+    protected float snapDistance = 1.5f;
     protected Vector3 offset;
 
     protected virtual void LeanOnObject()
@@ -39,6 +39,10 @@ public abstract class LeanInteraction : Interaction
             && CheckLeaningBool())
         {
             if (hit.transform.gameObject.GetComponent<Interactable>() != null)
+            {
+                charController.transform.rotation = Quaternion.LookRotation(hit.normal);
+            }
+            else if(hit.transform.gameObject.GetComponent<InteractableParentManager>() != null)
             {
                 charController.transform.rotation = Quaternion.LookRotation(hit.normal);
             }

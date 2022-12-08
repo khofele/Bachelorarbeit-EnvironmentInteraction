@@ -18,16 +18,13 @@ public abstract class FixedLeanInteraction : LeanInteraction
         interactionManager.CurrentInteraction = this;
         isInteractionRunning = true;
         interactionManager.SetLastInteraction();
-
+        SetCurrentInteractable();
         currentLeanableObject = (Leanable)interactableManager.CurrentInteractable;
         snapCollider = currentLeanableObject.SnapCollider;
         SetLeanBool(true);
 
-        if (isInteractionRunning == false)
-        {
-            LeanOnObject();
-            DetectObject();
-        }
+        LeanOnObject();
+        DetectObject();
     }
 
     protected override void ExecuteLeanInteraction()
@@ -189,6 +186,7 @@ public abstract class FixedLeanInteraction : LeanInteraction
         }
 
         DetectObject();
+
         ExecuteAnimation();
     }
 
@@ -201,10 +199,15 @@ public abstract class FixedLeanInteraction : LeanInteraction
 
         RaycastHit hit;
 
+
         // ignores children of interactables!
-        if ((Physics.Raycast(rayFront, out hit, 0.5f, LayerMask.NameToLayer("Child"))) || (Physics.Raycast(rayBack, out hit, 0.5f, LayerMask.NameToLayer("Child"))) || (Physics.Raycast(rayRight, out hit, 0.5f, LayerMask.NameToLayer("Child"))) || (Physics.Raycast(rayLeft, out hit, 0.5f, LayerMask.NameToLayer("Child"))))
+        if ((Physics.Raycast(rayFront, out hit, 1f, LayerMask.NameToLayer("Checkbox"))) || (Physics.Raycast(rayBack, out hit, 1f, LayerMask.NameToLayer("Checkbox"))) || (Physics.Raycast(rayRight, out hit, 1f, LayerMask.NameToLayer("Checkbox"))) || (Physics.Raycast(rayLeft, out hit, 1f, LayerMask.NameToLayer("Checkbox"))))
         {
             if (hit.transform.gameObject.GetComponent<FixedLeanable>() != null)
+            {
+                charController.transform.rotation = Quaternion.LookRotation(hit.normal);
+            }
+            else if (hit.transform.gameObject.GetComponent<InteractableParentManager>() != null)
             {
                 charController.transform.rotation = Quaternion.LookRotation(hit.normal);
             }
