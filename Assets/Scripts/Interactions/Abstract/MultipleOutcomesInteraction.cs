@@ -30,6 +30,7 @@ public abstract class MultipleOutcomesInteraction : Interaction
                         if (CheckConditions() == true)
                         {
                             interactionManager.CurrentInteraction = this;
+                            SetCurrentInteractable();
                             interactionManager.SetLastInteraction();
 
                             if(CheckAndExecuteOutcomes() == false)
