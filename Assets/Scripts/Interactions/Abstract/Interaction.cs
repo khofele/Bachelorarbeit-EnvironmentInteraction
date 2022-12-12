@@ -106,7 +106,7 @@ public abstract class Interaction : MonoBehaviour
 
     protected virtual bool CheckOtherInteractionsRunning()
     {
-        return interactionManager.CheckAllInteractionsRunning();
+        return interactionManager.CheckOtherInteractionsRunning();
     }
 
     protected virtual void ResetInteraction()

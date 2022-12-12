@@ -118,7 +118,7 @@ public class InteractionManager : MonoBehaviour
         return null;
     }
 
-    public bool CheckAllInteractionsRunning()
+    public bool CheckOtherInteractionsRunning()
     {
         if(interactableManager.CurrentInteractableParent != null)
         {
@@ -153,5 +153,18 @@ public class InteractionManager : MonoBehaviour
         {
             lastInteraction = currentInteraction;
         }
+    }
+
+    public bool CheckAllInteractionsRunning()
+    {
+        foreach(Interaction interaction in allInteractions)
+        {
+            if(interaction.IsInteractionRunning == true)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

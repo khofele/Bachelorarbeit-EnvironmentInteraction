@@ -24,6 +24,9 @@ public class CharController : MonoBehaviour
     private float xAxis = 0f;
     private float zAxis = 0f;
 
+    // Fight 
+    [SerializeField] private FistFightInteraction fightInteraction = null;
+
     public bool IsCrouching { get => isCrouching; }
     public bool IsWalking { get => isWalking; }
     public float XAxis { get => xAxis; set => xAxis = value; }
@@ -164,6 +167,17 @@ public class CharController : MonoBehaviour
             animationManager.StopCrouchAnimation();
         }
 
+        // Fistpunch
+        if (Input.GetKeyDown(KeyCode.B) && fightInteraction.IsInteractionRunning == false && fightInteraction.IsInteractionTriggered == false && interactionManager.IsJumping == false && interactionManager.IsSnapping == false)
+        {
+            if (isCrouching == true)
+            {
+                isCrouching = false;
+                animationManager.StopCrouchAnimation();
+            }
+            Punch();
+        }
+
         // Walking bool Toggle
         if (speed == 3f)
         {
@@ -172,6 +186,15 @@ public class CharController : MonoBehaviour
         else
         {
             isWalking = false;
+        }
+    }
+
+    private void Punch()
+    {
+        if(interactionManager.CheckAllInteractionsRunning() == false)
+        {
+            fightInteraction.ChoosePunchHand();
+            fightInteraction.ExecutePunchAnimation();
         }
     }
 }
