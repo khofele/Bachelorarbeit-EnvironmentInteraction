@@ -8,8 +8,6 @@ public class FixedLeanable : Leanable
     private Transform resetTransformTwo = null;
     private Transform snapTransformOne = null;
     private Transform snapTransformTwo = null;
-    private BoxCollider triggerOne = null;
-    private BoxCollider triggerTwo = null;
     private int triggerCount = 0;
 
     public Transform ResetTransformOne { get => resetTransformOne; }
