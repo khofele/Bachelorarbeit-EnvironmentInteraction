@@ -55,5 +55,15 @@ public class FixedLeanable : Leanable
                 resetTransformTwo = transform;
             }
         }
+
+        if (snapTransformOne == null || snapTransformTwo == null)
+        {
+            Debug.LogWarning("Snaptransform is missing!");
+        }
+
+        if (resetTransformOne == null || resetTransformTwo == null)
+        {
+            Debug.LogWarning("Resettransform is missing!");
+        }
     }
 }

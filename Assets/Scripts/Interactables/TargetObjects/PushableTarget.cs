@@ -23,5 +23,10 @@ public class PushableTarget : TargetObject
 
         // Parent has to be removed!
         grabHandles.Remove(grabHandles[0]);
+
+        if (grabHandles.Count == 0)
+        {
+            Debug.LogWarning("No grabhandles found!");
+        }
     }
 }
