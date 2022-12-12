@@ -42,7 +42,7 @@ public class FistFightInteraction : MultipleOutcomesInteraction
         animationManager.EnableHeadLayer();
     }
 
-    private void ChoosePunchHand()
+    public void ChoosePunchHand()
     {
         if (lastHand == Hands.NULL)
         {
@@ -68,7 +68,7 @@ public class FistFightInteraction : MultipleOutcomesInteraction
         SetLastHand();
     }
 
-    private void ExecutePunchAnimation()
+    public void ExecutePunchAnimation()
     {
         int random = Random.Range(1, 4);
 

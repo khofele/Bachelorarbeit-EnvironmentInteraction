@@ -11,6 +11,11 @@ public class PushObjectOnEnemyOutcome : FightOutcome
     public PushableTarget PushTarget { get => pushTarget; }
     public Transform ClosestGrabHandle { get => closestGrabHandle; }
 
+    protected override void ReduceEnemyHealth()
+    {
+        currentEnemy.Health -= 50f;
+    }
+
     protected override void SnapToTarget()
     {
         pushTarget = (PushableTarget)GetCurrentTarget();
@@ -74,7 +79,7 @@ public class PushObjectOnEnemyOutcome : FightOutcome
 
     private IEnumerator WaitAndReset()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
     }
 
     public override void ResetOutcome()

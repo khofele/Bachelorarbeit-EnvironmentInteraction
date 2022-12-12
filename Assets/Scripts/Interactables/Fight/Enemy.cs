@@ -93,6 +93,10 @@ public class Enemy : Interactable
             rigidbody.isKinematic = false;
             rigidbody.useGravity = true;
         }
+
+        isOnFloor = true;
+
+        StartCoroutine(WaitAndDisable());
     }
 
     public void DisableRagdollPhysics()
@@ -120,7 +124,7 @@ public class Enemy : Interactable
         {
             if (interactionManager.LastInteraction.gameObject.GetComponent<OutcomeManager>() != null)
             {
-                if (interactionManager.LastInteraction.gameObject.GetComponent<OutcomeManager>() != null)
+                if (interactionManager.LastInteraction.gameObject.GetComponent<OutcomeManager>().CurrentOutcome != null)
                 {
                     if(interactionManager.LastInteraction.gameObject.GetComponent<OutcomeManager>().CurrentOutcome.GetType() == typeof(PushObjectOnEnemyOutcome))
                     {
@@ -140,5 +144,11 @@ public class Enemy : Interactable
             EnableRagdollPhysics();
             isOnFloor = true;
         }
+    }
+
+    private IEnumerator WaitAndDisable()
+    {
+        yield return new WaitForSeconds(1.75f);
+        DisableRagdollPhysics();
     }
 }
