@@ -122,15 +122,19 @@ public class ClimbInteraction : Interaction
             animationManager.ExecuteClimbToTop();
             isClimbingUp = true;
             animationManager.SetIsOnTop(true);
+            isInteractionRunning = false;
+            finalIKController.IsIkActive = false;
+            isInteractionTriggered = true;
         }
         else
         {
             interactionManager.IsClimbing = false;
             animationManager.SetIsOnTop(false);
+
+            base.ResetInteraction();
         }
         currentClimbable.TriggerCount = 0;
 
-        base.ResetInteraction();
     }
 
     private void DetectWall()
