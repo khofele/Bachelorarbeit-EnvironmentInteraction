@@ -12,6 +12,11 @@ public class StrikeEnemyOnObjectOutcome : FightOutcome
         base.ResetOutcome();
     }
 
+    protected override void ReduceEnemyHealth()
+    {
+        currentEnemy.Health = 0f;
+    }
+
     protected override void SnapToTarget()
     {
         target = GetCurrentTarget();

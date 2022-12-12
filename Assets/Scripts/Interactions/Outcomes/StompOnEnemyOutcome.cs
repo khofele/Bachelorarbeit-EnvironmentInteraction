@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class StompOnEnemyOutcome : FightOutcome
 {
+    protected override void ReduceEnemyHealth()
+    {
+        currentEnemy.Health = 0f;
+    }
+
     protected override void SnapToTarget()
     {
         Vector3 position = currentEnemy.StompCollider.gameObject.GetComponent<Collider>().ClosestPoint(charController.transform.position);

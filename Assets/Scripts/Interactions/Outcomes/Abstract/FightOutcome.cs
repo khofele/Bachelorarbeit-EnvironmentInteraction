@@ -33,10 +33,12 @@ public abstract class FightOutcome : Outcome
         base.ExecuteOutcome();
 
         currentEnemy = GetCurrentEnemy();
-        currentEnemy.Health = 0f;
+        ReduceEnemyHealth();
 
         SnapToTarget();
     }
 
     protected abstract void SnapToTarget();
+
+    protected abstract void ReduceEnemyHealth();
 }

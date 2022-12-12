@@ -6,6 +6,11 @@ public class PushEnemyOutcome : FightOutcome
 {
     [SerializeField] private Transform grabHandle = null;
 
+    protected override void ReduceEnemyHealth()
+    {
+        currentEnemy.Health = 0f;
+    }
+
     protected override void SnapToTarget()
     {
         target = GetCurrentTarget();
