@@ -112,7 +112,8 @@ public class FistFightInteraction : MultipleOutcomesInteraction
     {
         yield return new WaitForSeconds(1.5f);
         interactionManager.IsFighting = false;
-        base.ResetInteraction();
+        isInteractionRunning = false;
+        finalIKController.IsIkActive = false;
         outcomeManager.ResetOutcomes();
     }
 }
