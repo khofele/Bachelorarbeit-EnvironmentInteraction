@@ -35,16 +35,18 @@ public class PassageLeanInteraction : FixedLeanInteraction
         RaycastHit hit;
 
         // ignores children of interactables!
-        if ((Physics.Raycast(rayFront, out hit, 2f, LayerMask.NameToLayer("Checkbox"))) || (Physics.Raycast(rayBack, out hit, 2f, LayerMask.NameToLayer("Checkbox"))) || (Physics.Raycast(rayRight, out hit, 2f, LayerMask.NameToLayer("Checkbox"))) || (Physics.Raycast(rayLeft, out hit, 2f, LayerMask.NameToLayer("Checkbox"))))
+        if ((Physics.Raycast(rayFront, out hit, 1f, LayerMask.NameToLayer("Checkbox"))) || (Physics.Raycast(rayBack, out hit, 1f, LayerMask.NameToLayer("Checkbox"))) || (Physics.Raycast(rayRight, out hit, 1f, LayerMask.NameToLayer("Checkbox"))) || (Physics.Raycast(rayLeft, out hit, 1f, LayerMask.NameToLayer("Checkbox"))))
         {
-            if (hit.transform.gameObject.GetComponent<FixedLeanable>() != null)
+            Debug.Log(hit.transform.gameObject);
+            if (hit.transform.gameObject.GetComponent<InteractableParentManager>() != null)
             {
                 charController.transform.rotation = Quaternion.LookRotation(hit.normal);
             }
-            else if (hit.transform.gameObject.GetComponent<InteractableParentManager>() != null)
+            else if (hit.transform.gameObject.GetComponent<FixedLeanable>() != null)
             {
-                charController.transform.rotation = Quaternion.LookRotation(hit.normal);
+                charController.transform.rotation = Quaternion.LookRotation(-hit.transform.forward);
             }
+
         }
     }
 }

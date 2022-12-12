@@ -205,7 +205,7 @@ public abstract class FixedLeanInteraction : LeanInteraction
         {
             if (hit.transform.gameObject.GetComponent<FixedLeanable>() != null)
             {
-                charController.transform.rotation = Quaternion.LookRotation(hit.normal);
+                charController.transform.rotation = Quaternion.LookRotation(-hit.transform.forward);
             }
             else if (hit.transform.gameObject.GetComponent<InteractableParentManager>() != null)
             {
