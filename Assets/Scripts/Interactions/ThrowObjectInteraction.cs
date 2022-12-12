@@ -64,8 +64,6 @@ public class ThrowObjectInteraction : Interaction
     {
         if (interactableManager.CurrentInteractable != null)
         {
-            interactableManager.CurrentInteractable.transform.parent.transform.SetParent(null);
-
             Rigidbody rigidBody = interactableManager.CurrentInteractable.GetComponent<Rigidbody>();
             rigidBody.isKinematic = false;
             rigidBody.useGravity = true;
@@ -87,6 +85,7 @@ public class ThrowObjectInteraction : Interaction
             animationManager.StopThrowAnimation();
             finalIKController.IsIkActive = false;
             isInteractionRunning = false;
+            interactableManager.CurrentInteractable.transform.SetParent(null);
             enemies.Clear();
         }
     }
