@@ -168,7 +168,7 @@ public class CharController : MonoBehaviour
         }
 
         // Fistpunch
-        if (Input.GetKeyDown(KeyCode.B) && fightInteraction.IsInteractionRunning == false && fightInteraction.IsInteractionTriggered == false && interactionManager.IsJumping == false && interactionManager.IsSnapping == false)
+        if (Input.GetKeyDown(KeyCode.B) && fightInteraction.IsInteractionRunning == false && interactionManager.CheckAllInteractionsRunning() == false && fightInteraction.IsInteractionTriggered == false && interactionManager.IsJumping == false && interactionManager.IsSnapping == false)
         {
             if (isCrouching == true)
             {
@@ -191,10 +191,7 @@ public class CharController : MonoBehaviour
 
     private void Punch()
     {
-        if(interactionManager.CheckAllInteractionsRunning() == false)
-        {
-            fightInteraction.ChoosePunchHand();
-            fightInteraction.ExecutePunchAnimation();
-        }
+        fightInteraction.ChoosePunchHand();
+        fightInteraction.ExecutePunchAnimation();
     }
 }
