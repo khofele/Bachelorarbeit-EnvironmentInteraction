@@ -533,15 +533,17 @@ public class FinalIKController : MonoBehaviour
 
     private void ClimbIK()
     {
-        fullBodyIK.solver.leftHandEffector.position = FindClosestClimbingStone(leftHandGrabHandle.position).transform.position;
-        fullBodyIK.solver.rightHandEffector.position = FindClosestClimbingStone(rightHandGrabHandle.position).transform.position;
-        fullBodyIK.solver.rightFootEffector.position = FindClosestClimbingStone(rightFootGrabHandle.position).transform.position;
-        fullBodyIK.solver.leftFootEffector.position = FindClosestClimbingStone(leftFootGrabHandle.position).transform.position;
-        
-        fullBodyIK.solver.rightHandEffector.positionWeight = 1f;
-        fullBodyIK.solver.leftHandEffector.positionWeight = 1f;
-        fullBodyIK.solver.rightFootEffector.positionWeight = 1f;
-        fullBodyIK.solver.leftFootEffector.positionWeight = 1f;
+        if(charController.MoveDirection.magnitude >= 0.01f)
+        {
+            fullBodyIK.solver.leftHandEffector.position = FindClosestClimbingStone(leftHandGrabHandle.position).transform.position;
+            fullBodyIK.solver.rightHandEffector.position = FindClosestClimbingStone(rightHandGrabHandle.position).transform.position;
+            fullBodyIK.solver.rightFootEffector.position = FindClosestClimbingStone(rightFootGrabHandle.position).transform.position;
+            fullBodyIK.solver.leftFootEffector.position = FindClosestClimbingStone(leftFootGrabHandle.position).transform.position;
+            fullBodyIK.solver.rightHandEffector.positionWeight = 1f;
+            fullBodyIK.solver.leftHandEffector.positionWeight = 1f;
+            fullBodyIK.solver.rightFootEffector.positionWeight = 1f;
+            fullBodyIK.solver.leftFootEffector.positionWeight = 1f;
+        }
 
         ClimbFaceDirection();
     }
