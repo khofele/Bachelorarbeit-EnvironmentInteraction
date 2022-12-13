@@ -16,7 +16,7 @@ public class CrouchLeanInteraction : LeanInteraction
 
     protected override bool CheckTerminationCondition()
     {
-        if (offset.magnitude > snapDistance || charController.IsCrouching == false || isInteractionRunning == false || (charController.ZAxis >= 1 || charController.ZAxis <= -1))
+        if (offset.magnitude > snapDistance || charController.IsCrouching == false || isInteractionRunning == false || (charController.ZAxis >= 1 || charController.ZAxis <= -1) || CheckInterruptInteractionsConditions() == true)
         {
             return true;
         }

@@ -45,16 +45,24 @@ public class ThrowObjectInteraction : Interaction
         {
             if (CheckMatchingInteractable() == true)
             {
-                if (CheckConditions() == true)
+                if (CheckOtherInteractionsRunning() == true)
                 {
-                    ExecuteInteraction();
-                    ResetInteraction();
+                    if (CheckConditions() == true)
+                    {
+                        ExecuteInteraction();
+                        ResetInteraction();
+                    }
+                    else if (isTriggeredByInterruptibleInteraction == true)
+                    {
+                        ExecuteInteraction();
+                        ResetInteraction();
+                    }
                 }
             }
         }
     }
 
-    protected override void ExecuteInteraction()
+    public override void ExecuteInteraction()
     {
         base.ExecuteInteraction();
         //Throw(); ist AnimationEvent
@@ -103,6 +111,7 @@ public class ThrowObjectInteraction : Interaction
     protected override void ResetInteraction()
     {
         enemy = null;
+        isTriggeredByInterruptibleInteraction = false;
     }
 
     protected override void SetMatchingInteractable()

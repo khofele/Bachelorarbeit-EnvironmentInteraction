@@ -16,11 +16,15 @@ public abstract class Interaction : MonoBehaviour
     protected bool isCharInteracting = false;
     protected Type matchingInteractable = null;
     protected bool isInteractionTriggered = false;
+    protected bool isTriggeredByInterruptibleInteraction = false;
+
+
 
     public bool IsInteractionRunning { get => isInteractionRunning; set => isInteractionRunning = value; }
     public bool IsCharInteracting { get => isCharInteracting; }
     public Type MatchingInteractable { get => matchingInteractable; }
     public bool IsInteractionTriggered { get => isInteractionTriggered; set => isInteractionTriggered = value; }
+    public bool IsTriggeredByInterrupibleInteraction { get => isTriggeredByInterruptibleInteraction; set => isTriggeredByInterruptibleInteraction = value; }
 
     protected bool CheckMatchingInteractable()
     {
@@ -89,12 +93,12 @@ public abstract class Interaction : MonoBehaviour
         return isInteractionTriggered;
     }
 
-    protected virtual bool CheckConditions()
+    public virtual bool CheckConditions()
     {
         return conditionManager.CheckConditions();
     }
 
-    protected virtual void ExecuteInteraction()
+    public virtual void ExecuteInteraction()
     {
         finalIKController.IsIkActive = true;
         interactionManager.CurrentInteraction = this;
@@ -106,7 +110,13 @@ public abstract class Interaction : MonoBehaviour
 
     protected virtual bool CheckOtherInteractionsRunning()
     {
-        return interactionManager.CheckOtherInteractionsRunning();
+        // TODO KARO evtl. wieder schön machen --> TICKET: Übergänge
+        if(interactionManager.CheckOtherInteractionsRunning() == true)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     protected virtual void ResetInteraction()
@@ -114,6 +124,7 @@ public abstract class Interaction : MonoBehaviour
         isInteractionRunning = false;
         isInteractionTriggered = false;
         finalIKController.IsIkActive = false;
+        isTriggeredByInterruptibleInteraction = false;
     }
 
     protected void SetCurrentInteractable()
