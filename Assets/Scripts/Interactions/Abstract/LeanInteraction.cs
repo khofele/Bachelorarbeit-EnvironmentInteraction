@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class LeanInteraction : Interaction
+public abstract class LeanInteraction : InterruptibleInteraction
 {
     protected Collider snapCollider = null;
     protected Collider playerCollider = null;
@@ -108,7 +108,7 @@ public abstract class LeanInteraction : Interaction
         finalIKController.IsIkActive = false;
     }
 
-    protected override void ExecuteInteraction()
+    public override void ExecuteInteraction()
     {
         if (isInteractionRunning == false)
         {
@@ -123,7 +123,9 @@ public abstract class LeanInteraction : Interaction
 
     protected override void ResetInteraction()
     {
-        base.ResetInteraction();
+        isInteractionRunning = false;
+        finalIKController.IsIkActive = false;
+        isTriggeredByInterruptibleInteraction = false;
         ResetCharacter();
         currentLeanableObject = null;
         ResetValues();
