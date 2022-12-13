@@ -37,7 +37,6 @@ public class PassageLeanInteraction : FixedLeanInteraction
         // ignores children of interactables!
         if ((Physics.Raycast(rayFront, out hit, 1f, LayerMask.NameToLayer("Checkbox"))) || (Physics.Raycast(rayBack, out hit, 1f, LayerMask.NameToLayer("Checkbox"))) || (Physics.Raycast(rayRight, out hit, 1f, LayerMask.NameToLayer("Checkbox"))) || (Physics.Raycast(rayLeft, out hit, 1f, LayerMask.NameToLayer("Checkbox"))))
         {
-            Debug.Log(hit.transform.gameObject);
             if (hit.transform.gameObject.GetComponent<InteractableParentManager>() != null)
             {
                 charController.transform.rotation = Quaternion.LookRotation(hit.normal);
