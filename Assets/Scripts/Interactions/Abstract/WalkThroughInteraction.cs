@@ -6,7 +6,7 @@ public abstract class WalkThroughInteraction : Interaction
 {
     protected WalkThroughable currentInteractable = null;
 
-    protected override void ExecuteInteraction()
+    public override void ExecuteInteraction()
     {
         base.ExecuteInteraction();
         SetCurrentInteraction();
@@ -26,6 +26,7 @@ public abstract class WalkThroughInteraction : Interaction
             {
                 finalIKController.IsIkActive = false;
                 isInteractionRunning = false;
+                isTriggeredByInterruptibleInteraction = false;
                 ResetInteraction();
             }
         }

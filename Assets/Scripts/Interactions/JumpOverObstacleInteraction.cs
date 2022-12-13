@@ -14,7 +14,7 @@ public class JumpOverObstacleInteraction : Interaction
         matchingInteractable = typeof(Jumpable);
     }
 
-    protected override void ExecuteInteraction()
+    public override void ExecuteInteraction()
     {
         base.ExecuteInteraction();
         Jump();

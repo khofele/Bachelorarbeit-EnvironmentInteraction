@@ -11,13 +11,14 @@ public class DuckingInteraction : WalkThroughInteraction
 
     private void Duck()
     {
+        isTriggeredByInterruptibleInteraction = true;
         ModifyCharacterCollider();
         animationManager.ExecuteCrouchAnimation(charController.ZAxis, charController.XAxis);
         animationManager.ExecuteDuckingAnimation();
         animationManager.EnableUpperBodyLayer();
     }
 
-    protected override void ExecuteInteraction()
+    public override void ExecuteInteraction()
     {
         base.ExecuteInteraction();
         Duck();

@@ -15,7 +15,7 @@ public class ClimbInteraction : Interaction
         matchingInteractable = typeof(Climbable);
     }
 
-    protected override void ExecuteInteraction()
+    public override void ExecuteInteraction()
     {
         base.ExecuteInteraction();
 

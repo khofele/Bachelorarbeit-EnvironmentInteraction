@@ -14,7 +14,7 @@ public class FistFightInteraction : MultipleOutcomesInteraction
         matchingInteractable = typeof(Enemy);
     }
 
-    protected override void ExecuteInteraction()
+    public override void ExecuteInteraction()
     {
         if (isInteractionRunning == false)
         {
@@ -114,6 +114,7 @@ public class FistFightInteraction : MultipleOutcomesInteraction
         interactionManager.IsFighting = false;
         isInteractionRunning = false;
         finalIKController.IsIkActive = false;
+        isTriggeredByInterruptibleInteraction = false;
         outcomeManager.ResetOutcomes();
     }
 }
