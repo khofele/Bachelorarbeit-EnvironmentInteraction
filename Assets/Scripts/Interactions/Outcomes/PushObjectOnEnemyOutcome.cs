@@ -80,6 +80,7 @@ public class PushObjectOnEnemyOutcome : FightOutcome
     private IEnumerator WaitAndReset()
     {
         yield return new WaitForSeconds(2f);
+        interactionManager.IsPushingObject = false;
     }
 
     public override void ResetOutcome()
@@ -87,6 +88,5 @@ public class PushObjectOnEnemyOutcome : FightOutcome
         base.ResetOutcome();
 
         StartCoroutine(WaitAndReset());
-        interactionManager.IsPushingObject = false;
     }
 }
