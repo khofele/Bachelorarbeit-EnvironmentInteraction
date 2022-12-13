@@ -42,6 +42,7 @@ public class Touchable : WalkThroughable
         {
             isTriggered = false;
 
+            // TODO KARO isExecuted und result werden nicht richtig zurückgesetzt! --> TICKET: Touchable Fix
             if(randomCondition != null)
             {
                 randomCondition.IsExecuted = false;
