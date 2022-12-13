@@ -15,13 +15,13 @@ public class StompOnEnemyOutcome : FightOutcome
 
         interactionManager.IsCharSnappingToEnemy = true;
 
-        if(Vector3.Distance(charController.transform.position, position) < 0.5f)
+        if (Vector3.Distance(charController.transform.position, position) < 0.5f)
         {
             animationManager.ExecuteStomp();
 
             interactionManager.IsCharSnappingToEnemy = false;
 
-            ResetOutcome();
+            outcomeManager.CurrentOutcome = null;
         }
         else
         {

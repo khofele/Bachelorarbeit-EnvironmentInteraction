@@ -3761,6 +3761,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 759460967}
     m_Modifications:
+    - target: {fileID: 235510608826558240, guid: a81d788d96938e248aedfa6032640d55, type: 3}
+      propertyPath: m_Size.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 235510608826558240, guid: a81d788d96938e248aedfa6032640d55, type: 3}
+      propertyPath: m_Size.z
+      value: 1.4112916
+      objectReference: {fileID: 0}
+    - target: {fileID: 235510608826558240, guid: a81d788d96938e248aedfa6032640d55, type: 3}
+      propertyPath: m_Center.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 235510608826558240, guid: a81d788d96938e248aedfa6032640d55, type: 3}
+      propertyPath: m_Center.z
+      value: 0.2943542
+      objectReference: {fileID: 0}
     - target: {fileID: 235510608826558252, guid: a81d788d96938e248aedfa6032640d55, type: 3}
       propertyPath: m_Name
       value: Enemy 6
@@ -4975,7 +4991,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5893663494947159564, guid: f1572ddfb8277914b80fe5c195288c83, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000022209337
+      value: -0.0000000022209334
       objectReference: {fileID: 0}
     - target: {fileID: 5893663495251311406, guid: f1572ddfb8277914b80fe5c195288c83, type: 3}
       propertyPath: m_Size.y
@@ -5051,11 +5067,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5893663495962996281, guid: f1572ddfb8277914b80fe5c195288c83, type: 3}
       propertyPath: probabilityCases
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5893663495962996286, guid: f1572ddfb8277914b80fe5c195288c83, type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5893663495964858941, guid: f1572ddfb8277914b80fe5c195288c83, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5893663496075903709, guid: f1572ddfb8277914b80fe5c195288c83, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5075,7 +5095,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5893663496284093999, guid: f1572ddfb8277914b80fe5c195288c83, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5893663496303516030, guid: f1572ddfb8277914b80fe5c195288c83, type: 3}
       propertyPath: probabilityCases

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Enemy : Interactable
@@ -12,7 +13,7 @@ public class Enemy : Interactable
     private InteractionManager interactionManager = null;
     private bool isDead = false;
     private bool gotHit = false;
-    private Rigidbody[] rigidbodies;
+    private List<Rigidbody> rigidbodies = new List<Rigidbody>();
     private bool isOnFloor = false;
 
     public Collider StompCollider { get => stompCollider; }
@@ -83,7 +84,8 @@ public class Enemy : Interactable
 
     private void FillRigidbodiesArray()
     {
-        rigidbodies = GetComponentsInChildren<Rigidbody>();
+        rigidbodies = GetComponentsInChildren<Rigidbody>().ToList();
+        rigidbodies.Remove(rigidbodies[0]);
     }
 
     public void EnableRagdollPhysics()
@@ -139,7 +141,7 @@ public class Enemy : Interactable
     {
         int random = Random.Range(1, 11);
 
-        if(random % 5 == 0)
+        if (random % 5 == 0)
         {
             EnableRagdollPhysics();
             isOnFloor = true;
