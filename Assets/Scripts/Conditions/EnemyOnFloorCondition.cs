@@ -14,12 +14,12 @@ public class EnemyOnFloorCondition : Condition
 
     private void Update()
     {
-        if (interactableManager.CurrentInteractable != null)
+        if (interactableManager.CurrentInteractableParent != null)
         {
-            if (interactableManager.CurrentInteractable.GetType() == typeof(Enemy))
+            if (interactableManager.CurrentInteractableParent.GetComponentInChildren<Enemy>() != null)
             {
-                enemy = (Enemy)interactableManager.CurrentInteractable;
-
+                enemy = (Enemy)interactableManager.CurrentInteractableParent.GetComponentInChildren<Enemy>();
+                
                 if (enemy.IsOnFloor == false)
                 {
                     isEnemyOnFloor = false;

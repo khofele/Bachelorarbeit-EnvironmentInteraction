@@ -14,13 +14,13 @@ public class EnemyAliveCondition : Condition
 
     private void Update()
     {
-        if(interactableManager.CurrentInteractable != null)
+        if(interactableManager.CurrentInteractableParent != null)
         {
-            if(interactableManager.CurrentInteractable.GetType() == typeof(Enemy))
+            if(interactableManager.CurrentInteractableParent.GetComponentInChildren<Enemy>() != null)
             {
-                enemy = (Enemy)interactableManager.CurrentInteractable;
-                
-                if(enemy.IsDead == false)
+                enemy = (Enemy)interactableManager.CurrentInteractableParent.GetComponentInChildren<Enemy>();
+
+                if (enemy.IsDead == false)
                 {
                     isEnemyAlive = true;
                 }
@@ -28,6 +28,10 @@ public class EnemyAliveCondition : Condition
                 {
                     isEnemyAlive = false;
                 }
+            }
+            else
+            {
+                isEnemyAlive = false;
             }
         }
     }
