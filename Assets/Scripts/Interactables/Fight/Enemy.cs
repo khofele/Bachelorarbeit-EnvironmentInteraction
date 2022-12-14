@@ -15,7 +15,7 @@ public class Enemy : Interactable
     private bool gotHit = false;
     private List<Rigidbody> rigidbodies = new List<Rigidbody>();
     private bool isOnFloor = false;
-    private Renderer renderer = null;
+    private Renderer enemyRenderer = null;
 
     public Collider StompCollider { get => stompCollider; }
     public CapsuleCollider BodyCollider { get => bodyCollider; }
@@ -34,7 +34,7 @@ public class Enemy : Interactable
         FillRigidbodiesArray();
         DisableRagdollPhysics();
 
-        renderer = gameObject.GetComponentInChildren<Renderer>();
+        enemyRenderer = gameObject.GetComponentInChildren<Renderer>();
 
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Checkbox"), LayerMask.NameToLayer("Interactable"), true);
     }
@@ -81,7 +81,7 @@ public class Enemy : Interactable
         if (health <= 0f)
         {
             isDead = true;
-            renderer.material.SetColor("_Color", Color.grey);
+            enemyRenderer.material.SetColor("_Color", Color.grey);
             DisableCapsuleCollider();
         }
     }
