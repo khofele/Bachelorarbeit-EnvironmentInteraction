@@ -26,10 +26,18 @@ public class JumpOverObstacleInteraction : Interaction
         {
             if (CheckMatchingInteractable() == true)
             {
-                if (CheckConditions() == true)
+                if (CheckOtherInteractionsRunning() == true)
                 {
-                    ExecuteInteraction();
-                    Reset();
+                    if (CheckConditions() == true)
+                    {
+                        ExecuteInteraction();
+                        Reset();
+                    }
+                    else if (isTriggeredByInterruptibleInteraction == true)
+                    {
+                        ExecuteInteraction();
+                        Reset();
+                    }
                 }
             }
         }

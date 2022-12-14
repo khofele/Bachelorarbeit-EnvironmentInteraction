@@ -83,6 +83,10 @@ public abstract class Interaction : MonoBehaviour
                     {
                         ExecuteInteraction();
                     }
+                    else if(isTriggeredByInterruptibleInteraction == true)
+                    {
+                        ExecuteInteraction();
+                    }
                 }
             }
         }   
@@ -110,13 +114,7 @@ public abstract class Interaction : MonoBehaviour
 
     protected virtual bool CheckOtherInteractionsRunning()
     {
-        // TODO KARO evtl. wieder schön machen --> TICKET: Übergänge
-        if(interactionManager.CheckOtherInteractionsRunning() == true)
-        {
-            return true;
-        }
-
-        return false;
+        return interactionManager.CheckOtherInteractionsRunning();
     }
 
     protected virtual void ResetInteraction()

@@ -33,7 +33,7 @@ public abstract class MultipleOutcomesInteraction : Interaction
                             SetCurrentInteractable();
                             interactionManager.SetLastInteraction();
 
-                            if(CheckAndExecuteOutcomes() == false)
+                            if (CheckAndExecuteOutcomes() == false)
                             {
                                 ExecuteInteraction();
                                 ResetInteraction();
@@ -43,6 +43,10 @@ public abstract class MultipleOutcomesInteraction : Interaction
                                 interactionManager.CurrentInteraction = this;
                                 ResetInteraction();
                             }
+                        }
+                        else if (isTriggeredByInterruptibleInteraction == true)
+                        {
+                            ExecuteInteraction();
                         }
                     }
                 }

@@ -25,19 +25,7 @@ public abstract class FixedLeanInteraction : Interaction
 
     protected override void Update()
     {
-        if (CheckTrigger() == true)
-        {
-            if (CheckMatchingInteractable() == true)
-            {
-                if (CheckOtherInteractionsRunning() == true)
-                {
-                    if (CheckConditions() == true)
-                    {
-                        ExecuteInteraction();
-                    }
-                }
-            }
-        }
+        base.Update();
 
         ExecuteLeanInteraction();
     }
