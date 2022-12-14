@@ -5,7 +5,6 @@ using UnityEngine;
 public class Touchable : WalkThroughable
 {
     private List<Transform> touchHandles = new List<Transform>();
-    private RandomCondition randomCondition = null;
 
     public List<Transform> TouchHandles { get => touchHandles; }
 
@@ -30,23 +29,9 @@ public class Touchable : WalkThroughable
 
     protected override void OnTriggerExit(Collider other)
     {
-        if(interactionManager.CurrentInteraction != null)
-        {
-            if (interactionManager.CurrentInteraction.gameObject.GetComponent<RandomCondition>() != null)
-            {
-                randomCondition = interactionManager.CurrentInteraction.gameObject.GetComponent<RandomCondition>();
-            }
-        }
-
         if (other.GetComponent<CharController>() != null)
         {
             isTriggered = false;
-
-            // TODO KARO isExecuted und result werden nicht richtig zurückgesetzt! --> TICKET: Touchable Fix
-            if(randomCondition != null)
-            {
-                randomCondition.IsExecuted = false;
-            }
         }
     }
 }
