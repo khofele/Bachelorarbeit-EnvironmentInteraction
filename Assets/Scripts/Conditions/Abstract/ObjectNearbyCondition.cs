@@ -1,13 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(SphereCollider))]
-public class ObjectNearbyCondition : Condition
+public abstract class ObjectNearbyCondition : Condition
 {
     private SphereCollider checkCollider = null;
     private bool isObjectNearby = false;
-    private TargetObject target = null;
+    protected TargetObject target = null;
 
     public TargetObject Target { get => target; }
 
@@ -26,11 +26,11 @@ public class ObjectNearbyCondition : Condition
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == LayerMask.NameToLayer("TargetObjects"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("TargetObjects"))
         {
-            if (other.gameObject.GetComponent<TargetObject>() != null)
+            if (CheckMatchingComponent(other) == true)
             {
-                target = other.gameObject.GetComponent<TargetObject>();
+                SetTarget(other);
                 isObjectNearby = true;
             }
         }
@@ -38,9 +38,12 @@ public class ObjectNearbyCondition : Condition
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.GetComponent<TargetObject>() != null && other.gameObject.layer == LayerMask.NameToLayer("TargetObjects"))
+        if (CheckMatchingComponent(other) == true && other.gameObject.layer == LayerMask.NameToLayer("TargetObjects"))
         {
             isObjectNearby = false;
         }
     }
+
+    protected abstract bool CheckMatchingComponent(Collider other);
+    protected abstract void SetTarget(Collider other);
 }
