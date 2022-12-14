@@ -86,7 +86,6 @@ public abstract class Interaction : MonoBehaviour
                     else if(isTriggeredByInterruptibleInteraction == true)
                     {
                         ExecuteInteraction();
-                        Debug.Log(interactionManager.CurrentInteraction + " TRIGGERED");
                     }
                 }
             }
