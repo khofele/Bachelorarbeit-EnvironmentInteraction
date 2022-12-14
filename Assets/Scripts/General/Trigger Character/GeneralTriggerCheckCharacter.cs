@@ -34,6 +34,11 @@ public class GeneralTriggerCheckCharacter : MonoBehaviour
                 interactionManager.GetCurrentInteraction(interactable).IsInteractionTriggered = false;
             }
         }
+
+        foreach (RandomCondition randomCondition in GetComponentsInChildren<RandomCondition>())
+        {
+            randomCondition.IsExecuted = false;
+        }
     }
 
     private void CheckInteractableProperties()
