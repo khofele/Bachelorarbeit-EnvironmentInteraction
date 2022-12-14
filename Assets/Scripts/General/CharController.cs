@@ -27,7 +27,7 @@ public class CharController : MonoBehaviour
     // Fight 
     [SerializeField] private FistFightInteraction fightInteraction = null;
 
-    public bool IsCrouching { get => isCrouching; }
+    public bool IsCrouching { get => isCrouching; set => isCrouching = value; }
     public bool IsWalking { get => isWalking; }
     public float XAxis { get => xAxis; set => xAxis = value; }
     public float ZAxis { get => zAxis; }

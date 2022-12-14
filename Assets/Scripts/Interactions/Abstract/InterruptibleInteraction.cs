@@ -10,7 +10,7 @@ public abstract class InterruptibleInteraction : Interaction
     {
         foreach(Interaction interaction in interruptInteractions)
         {
-            if(interaction.CheckConditions() == true)
+            if(interaction.CheckConditions() == true && interaction.IsInteractionTriggered == true)
             {
                 interaction.IsTriggeredByInterrupibleInteraction = true;
                 return true;
