@@ -44,5 +44,5 @@ public class RandomCondition : Condition
         }
 
         return result;
-    }       
+    }
 }
