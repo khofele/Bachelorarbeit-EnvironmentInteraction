@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ObjectNearbyCondition : Condition
+[RequireComponent(typeof(SphereCollider))]
+public abstract class ObjectNearbyCondition : BaseCondition
 {
     private SphereCollider checkCollider = null;
     private bool isObjectNearby = false;

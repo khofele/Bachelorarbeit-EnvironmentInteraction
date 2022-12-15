@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharAlreadyInteractingCondition : Condition
+public class CharAlreadyInteractingCondition : BaseCondition
 {
     public override bool CheckCondition()
     {

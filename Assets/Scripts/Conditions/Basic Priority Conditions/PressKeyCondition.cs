@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PressKeyCondition : Condition
+public class PressKeyCondition : BasicPriorityCondition
 {
     [SerializeField] private KeyCode keyCode = KeyCode.None;
     private bool isButtonPressed = false;

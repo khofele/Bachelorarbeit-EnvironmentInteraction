@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EmptyHandsCondition : Condition
+public class EmptyHandsCondition : BaseCondition
 {
     [SerializeField] private Transform rightHand = null;
     [SerializeField] private Transform leftHand = null;

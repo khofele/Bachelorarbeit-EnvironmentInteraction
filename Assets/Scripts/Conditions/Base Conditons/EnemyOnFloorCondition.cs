@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyOnFloorCondition : Condition
+public class EnemyOnFloorCondition : BaseCondition
 {
     private Enemy enemy = null;
     private bool isEnemyOnFloor = false;
@@ -19,7 +19,7 @@ public class EnemyOnFloorCondition : Condition
             if (interactableManager.CurrentInteractableParent.GetComponentInChildren<Enemy>() != null)
             {
                 enemy = (Enemy)interactableManager.CurrentInteractableParent.GetComponentInChildren<Enemy>();
-                
+
                 if (enemy.IsOnFloor == false)
                 {
                     isEnemyOnFloor = false;

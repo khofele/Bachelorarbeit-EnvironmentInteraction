@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAliveCondition : Condition
+public class EnemyAliveCondition : BaseCondition
 {
     private Enemy enemy = null;
     private bool isEnemyAlive = true;
@@ -18,7 +18,7 @@ public class EnemyAliveCondition : Condition
         {
             if(interactableManager.CurrentInteractableParent.GetComponentInChildren<Enemy>() != null)
             {
-                enemy = (Enemy)interactableManager.CurrentInteractableParent.GetComponentInChildren<Enemy>();
+                enemy = interactableManager.CurrentInteractableParent.GetComponentInChildren<Enemy>();
 
                 if (enemy.IsDead == false)
                 {

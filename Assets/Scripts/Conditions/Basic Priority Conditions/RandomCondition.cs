@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RandomCondition : Condition
+public class RandomCondition : BasicPriorityCondition
 {
     [SerializeField] private int probabilityCases = 1;
     private bool result = false;
