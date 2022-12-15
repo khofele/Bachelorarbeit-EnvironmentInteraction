@@ -136,6 +136,7 @@ public abstract class FixedLeanInteraction : Interaction
         ResetValues();
         currentLeanableObject = null;
         interactionManager.IsLeaningSnapping = false;
+        interactionManager.SetLastInteraction();
     }
 
     protected virtual void ResetCharacter()

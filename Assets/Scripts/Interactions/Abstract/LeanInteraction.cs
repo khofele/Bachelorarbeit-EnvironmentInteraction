@@ -119,6 +119,7 @@ public abstract class LeanInteraction : InterruptibleInteraction
         ResetValues();
         StopAnimation();
         interactionManager.IsLeaningSnapping = false;
+        interactionManager.SetLastInteraction();
     }
 
     protected abstract void ExecuteAnimation();

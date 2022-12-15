@@ -5,7 +5,9 @@ using UnityEngine;
 
 public abstract class Outcome : MonoBehaviour
 {
-    protected List<Condition> conditions = new List<Condition>();
+    protected List<BasicPriorityCondition> basicPriorityConditions = new List<BasicPriorityCondition>();
+    protected List<HighPriorityCondition> highPriorityConditions = new List<HighPriorityCondition>();
+    protected List<BaseCondition> baseConditions = new List<BaseCondition>();
     protected OutcomeManager outcomeManager = null;
     protected CharController charController = null;
     protected InteractionManager interactionManager = null;
@@ -13,12 +15,13 @@ public abstract class Outcome : MonoBehaviour
     protected FinalIKController iKController = null;
     protected InteractableManager interactableManager = null;
 
-    public List<Condition> Conditions { get => conditions; }
-
+    public List<BasicPriorityCondition> Conditions { get => basicPriorityConditions; }
 
     protected virtual void Start()
     {
-        conditions = GetComponents<Condition>().ToList();
+        basicPriorityConditions = GetComponents<BasicPriorityCondition>().ToList();
+        highPriorityConditions = GetComponents<HighPriorityCondition>().ToList();
+        baseConditions = GetComponents<BaseCondition>().ToList();
 
         outcomeManager = GetComponentInParent<OutcomeManager>();
         charController = FindObjectOfType<CharController>();
@@ -30,9 +33,63 @@ public abstract class Outcome : MonoBehaviour
 
     public bool CheckConditions()
     {
-        foreach (Condition condition in conditions)
+        if(CheckBaseConditions() == true)
+        {
+            if (CheckHighPriorityConditions() == true)
+            {
+                return true;
+            }
+            else if (CheckBasicPriorityConditions() == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private bool CheckHighPriorityConditions()
+    {
+        if (highPriorityConditions.Count > 0)
+        {
+            foreach (HighPriorityCondition condition in highPriorityConditions)
+            {
+                if (condition.CheckCondition() == false)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private bool CheckBasicPriorityConditions()
+    {
+        foreach (BasicPriorityCondition condition in basicPriorityConditions)
         {
             if (condition.CheckCondition() == false)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private bool CheckBaseConditions()
+    {
+        foreach (BaseCondition baseCondition in baseConditions)
+        {
+            if (baseCondition.CheckCondition() == false)
             {
                 return false;
             }
@@ -48,7 +105,8 @@ public abstract class Outcome : MonoBehaviour
 
     public virtual void ResetOutcome()
     {
-        outcomeManager.CurrentOutcome = null;
         iKController.IsIkActive = false;
+        outcomeManager.SetLastOutcome();
+        outcomeManager.CurrentOutcome = null;
     }
 }

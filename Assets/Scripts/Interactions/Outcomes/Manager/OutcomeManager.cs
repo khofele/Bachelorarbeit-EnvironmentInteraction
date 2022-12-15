@@ -6,9 +6,11 @@ public class OutcomeManager : MonoBehaviour
 {
     private List<Outcome> outcomes = new List<Outcome>();
     private Outcome currentOutcome = null;
+    private Outcome lastOutcome = null;
 
     public List<Outcome> Outcomes { get => outcomes; }
     public Outcome CurrentOutcome { get => currentOutcome; set => currentOutcome = value; }
+    public Outcome LastOutcome { get => lastOutcome; }
     
     public void FillOutcomesList()
     {
@@ -25,6 +27,14 @@ public class OutcomeManager : MonoBehaviour
         foreach (Outcome outcome in outcomes)
         {
             outcome.ResetOutcome();
+        }
+    }
+
+    public void SetLastOutcome()
+    {
+        if (lastOutcome != currentOutcome && currentOutcome != null)
+        {
+            lastOutcome = currentOutcome;
         }
     }
 }

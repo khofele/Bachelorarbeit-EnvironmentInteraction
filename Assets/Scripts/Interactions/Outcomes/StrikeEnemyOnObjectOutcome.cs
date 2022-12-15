@@ -19,7 +19,7 @@ public class StrikeEnemyOnObjectOutcome : FightOutcome
 
     protected override void SnapToTarget()
     {
-        target = GetCurrentTarget();
+        target = (FightTarget)GetCurrentTarget();
 
         Vector3 position = target.GetComponent<Collider>().ClosestPoint(charController.transform.position);
 

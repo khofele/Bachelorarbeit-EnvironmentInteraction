@@ -112,6 +112,7 @@ public class ThrowObjectInteraction : Interaction
     {
         enemy = null;
         isTriggeredByInterruptibleInteraction = false;
+        interactionManager.SetLastInteraction();
     }
 
     protected override void SetMatchingInteractable()

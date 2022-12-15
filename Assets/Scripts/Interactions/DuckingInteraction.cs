@@ -43,6 +43,7 @@ public class DuckingInteraction : WalkThroughInteraction
 
     protected override void ResetInteraction()
     {
+        interactionManager.SetLastInteraction();
         ResetCharacterCollider(); 
         animationManager.StopCrouchAnimation();
         animationManager.StopDuckingAnimation();

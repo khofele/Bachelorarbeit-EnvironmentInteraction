@@ -47,6 +47,7 @@ public abstract class MultipleOutcomesInteraction : Interaction
                         else if (isTriggeredByInterruptibleInteraction == true)
                         {
                             ExecuteInteraction();
+                            ResetInteraction();
                         }
                     }
                 }

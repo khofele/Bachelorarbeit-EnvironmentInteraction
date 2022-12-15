@@ -111,6 +111,7 @@ public class FistFightInteraction : MultipleOutcomesInteraction
     private IEnumerator WaitAndReset()
     {
         yield return new WaitForSeconds(1.5f);
+        interactionManager.SetLastInteraction();
         interactionManager.IsFighting = false;
         isInteractionRunning = false;
         finalIKController.IsIkActive = false;

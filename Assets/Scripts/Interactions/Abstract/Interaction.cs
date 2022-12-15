@@ -67,7 +67,7 @@ public abstract class Interaction : MonoBehaviour
         charController = GetComponentInParent<CharController>();
         finalIKController = GetComponentInParent<FinalIKController>();
 
-        conditionManager.FillConditionsList();
+        conditionManager.FillConditionsLists();
         SetMatchingInteractable();
     }
 
@@ -99,7 +99,40 @@ public abstract class Interaction : MonoBehaviour
 
     public virtual bool CheckConditions()
     {
-        return conditionManager.CheckConditions();
+        if (CheckBaseConditions() == true)
+        {
+            if (CheckHighPriorityConditions() == true)
+            {
+                return true;
+            }
+            else if (CheckBasicPriorityConditions() == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    protected virtual bool CheckHighPriorityConditions()
+    {
+        return conditionManager.CheckHighPriorityConditions();
+    }
+
+    protected virtual bool CheckBasicPriorityConditions()
+    {
+        return conditionManager.CheckBasicPriorityConditions();
+    }
+
+    protected virtual bool CheckBaseConditions()
+    {
+        return conditionManager.CheckBaseConditions();
     }
 
     public virtual void ExecuteInteraction()
@@ -107,7 +140,6 @@ public abstract class Interaction : MonoBehaviour
         finalIKController.IsIkActive = true;
         interactionManager.CurrentInteraction = this;
         isInteractionRunning = true;
-        interactionManager.SetLastInteraction();
 
         SetCurrentInteractable();
     }
@@ -123,6 +155,7 @@ public abstract class Interaction : MonoBehaviour
         isInteractionTriggered = false;
         finalIKController.IsIkActive = false;
         isTriggeredByInterruptibleInteraction = false;
+        interactionManager.SetLastInteraction();
     }
 
     protected void SetCurrentInteractable()
