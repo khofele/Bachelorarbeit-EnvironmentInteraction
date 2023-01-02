@@ -5,16 +5,16 @@ using UnityEngine;
 public abstract class LeanInteraction : InterruptibleInteraction
 {
     protected Collider snapCollider = null;
-    protected Collider playerCollider = null;
+    protected Collider charCollider = null;
     protected Leanable currentLeanableObject = null;
     protected float snapDistance = 1.5f;
     protected Vector3 offset;
 
     protected virtual void LeanOnObject()
     {
-        Vector3 playerClosestPoint = playerCollider.ClosestPoint(snapCollider.transform.position);
-        Vector3 objectClosestPoint = snapCollider.ClosestPoint(playerClosestPoint);
-        offset = objectClosestPoint - playerClosestPoint;
+        Vector3 charClosestPoint = charCollider.ClosestPoint(snapCollider.transform.position);
+        Vector3 objectClosestPoint = snapCollider.ClosestPoint(charClosestPoint);
+        offset = objectClosestPoint - charClosestPoint;
 
         if (offset.magnitude < snapDistance)
         {
@@ -58,7 +58,7 @@ public abstract class LeanInteraction : InterruptibleInteraction
     protected override void Start()
     {
         base.Start();
-        playerCollider = charController.GetComponent<CharacterController>();
+        charCollider = charController.GetComponent<CharacterController>();
     }
 
     protected override void Update()
