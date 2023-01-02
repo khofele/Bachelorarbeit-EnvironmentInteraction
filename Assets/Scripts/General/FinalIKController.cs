@@ -398,7 +398,7 @@ public class FinalIKController : MonoBehaviour
 
         fullBodyIK.solver.leftHandEffector.position = closestPointLeftHand;
         fullBodyIK.solver.leftHandEffector.positionWeight = 1f;
-        fullBodyIK.solver.leftHandEffector.rotation = Quaternion.Euler(60f, 230f, 104f);  // linke Hand dreht sich sonst seltsam
+        fullBodyIK.solver.leftHandEffector.rotation = Quaternion.Euler(60f, 230f, 104f);  // left hand twists weirdly without this
         fullBodyIK.solver.leftHandEffector.rotationWeight = 1f;
     }
 
@@ -565,7 +565,6 @@ public class FinalIKController : MonoBehaviour
             }
         }
 
-        // TODO KARO v funktioniert nicht, Hände zurücksetzen wenn kein Stein mehr in Reichweite gefunden werden kann --> TICKET: UM ECKE KLETTERN
         if(closestClimbingStone == null)
         {
             isIkActive = false;
