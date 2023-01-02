@@ -8,19 +8,6 @@ public class Jumpable : Interactable
 
     public Collider JumpCollider { get => jumpCollider; }
 
-    protected override void Start()
-    {
-        base.Start();
-    }
-
-    protected override void Validate()
-    {
-        base.Validate();
-
-        GetJumpCollider();
-        CheckCubeSize();
-    }
-
     private void GetJumpCollider()
     {
         Collider[] children = GetComponentsInChildren<Collider>();
@@ -52,5 +39,18 @@ public class Jumpable : Interactable
         {
             Debug.LogWarning("The character might have some difficulties with jumping over the obstacle!");
         }
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+    }
+
+    protected override void Validate()
+    {
+        base.Validate();
+
+        GetJumpCollider();
+        CheckCubeSize();
     }
 }

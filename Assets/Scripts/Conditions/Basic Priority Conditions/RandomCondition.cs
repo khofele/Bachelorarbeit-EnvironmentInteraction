@@ -10,21 +10,6 @@ public class RandomCondition : BasicPriorityCondition
 
     public bool IsExecuted { get => isExecuted; set => isExecuted = value; }
 
-    public override bool CheckCondition()
-    {
-        return CalculateResult();
-    }
-
-    protected override void Start()
-    {
-        base.Start();
-
-        if(probabilityCases <= 0)
-        {
-            probabilityCases = 1;
-        }
-    }
-
     private bool CalculateResult()
     {
         if (isExecuted == false)
@@ -44,5 +29,20 @@ public class RandomCondition : BasicPriorityCondition
         }
 
         return result;
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        if(probabilityCases <= 0)
+        {
+            probabilityCases = 1;
+        }
+    }
+
+    public override bool CheckCondition()
+    {
+        return CalculateResult();
     }
 }

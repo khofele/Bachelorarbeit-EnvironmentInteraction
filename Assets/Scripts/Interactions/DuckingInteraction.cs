@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class DuckingInteraction : WalkThroughInteraction
 {
-    protected override void SetMatchingInteractable()
-    {
-        matchingInteractable = typeof(Duckable);
-    }
-
     private void Duck()
     {
         isTriggeredByInterruptibleInteraction = true;
@@ -18,22 +13,16 @@ public class DuckingInteraction : WalkThroughInteraction
         animationManager.EnableUpperBodyLayer();
     }
 
-    public override void ExecuteInteraction()
-    {
-        base.ExecuteInteraction();
-        Duck();
-    }
-
     private void ModifyCharacterCollider()
     {
         charController.GetComponent<CharacterController>().height = 1f;
-        charController.GetComponent<CharacterController>().center = new Vector3(0, 0.5f, 0);
+        charController.GetComponent<CharacterController>().center = new Vector3(0f, 0.5f, 0f);
     }
 
     private void ResetCharacterCollider()
     {
         charController.GetComponent<CharacterController>().height = 2f;
-        charController.GetComponent<CharacterController>().center = new Vector3(0, 1f, 0);
+        charController.GetComponent<CharacterController>().center = new Vector3(0f, 1f, 0f);
     }
 
     protected override void SetCurrentInteraction()
@@ -48,5 +37,16 @@ public class DuckingInteraction : WalkThroughInteraction
         animationManager.StopCrouchAnimation();
         animationManager.StopDuckingAnimation();
         animationManager.DisableUpperBodyLayer();   
+    }
+
+    protected override void SetMatchingInteractable()
+    {
+        matchingInteractable = typeof(Duckable);
+    }
+
+    public override void ExecuteInteraction()
+    {
+        base.ExecuteInteraction();
+        Duck();
     }
 }

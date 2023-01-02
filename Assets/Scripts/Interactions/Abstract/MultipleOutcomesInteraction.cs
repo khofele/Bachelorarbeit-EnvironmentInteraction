@@ -9,6 +9,20 @@ public abstract class MultipleOutcomesInteraction : Interaction
 
     public OutcomeManager OutcomeManager { get => outcomeManager; }
 
+    private bool CheckAndExecuteOutcomes()
+    {
+        foreach (Outcome outcome in outcomeManager.Outcomes)
+        {
+            if (outcome.CheckConditions() == true)
+            {
+                outcome.ExecuteOutcome();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -53,19 +67,5 @@ public abstract class MultipleOutcomesInteraction : Interaction
                 }
             }
         }
-    }
-
-    private bool CheckAndExecuteOutcomes()
-    {
-        foreach (Outcome outcome in outcomeManager.Outcomes)
-        {
-            if (outcome.CheckConditions() == true)
-            {
-                outcome.ExecuteOutcome();
-                return true;
-            }
-        }
-
-        return false;
     }
 }

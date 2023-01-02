@@ -9,26 +9,6 @@ public class FistFightInteraction : MultipleOutcomesInteraction
 
     public Hands CurrentHand { get => currentHand; }
 
-    protected override void SetMatchingInteractable()
-    {
-        matchingInteractable = typeof(Enemy);
-    }
-
-    public override void ExecuteInteraction()
-    {
-        if (isInteractionRunning == false)
-        {
-            Punch();
-        }
-
-        base.ExecuteInteraction();
-    }
-
-    protected override void ResetInteraction()
-    {
-        StartCoroutine(WaitAndReset());
-    }
-
     private void SetLastHand()
     {
         lastHand = currentHand;
@@ -40,6 +20,37 @@ public class FistFightInteraction : MultipleOutcomesInteraction
         ChoosePunchHand();
         ExecutePunchAnimation();
         animationManager.EnableHeadLayer();
+    }
+
+    private IEnumerator WaitAndReset()
+    {
+        yield return new WaitForSeconds(1.5f);
+        interactionManager.SetLastInteraction();
+        interactionManager.IsFighting = false;
+        isInteractionRunning = false;
+        finalIKController.IsIkActive = false;
+        isTriggeredByInterruptibleInteraction = false;
+        outcomeManager.ResetOutcomes();
+    }
+
+    protected override void SetMatchingInteractable()
+    {
+        matchingInteractable = typeof(Enemy);
+    }
+
+    protected override void ResetInteraction()
+    {
+        StartCoroutine(WaitAndReset());
+    }
+
+    public override void ExecuteInteraction()
+    {
+        if (isInteractionRunning == false)
+        {
+            Punch();
+        }
+
+        base.ExecuteInteraction();
     }
 
     public void ChoosePunchHand()
@@ -106,16 +117,5 @@ public class FistFightInteraction : MultipleOutcomesInteraction
                     break;
             }
         }
-    }
-
-    private IEnumerator WaitAndReset()
-    {
-        yield return new WaitForSeconds(1.5f);
-        interactionManager.SetLastInteraction();
-        interactionManager.IsFighting = false;
-        isInteractionRunning = false;
-        finalIKController.IsIkActive = false;
-        isTriggeredByInterruptibleInteraction = false;
-        outcomeManager.ResetOutcomes();
     }
 }

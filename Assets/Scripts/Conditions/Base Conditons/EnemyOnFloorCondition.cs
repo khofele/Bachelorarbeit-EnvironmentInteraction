@@ -7,11 +7,6 @@ public class EnemyOnFloorCondition : BaseCondition
     private Enemy enemy = null;
     private bool isEnemyOnFloor = false;
 
-    public override bool CheckCondition()
-    {
-        return isEnemyOnFloor;
-    }
-
     private void Update()
     {
         if (interactableManager.CurrentInteractableParent != null)
@@ -30,5 +25,10 @@ public class EnemyOnFloorCondition : BaseCondition
                 }
             }
         }
+    }
+
+    public override bool CheckCondition()
+    {
+        return isEnemyOnFloor;
     }
 }

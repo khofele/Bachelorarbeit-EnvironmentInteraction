@@ -9,13 +9,6 @@ public class PushableTarget : TargetObject
 
     public List<Transform> GrabHandles { get => grabHandles; }
 
-    protected override void Start()
-    {
-        base.Start();
-
-        FillList();
-    }
-
     private void FillList()
     {
         Transform[] children = GetComponentsInChildren<Transform>();
@@ -28,5 +21,12 @@ public class PushableTarget : TargetObject
         {
             Debug.LogWarning("No grabhandles found!");
         }
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        FillList();
     }
 }

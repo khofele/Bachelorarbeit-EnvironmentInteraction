@@ -6,6 +6,14 @@ public class PushEnemyOutcome : FightOutcome
 {
     [SerializeField] private Transform grabHandle = null;
 
+    private IEnumerator WaitAndReset()
+    {
+        yield return new WaitForSeconds(1f);
+
+        ResetOutcome();
+        animationManager.ExecuteIdle();
+    }
+
     protected override void ReduceEnemyHealth()
     {
         currentEnemy.Health = 0f;
@@ -33,14 +41,6 @@ public class PushEnemyOutcome : FightOutcome
             charController.transform.position = Vector3.MoveTowards(charController.transform.position, position, 3 * Time.deltaTime);
             GrabEnemy();
         }
-    }
-
-    private IEnumerator WaitAndReset()
-    {
-        yield return new WaitForSeconds(1f);
-
-        ResetOutcome();
-        animationManager.ExecuteIdle();
     }
 
     public void GrabEnemy()

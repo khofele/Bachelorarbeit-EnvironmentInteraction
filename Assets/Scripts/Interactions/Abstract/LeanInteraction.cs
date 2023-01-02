@@ -96,19 +96,6 @@ public abstract class LeanInteraction : InterruptibleInteraction
         finalIKController.IsIkActive = false;
     }
 
-    public override void ExecuteInteraction()
-    {
-        if (isInteractionRunning == false)
-        {
-            interactionManager.IsLeaningSnapping = true;
-        }
-
-        base.ExecuteInteraction();
-        currentLeanableObject = (Leanable)interactableManager.CurrentInteractable;
-        snapCollider = currentLeanableObject.SnapCollider;
-        LeanOnObject();
-    }
-
     protected override void ResetInteraction()
     {
         isInteractionRunning = false;
@@ -128,4 +115,17 @@ public abstract class LeanInteraction : InterruptibleInteraction
     protected abstract void ResetCharacter();
     protected abstract void SetLeanBool(bool value);
     protected abstract bool CheckLeaningBool();
+
+    public override void ExecuteInteraction()
+    {
+        if (isInteractionRunning == false)
+        {
+            interactionManager.IsLeaningSnapping = true;
+        }
+
+        base.ExecuteInteraction();
+        currentLeanableObject = (Leanable)interactableManager.CurrentInteractable;
+        snapCollider = currentLeanableObject.SnapCollider;
+        LeanOnObject();
+    }
 }

@@ -94,7 +94,7 @@ public class InteractionManager : MonoBehaviour
 
     private Interaction GetCurrentInteractionFromTriggeredInteractable()
     {
-        foreach(Interaction interaction in allInteractions)
+        foreach (Interaction interaction in allInteractions)
         {
             if (interactableManager.CurrentInteractable.GetType() == interaction.MatchingInteractable)
             {
@@ -107,9 +107,9 @@ public class InteractionManager : MonoBehaviour
 
     public Interaction GetCurrentInteraction(Interactable interactable)
     {
-        foreach(Interaction interaction in allInteractions)
+        foreach (Interaction interaction in allInteractions)
         {
-            if(interactable.GetType() == interaction.MatchingInteractable)
+            if (interactable.GetType() == interaction.MatchingInteractable)
             {
                 return interaction;
             }
@@ -120,13 +120,13 @@ public class InteractionManager : MonoBehaviour
 
     public bool CheckOtherInteractionsRunning()
     {
-        if(interactableManager.CurrentInteractableParent != null)
+        if (interactableManager.CurrentInteractableParent != null)
         {
-            foreach(Interaction interaction in allInteractions)
+            foreach (Interaction interaction in allInteractions)
             {
-                foreach(Interactable interactable in interactableManager.CurrentInteractableParent.Interactables)
+                foreach (Interactable interactable in interactableManager.CurrentInteractableParent.Interactables)
                 {
-                    if(GetCurrentInteraction(interactable) != interaction && interaction.IsInteractionRunning == true)
+                    if (GetCurrentInteraction(interactable) != interaction && interaction.IsInteractionRunning == true)
                     {
                         return false;
                     }
@@ -136,7 +136,7 @@ public class InteractionManager : MonoBehaviour
         }
         else
         {
-            foreach(Interaction interaction in allInteractions)
+            foreach (Interaction interaction in allInteractions)
             {
                 if (GetCurrentInteractionFromTriggeredInteractable() != interaction && interaction.IsInteractionRunning == true)
                 {
@@ -157,9 +157,9 @@ public class InteractionManager : MonoBehaviour
 
     public bool CheckAllInteractionsRunning()
     {
-        foreach(Interaction interaction in allInteractions)
+        foreach (Interaction interaction in allInteractions)
         {
-            if(interaction.IsInteractionRunning == true)
+            if (interaction.IsInteractionRunning == true)
             {
                 return true;
             }

@@ -45,7 +45,6 @@ public class PassageLeanInteraction : FixedLeanInteraction
             {
                 charController.transform.rotation = Quaternion.LookRotation(-hit.transform.forward);
             }
-
         }
     }
 }

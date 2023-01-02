@@ -124,7 +124,7 @@ public class FinalIKController : MonoBehaviour
                     // Fistfight + Outcomes
                     else
                     {
-                        if(multipleOutcomesInteraction.OutcomeManager.CurrentOutcome != null)
+                        if (multipleOutcomesInteraction.OutcomeManager.CurrentOutcome != null)
                         {
                             // Strike head
                             if (multipleOutcomesInteraction.OutcomeManager.CurrentOutcome.GetType() == typeof(StrikeEnemyOnObjectOutcome))
@@ -318,8 +318,8 @@ public class FinalIKController : MonoBehaviour
             fullBodyIK.solver.leftHandEffector.rotationWeight = 0.5f;
 
             // right
-            fullBodyIK.solver.rightHandEffector.positionWeight = 0;
-            fullBodyIK.solver.rightHandEffector.rotationWeight = 0;
+            fullBodyIK.solver.rightHandEffector.positionWeight = 0f;
+            fullBodyIK.solver.rightHandEffector.rotationWeight = 0f;
         }
         else
         {
@@ -330,8 +330,8 @@ public class FinalIKController : MonoBehaviour
             fullBodyIK.solver.rightHandEffector.rotationWeight = 0.5f;
 
             // left
-            fullBodyIK.solver.leftHandEffector.positionWeight = 0;
-            fullBodyIK.solver.leftHandEffector.rotationWeight = 0;
+            fullBodyIK.solver.leftHandEffector.positionWeight = 0f;
+            fullBodyIK.solver.leftHandEffector.rotationWeight = 0f;
         }
     }
 
@@ -411,7 +411,7 @@ public class FinalIKController : MonoBehaviour
 
         FistFightInteraction currentInteraction = (FistFightInteraction)interactionManager.CurrentInteraction;
 
-        if(isClosestPointFound == false)
+        if (isClosestPointFound == false)
         {
             isClosestPointFound = true;
             closestPointRight = bodyCollider.ClosestPoint(fullBodyIK.solver.rightHandEffector.position);
@@ -477,7 +477,7 @@ public class FinalIKController : MonoBehaviour
 
         PushObjectOnEnemyOutcome outcome = (PushObjectOnEnemyOutcome)multipleOutcomesInteraction.OutcomeManager.CurrentOutcome;
 
-        if(isClosestPointFound == false)
+        if (isClosestPointFound == false)
         {
             isClosestPointFound = true;
             rightTransform = GetClosestRightGrabHandle(outcome);
@@ -496,11 +496,11 @@ public class FinalIKController : MonoBehaviour
         float shortestDistance = Mathf.Infinity;
         Transform closestGrabHandle = null;
 
-        foreach(Transform transform in outcome.PushTarget.GrabHandles)
+        foreach (Transform transform in outcome.PushTarget.GrabHandles)
         {
             float distance = Vector3.Distance(fullBodyIK.solver.leftHandEffector.position, transform.position);
 
-            if(distance < shortestDistance && transform != outcome.ClosestGrabHandle && transform != rightTransform)
+            if (distance < shortestDistance && transform != outcome.ClosestGrabHandle && transform != rightTransform)
             {
                 shortestDistance = distance;
                 closestGrabHandle = transform;
@@ -533,7 +533,7 @@ public class FinalIKController : MonoBehaviour
 
     private void ClimbIK()
     {
-        if(charController.MoveDirection.magnitude >= 0.01f)
+        if (charController.MoveDirection.magnitude >= 0.01f)
         {
             fullBodyIK.solver.leftHandEffector.position = FindClosestClimbingStone(leftHandGrabHandle.position).transform.position;
             fullBodyIK.solver.rightHandEffector.position = FindClosestClimbingStone(rightHandGrabHandle.position).transform.position;
@@ -558,14 +558,14 @@ public class FinalIKController : MonoBehaviour
         {
             float distance = Vector3.Distance(target, stone.transform.position);
 
-            if(distance < shortestDistance && distance < 1.5f)
+            if (distance < shortestDistance && distance < 1.5f)
             {
                 shortestDistance = distance;
                 closestClimbingStone = stone;
             }
         }
 
-        if(closestClimbingStone == null)
+        if (closestClimbingStone == null)
         {
             isIkActive = false;
             return null;
@@ -583,13 +583,13 @@ public class FinalIKController : MonoBehaviour
             lookAtIK.solver.IKPositionWeight = 1f;
             lookAtIK.solver.headWeight = 1f;
         }
-        else if (charController.XAxis == -1)
+        else if (charController.XAxis == -1f)
         {
             lookAtIK.solver.target = leftHandLookTarget;
             lookAtIK.solver.IKPositionWeight = 1f;
             lookAtIK.solver.headWeight = 1f;
         }
-        else if (charController.XAxis == 1)
+        else if (charController.XAxis == 1f)
         {
             lookAtIK.solver.target = rightHandLookTarget;
             lookAtIK.solver.IKPositionWeight = 1f;
@@ -613,7 +613,7 @@ public class FinalIKController : MonoBehaviour
             lookAtIK.solver.IKPositionWeight = 1f;
             lookAtIK.solver.headWeight = 1f;
         }
-        else if (charController.XAxis == -1)
+        else if (charController.XAxis == -1f)
         {
             lookAtIK.solver.target = rightHandLookTarget;
             lookAtIK.solver.IKPositionWeight = 1f;

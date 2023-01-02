@@ -17,6 +17,19 @@ public class Climbable : Interactable
     public Transform ClimbDownTransform { get => climbDownTransform; }
     public List<ClimbingStone> ClimbingStones { get => climbingStones; }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.GetComponent<CharController>() != null)
+        {
+            triggerCount++;
+        }
+    }
+
+    private void FillList()
+    {
+        climbingStones = GetComponentsInChildren<ClimbingStone>().ToList();
+    }
+
     protected override void Start()
     {
         FillList();
@@ -32,32 +45,19 @@ public class Climbable : Interactable
     {
         base.Validate();
 
-        if(topTransform == null)
+        if (topTransform == null)
         {
             Debug.LogWarning("Top transform is not assigned!");
         }
 
-        if(climbDownTransform == null)
+        if (climbDownTransform == null)
         {
             Debug.LogWarning("Climb down transform is not assigned!");
         }
 
-        if(topClimbingTriggerCheck == null)
+        if (topClimbingTriggerCheck == null)
         {
             Debug.LogWarning("Triggercheck is not assigned!");
         }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.GetComponent<CharController>() != null)
-        {
-            triggerCount++;
-        }
-    }
-
-    private void FillList()
-    {
-        climbingStones = GetComponentsInChildren<ClimbingStone>().ToList();
     }
 }

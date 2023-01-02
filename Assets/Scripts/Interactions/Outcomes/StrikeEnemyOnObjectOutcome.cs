@@ -6,12 +6,6 @@ public class StrikeEnemyOnObjectOutcome : FightOutcome
 {
     [SerializeField] private Transform grabHandle = null;
 
-    public override void ResetOutcome()
-    {
-        GetComponent<RandomCondition>().IsExecuted = false;
-        base.ResetOutcome();
-    }
-
     protected override void ReduceEnemyHealth()
     {
         currentEnemy.Health = 0f;
@@ -48,5 +42,11 @@ public class StrikeEnemyOnObjectOutcome : FightOutcome
     public void DropEnemy()
     {
         currentEnemy.transform.SetParent(null);
+    }
+
+    public override void ResetOutcome()
+    {
+        GetComponent<RandomCondition>().IsExecuted = false;
+        base.ResetOutcome();
     }
 }

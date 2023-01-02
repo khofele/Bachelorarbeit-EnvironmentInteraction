@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class Throwable : Interactable
 {
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public Transform GetGrabHandle()
     {
         Transform parentTransform = transform;
         Transform grabHandle = null;
 
-        foreach(Transform transform in parentTransform)
+        foreach (Transform transform in parentTransform)
         {
             if (transform.CompareTag("grabHandle"))
             {
@@ -25,14 +33,6 @@ public class Throwable : Interactable
         else
         {
             return grabHandle;
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-        {
-            Destroy(gameObject);
         }
     }
 }

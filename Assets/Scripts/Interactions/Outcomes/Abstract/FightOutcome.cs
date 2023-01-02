@@ -28,6 +28,10 @@ public abstract class FightOutcome : Outcome
         }
     }
 
+    protected abstract void SnapToTarget();
+
+    protected abstract void ReduceEnemyHealth();
+
     public override void ExecuteOutcome()
     {
         base.ExecuteOutcome();
@@ -37,8 +41,4 @@ public abstract class FightOutcome : Outcome
 
         SnapToTarget();
     }
-
-    protected abstract void SnapToTarget();
-
-    protected abstract void ReduceEnemyHealth();
 }

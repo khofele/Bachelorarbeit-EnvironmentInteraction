@@ -17,43 +17,6 @@ public abstract class Outcome : MonoBehaviour
 
     public List<BasicPriorityCondition> Conditions { get => basicPriorityConditions; }
 
-    protected virtual void Start()
-    {
-        basicPriorityConditions = GetComponents<BasicPriorityCondition>().ToList();
-        highPriorityConditions = GetComponents<HighPriorityCondition>().ToList();
-        baseConditions = GetComponents<BaseCondition>().ToList();
-
-        outcomeManager = GetComponentInParent<OutcomeManager>();
-        charController = FindObjectOfType<CharController>();
-        interactionManager = FindObjectOfType<InteractionManager>();
-        animationManager = FindObjectOfType<AnimationManager>();
-        iKController = FindObjectOfType<FinalIKController>();
-        interactableManager = FindObjectOfType<InteractableManager>();
-    }
-
-    public bool CheckConditions()
-    {
-        if(CheckBaseConditions() == true)
-        {
-            if (CheckHighPriorityConditions() == true)
-            {
-                return true;
-            }
-            else if (CheckBasicPriorityConditions() == true)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
-
     private bool CheckHighPriorityConditions()
     {
         if (highPriorityConditions.Count > 0)
@@ -95,6 +58,43 @@ public abstract class Outcome : MonoBehaviour
             }
         }
         return true;
+    }
+
+    protected virtual void Start()
+    {
+        basicPriorityConditions = GetComponents<BasicPriorityCondition>().ToList();
+        highPriorityConditions = GetComponents<HighPriorityCondition>().ToList();
+        baseConditions = GetComponents<BaseCondition>().ToList();
+
+        outcomeManager = GetComponentInParent<OutcomeManager>();
+        charController = FindObjectOfType<CharController>();
+        interactionManager = FindObjectOfType<InteractionManager>();
+        animationManager = FindObjectOfType<AnimationManager>();
+        iKController = FindObjectOfType<FinalIKController>();
+        interactableManager = FindObjectOfType<InteractableManager>();
+    }
+
+    public bool CheckConditions()
+    {
+        if(CheckBaseConditions() == true)
+        {
+            if (CheckHighPriorityConditions() == true)
+            {
+                return true;
+            }
+            else if (CheckBasicPriorityConditions() == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public virtual void ExecuteOutcome()

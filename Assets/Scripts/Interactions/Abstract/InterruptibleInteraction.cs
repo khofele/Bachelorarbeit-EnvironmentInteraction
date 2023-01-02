@@ -8,9 +8,9 @@ public abstract class InterruptibleInteraction : Interaction
 
     protected bool CheckInterruptInteractionsConditions()
     {
-        foreach(Interaction interaction in interruptInteractions)
+        foreach (Interaction interaction in interruptInteractions)
         {
-            if(interaction.CheckConditions() == true && interaction.IsInteractionTriggered == true)
+            if (interaction.CheckConditions() == true && interaction.IsInteractionTriggered == true)
             {
                 interaction.IsTriggeredByInterrupibleInteraction = true;
                 return true;

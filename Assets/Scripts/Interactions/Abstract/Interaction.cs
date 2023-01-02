@@ -18,8 +18,6 @@ public abstract class Interaction : MonoBehaviour
     protected bool isInteractionTriggered = false;
     protected bool isTriggeredByInterruptibleInteraction = false;
 
-
-
     public bool IsInteractionRunning { get => isInteractionRunning; set => isInteractionRunning = value; }
     public bool IsCharInteracting { get => isCharInteracting; }
     public Type MatchingInteractable { get => matchingInteractable; }
@@ -97,6 +95,48 @@ public abstract class Interaction : MonoBehaviour
         return isInteractionTriggered;
     }
 
+    protected virtual bool CheckHighPriorityConditions()
+    {
+        return conditionManager.CheckHighPriorityConditions();
+    }
+
+    protected virtual bool CheckBasicPriorityConditions()
+    {
+        return conditionManager.CheckBasicPriorityConditions();
+    }
+
+    protected virtual bool CheckBaseConditions()
+    {
+        return conditionManager.CheckBaseConditions();
+    }
+
+    protected virtual bool CheckOtherInteractionsRunning()
+    {
+        return interactionManager.CheckOtherInteractionsRunning();
+    }
+
+    protected virtual void ResetInteraction()
+    {
+        isInteractionRunning = false;
+        isInteractionTriggered = false;
+        finalIKController.IsIkActive = false;
+        isTriggeredByInterruptibleInteraction = false;
+        interactionManager.SetLastInteraction();
+    }
+
+    protected void SetCurrentInteractable()
+    {
+        foreach (Interactable interactable in interactableManager.CurrentInteractableParent.Interactables)
+        {
+            if (interactable.GetType() == matchingInteractable)
+            {
+                interactableManager.CurrentInteractable = interactable;
+            }
+        }
+    }
+
+    protected abstract void SetMatchingInteractable();
+
     public virtual bool CheckConditions()
     {
         if (CheckBaseConditions() == true)
@@ -120,21 +160,6 @@ public abstract class Interaction : MonoBehaviour
         }
     }
 
-    protected virtual bool CheckHighPriorityConditions()
-    {
-        return conditionManager.CheckHighPriorityConditions();
-    }
-
-    protected virtual bool CheckBasicPriorityConditions()
-    {
-        return conditionManager.CheckBasicPriorityConditions();
-    }
-
-    protected virtual bool CheckBaseConditions()
-    {
-        return conditionManager.CheckBaseConditions();
-    }
-
     public virtual void ExecuteInteraction()
     {
         finalIKController.IsIkActive = true;
@@ -143,31 +168,4 @@ public abstract class Interaction : MonoBehaviour
 
         SetCurrentInteractable();
     }
-
-    protected virtual bool CheckOtherInteractionsRunning()
-    {
-        return interactionManager.CheckOtherInteractionsRunning();
-    }
-
-    protected virtual void ResetInteraction()
-    {
-        isInteractionRunning = false;
-        isInteractionTriggered = false;
-        finalIKController.IsIkActive = false;
-        isTriggeredByInterruptibleInteraction = false;
-        interactionManager.SetLastInteraction();
-    }
-
-    protected void SetCurrentInteractable()
-    {
-        foreach(Interactable interactable in interactableManager.CurrentInteractableParent.Interactables)
-        {
-            if(interactable.GetType() == matchingInteractable)
-            {
-                interactableManager.CurrentInteractable = interactable;
-            }
-        }
-    }
-
-    protected abstract void SetMatchingInteractable();
 }

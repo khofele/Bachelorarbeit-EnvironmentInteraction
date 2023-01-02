@@ -16,7 +16,7 @@ public class OutcomeManager : MonoBehaviour
     {
         Outcome[] allOutcomes = GetComponentsInChildren<Outcome>();
 
-        foreach(Outcome outcome in allOutcomes)
+        foreach (Outcome outcome in allOutcomes)
         {
             outcomes.Add(outcome);
         }

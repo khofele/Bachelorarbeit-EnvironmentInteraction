@@ -11,6 +11,35 @@ public class PushObjectOnEnemyOutcome : FightOutcome
     public PushableTarget PushTarget { get => pushTarget; }
     public Transform ClosestGrabHandle { get => closestGrabHandle; }
 
+    private void GrabTargetObject()
+    {
+        pushTarget.transform.SetParent(grabHandle);
+        pushTarget.transform.localPosition = Vector3.zero;
+    }
+
+    private Transform GetClosestGrabHandle()
+    {
+        float shortestDistance = Mathf.Infinity;
+        closestGrabHandle = null;
+
+        foreach (Transform transform in pushTarget.GrabHandles)
+        {
+            float distance = Vector3.Distance(charController.transform.position, transform.position);
+            if (distance < shortestDistance)
+            {
+                shortestDistance = distance;
+                closestGrabHandle = transform;
+            }
+        }
+        return closestGrabHandle;
+    }
+
+    private IEnumerator WaitAndReset()
+    {
+        yield return new WaitForSeconds(2f);
+        interactionManager.IsPushingObject = false;
+    }
+
     protected override void ReduceEnemyHealth()
     {
         currentEnemy.Health -= 50f;
@@ -40,12 +69,6 @@ public class PushObjectOnEnemyOutcome : FightOutcome
         }
     }
 
-    private void GrabTargetObject()
-    {
-        pushTarget.transform.SetParent(grabHandle);
-        pushTarget.transform.localPosition = Vector3.zero;
-    }
-
     public void DropTargetObject()
     {
         pushTarget.gameObject.GetComponent<Rigidbody>().isKinematic = false;
@@ -53,34 +76,11 @@ public class PushObjectOnEnemyOutcome : FightOutcome
         pushTarget.transform.SetParent(null);
     }
 
-    private Transform GetClosestGrabHandle()
-    {
-        float shortestDistance = Mathf.Infinity;
-        closestGrabHandle = null;
-
-        foreach (Transform transform in pushTarget.GrabHandles)
-        {
-            float distance = Vector3.Distance(charController.transform.position, transform.position);
-            if(distance < shortestDistance)
-            {
-                shortestDistance = distance;
-                closestGrabHandle = transform;
-            }
-        }
-        return closestGrabHandle;
-    }
-
     public override void ExecuteOutcome()
     {
         base.ExecuteOutcome();
         iKController.IsIkActive = false;
         interactionManager.IsPushingObject = true;
-    }
-
-    private IEnumerator WaitAndReset()
-    {
-        yield return new WaitForSeconds(2f);
-        interactionManager.IsPushingObject = false;
     }
 
     public override void ResetOutcome()

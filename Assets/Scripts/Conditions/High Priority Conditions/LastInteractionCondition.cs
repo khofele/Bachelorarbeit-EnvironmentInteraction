@@ -8,12 +8,6 @@ public class LastInteractionCondition : HighPriorityCondition
     [SerializeField] private Interaction precededInteraction = null;
     private bool isLastInteractionCorrect = false;
 
-
-    public override bool CheckCondition()
-    {
-        return isLastInteractionCorrect;
-    }
-
     private void Update()
     {
         if (interactionManager.LastInteraction != null)
@@ -31,5 +25,10 @@ public class LastInteractionCondition : HighPriorityCondition
         {
             isLastInteractionCorrect = false;
         }
+    }
+
+    public override bool CheckCondition()
+    {
+        return isLastInteractionCorrect;
     }
 }

@@ -15,11 +15,11 @@ public class BottomClimbingTriggerCheck : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(interactionManager.CurrentInteraction != null)
+        if (interactionManager.CurrentInteraction != null)
         {
-            if(interactionManager.CurrentInteraction.GetType() == typeof(ClimbInteraction))
+            if (interactionManager.CurrentInteraction.GetType() == typeof(ClimbInteraction))
             {
-                if(interactionManager.CurrentInteraction.IsInteractionRunning == false && other.gameObject.GetComponent<CharController>() != null)
+                if (interactionManager.CurrentInteraction.IsInteractionRunning == false && other.gameObject.GetComponent<CharController>() != null)
                 {
                     climbable.TriggerCount = 0;
                 }

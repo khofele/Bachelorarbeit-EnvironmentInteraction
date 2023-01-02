@@ -20,7 +20,7 @@ public class ThrowObjectInteraction : Interaction
     {
         float distance = Mathf.Infinity;
         Enemy closestEnemy = null;
-        foreach(Enemy enemy in enemies)
+        foreach (Enemy enemy in enemies)
         {
             if (Vector3.Distance(charController.transform.position, enemy.transform.position) < distance)
             {
@@ -60,6 +60,18 @@ public class ThrowObjectInteraction : Interaction
                 }
             }
         }
+    }
+
+    protected override void ResetInteraction()
+    {
+        enemy = null;
+        isTriggeredByInterruptibleInteraction = false;
+        interactionManager.SetLastInteraction();
+    }
+
+    protected override void SetMatchingInteractable()
+    {
+        matchingInteractable = typeof(Throwable);
     }
 
     public override void ExecuteInteraction()
@@ -106,17 +118,5 @@ public class ThrowObjectInteraction : Interaction
     public void DisableCollider()
     {
         sphereCollider.enabled = false;
-    }
-
-    protected override void ResetInteraction()
-    {
-        enemy = null;
-        isTriggeredByInterruptibleInteraction = false;
-        interactionManager.SetLastInteraction();
-    }
-
-    protected override void SetMatchingInteractable()
-    {
-        matchingInteractable = typeof(Throwable);
     }
 }

@@ -7,16 +7,11 @@ public class EnemyAliveCondition : BaseCondition
     private Enemy enemy = null;
     private bool isEnemyAlive = true;
 
-    public override bool CheckCondition()
-    {
-        return isEnemyAlive;
-    }
-
     private void Update()
     {
-        if(interactableManager.CurrentInteractableParent != null)
+        if (interactableManager.CurrentInteractableParent != null)
         {
-            if(interactableManager.CurrentInteractableParent.GetComponentInChildren<Enemy>() != null)
+            if (interactableManager.CurrentInteractableParent.GetComponentInChildren<Enemy>() != null)
             {
                 enemy = interactableManager.CurrentInteractableParent.GetComponentInChildren<Enemy>();
 
@@ -34,5 +29,10 @@ public class EnemyAliveCondition : BaseCondition
                 isEnemyAlive = false;
             }
         }
+    }
+
+    public override bool CheckCondition()
+    {
+        return isEnemyAlive;
     }
 }

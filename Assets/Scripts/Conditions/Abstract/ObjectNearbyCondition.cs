@@ -12,19 +12,6 @@ public abstract class ObjectNearbyCondition : BaseCondition
 
     public TargetObject Target { get => target; }
 
-    protected override void Start()
-    {
-        base.Start();
-
-        checkCollider = GetComponent<SphereCollider>();
-        checkCollider.isTrigger = true;
-    }
-
-    public override bool CheckCondition()
-    {
-        return isObjectNearby;
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("TargetObjects"))
@@ -45,6 +32,20 @@ public abstract class ObjectNearbyCondition : BaseCondition
         }
     }
 
+    protected override void Start()
+    {
+        base.Start();
+
+        checkCollider = GetComponent<SphereCollider>();
+        checkCollider.isTrigger = true;
+    }
+
     protected abstract bool CheckMatchingComponent(Collider other);
+
     protected abstract void SetTarget(Collider other);
+
+    public override bool CheckCondition()
+    {
+        return isObjectNearby;
+    }
 }

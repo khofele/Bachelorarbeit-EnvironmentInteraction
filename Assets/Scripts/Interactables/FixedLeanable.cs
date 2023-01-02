@@ -24,12 +24,6 @@ public class FixedLeanable : Leanable
         }
     }
 
-    protected override void Validate()
-    {
-        base.Validate();
-        GetTransforms();
-    }
-
     private void GetTransforms()
     {
         Transform[] children = GetComponentsInChildren<Transform>();
@@ -63,5 +57,11 @@ public class FixedLeanable : Leanable
         {
             Debug.LogWarning("Resettransform is missing!");
         }
+    }
+
+    protected override void Validate()
+    {
+        base.Validate();
+        GetTransforms();
     }
 }

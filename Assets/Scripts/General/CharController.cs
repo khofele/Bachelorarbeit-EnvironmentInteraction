@@ -55,12 +55,12 @@ public class CharController : MonoBehaviour
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, -groundMask);
 
-        if (isGrounded && velocity.y < 0 && interactionManager.IsJumping == false && interactionManager.IsClimbing == false)
+        if (isGrounded && velocity.y < 0f && interactionManager.IsJumping == false && interactionManager.IsClimbing == false)
         {
             velocity.y = -2f;
         }
 
-        if(interactionManager.IsClimbing == true)
+        if (interactionManager.IsClimbing == true)
         {
             moveDirection = new Vector3(-xAxis, zAxis, 0f).normalized;
 
@@ -85,7 +85,7 @@ public class CharController : MonoBehaviour
 
         if (interactionManager.IsFixedLeaning == true)
         {
-            zAxis = 0;
+            zAxis = 0f;
         }
         else
         {
@@ -94,8 +94,8 @@ public class CharController : MonoBehaviour
 
         if (interactionManager.IsJumping == true || interactionManager.IsFighting == true)
         {
-            xAxis = 0;
-            zAxis = 0;
+            xAxis = 0f;
+            zAxis = 0f;
         }
         else
         {
@@ -104,7 +104,7 @@ public class CharController : MonoBehaviour
 
         if (interactionManager.IsLeaning == false && interactionManager.IsJumping == false && interactionManager.IsFighting == false && interactionManager.IsClimbing == false && interactionManager.IsPushingObject == false)
         {
-            transform.rotation = Quaternion.LookRotation(new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized, Camera.main.transform.up);
+            transform.rotation = Quaternion.LookRotation(new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z).normalized, Camera.main.transform.up);
         }
 
         // check if button is pressed
@@ -137,7 +137,7 @@ public class CharController : MonoBehaviour
         else
         {
             // Idle
-            speed = 0;
+            speed = 0f;
         }
 
         // move 

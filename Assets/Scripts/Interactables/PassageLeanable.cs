@@ -8,14 +8,6 @@ public class PassageLeanable : FixedLeanable
 
     public BoxCollider OppositeWall { get => oppositeWallCollider; }
 
-    protected override void Validate()
-    {
-        base.Validate();
-
-        GetSnapCollider();
-        GetOppositeWall();
-    }
-
     private void GetOppositeWall()
     {
         BoxCollider[] children = transform.GetComponentsInChildren<BoxCollider>();
@@ -31,5 +23,13 @@ public class PassageLeanable : FixedLeanable
         {
             Debug.LogError("No opposite wall found!");
         }
+    }
+
+    protected override void Validate()
+    {
+        base.Validate();
+
+        GetSnapCollider();
+        GetOppositeWall();
     }
 }

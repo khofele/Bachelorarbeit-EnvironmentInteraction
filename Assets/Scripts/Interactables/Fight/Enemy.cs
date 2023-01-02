@@ -25,27 +25,6 @@ public class Enemy : Interactable
     public Transform PushHandleLeft { get => pushHandleLeft; }
     public Transform PushHandleRight { get => pushHandleRight; }
 
-    protected override void Start()
-    {
-        base.Start();
-
-        interactionManager = FindObjectOfType<InteractionManager>();
-
-        FillRigidbodiesArray();
-        DisableRagdollPhysics();
-
-        enemyRenderer = gameObject.GetComponentInChildren<Renderer>();
-
-        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Checkbox"), LayerMask.NameToLayer("Interactable"), true);
-    }
-
-    protected override void Validate()
-    {
-        base.Validate();
-
-        bodyCollider = GetComponent<CapsuleCollider>();
-    }
-
     private void Update()
     {
         if (interactionManager.CurrentInteraction != null)
@@ -54,7 +33,7 @@ public class Enemy : Interactable
                 
                 MultipleOutcomesInteraction current = (MultipleOutcomesInteraction)interactionManager.CurrentInteraction;
 
-                if(current != null)
+                if (current != null)
                 {
                     if (current.OutcomeManager.CurrentOutcome == null)
                     {
@@ -92,28 +71,6 @@ public class Enemy : Interactable
         rigidbodies.Remove(rigidbodies[0]);
     }
 
-    public void EnableRagdollPhysics()
-    {
-        foreach (Rigidbody rigidbody in rigidbodies)
-        {
-            rigidbody.isKinematic = false;
-            rigidbody.useGravity = true;
-        }
-
-        isOnFloor = true;
-
-        StartCoroutine(WaitAndDisable());
-    }
-
-    public void DisableRagdollPhysics()
-    {
-        foreach (Rigidbody rigidbody in rigidbodies)
-        {
-            rigidbody.isKinematic = true;
-            rigidbody.useGravity = false;
-        }
-    }
-
     private void DisableCapsuleCollider()
     {
         GetComponent<CapsuleCollider>().enabled = false;
@@ -132,7 +89,7 @@ public class Enemy : Interactable
             {
                 if (interactionManager.LastInteraction.gameObject.GetComponent<OutcomeManager>().CurrentOutcome != null)
                 {
-                    if(interactionManager.LastInteraction.gameObject.GetComponent<OutcomeManager>().CurrentOutcome.GetType() == typeof(PushObjectOnEnemyOutcome))
+                    if (interactionManager.LastInteraction.gameObject.GetComponent<OutcomeManager>().CurrentOutcome.GetType() == typeof(PushObjectOnEnemyOutcome))
                     {
                         EnableRagdollPhysics();
                     }
@@ -156,5 +113,48 @@ public class Enemy : Interactable
     {
         yield return new WaitForSeconds(1.75f);
         DisableRagdollPhysics();
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        interactionManager = FindObjectOfType<InteractionManager>();
+
+        FillRigidbodiesArray();
+        DisableRagdollPhysics();
+
+        enemyRenderer = gameObject.GetComponentInChildren<Renderer>();
+
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Checkbox"), LayerMask.NameToLayer("Interactable"), true);
+    }
+
+    protected override void Validate()
+    {
+        base.Validate();
+
+        bodyCollider = GetComponent<CapsuleCollider>();
+    }
+
+    public void EnableRagdollPhysics()
+    {
+        foreach (Rigidbody rigidbody in rigidbodies)
+        {
+            rigidbody.isKinematic = false;
+            rigidbody.useGravity = true;
+        }
+
+        isOnFloor = true;
+
+        StartCoroutine(WaitAndDisable());
+    }
+
+    public void DisableRagdollPhysics()
+    {
+        foreach (Rigidbody rigidbody in rigidbodies)
+        {
+            rigidbody.isKinematic = true;
+            rigidbody.useGravity = false;
+        }
     }
 }

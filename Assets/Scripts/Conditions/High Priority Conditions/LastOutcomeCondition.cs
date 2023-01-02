@@ -9,11 +9,6 @@ public class LastOutcomeCondition : HighPriorityCondition
     [SerializeField] private Outcome precededOutcome = null;
     private bool isLastOutcomeCorrect = false;
 
-    public override bool CheckCondition()
-    {
-        return isLastOutcomeCorrect;
-    }
-
     private void Update()
     {
         if (interactionManager.LastInteraction != null)
@@ -39,5 +34,10 @@ public class LastOutcomeCondition : HighPriorityCondition
         {
             isLastOutcomeCorrect = false;
         }
+    }
+
+    public override bool CheckCondition()
+    {
+        return isLastOutcomeCorrect;
     }
 }

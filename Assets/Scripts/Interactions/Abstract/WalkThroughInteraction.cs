@@ -6,12 +6,6 @@ public abstract class WalkThroughInteraction : Interaction
 {
     protected WalkThroughable currentInteractable = null;
 
-    public override void ExecuteInteraction()
-    {
-        base.ExecuteInteraction();
-        SetCurrentInteraction();
-    }
-
     protected override void Update()
     {
         base.Update();
@@ -33,4 +27,10 @@ public abstract class WalkThroughInteraction : Interaction
     }
 
     protected abstract void SetCurrentInteraction();
+
+    public override void ExecuteInteraction()
+    {
+        base.ExecuteInteraction();
+        SetCurrentInteraction();
+    }
 }

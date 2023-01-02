@@ -4,6 +4,22 @@ using UnityEngine;
 
 public class JumpOverObstacleInteraction : Interaction
 {
+    private void Jump()
+    {
+        animationManager.ExecuteJumpAnimation();
+        animationManager.EnableArmsLayer();
+        interactionManager.IsJumping = true;
+    }
+
+    private IEnumerator WaitAndReset()
+    {
+        yield return new WaitForSeconds(1f);
+        base.ResetInteraction();
+        interactionManager.IsJumping = false;
+        animationManager.StopJumpAnimation();
+        animationManager.DisableArmsLayer();
+    }
+
     private void Reset()
     {
         StartCoroutine(WaitAndReset());
@@ -12,12 +28,6 @@ public class JumpOverObstacleInteraction : Interaction
     protected override void SetMatchingInteractable()
     {
         matchingInteractable = typeof(Jumpable);
-    }
-
-    public override void ExecuteInteraction()
-    {
-        base.ExecuteInteraction();
-        Jump();
     }
 
     protected override void Update()
@@ -50,19 +60,9 @@ public class JumpOverObstacleInteraction : Interaction
         }
     }
 
-        private void Jump()
-        {
-            animationManager.ExecuteJumpAnimation();
-            animationManager.EnableArmsLayer();
-            interactionManager.IsJumping = true;
-        }
-
-    private IEnumerator WaitAndReset()
+    public override void ExecuteInteraction()
     {
-        yield return new WaitForSeconds(1f);
-        base.ResetInteraction();
-        interactionManager.IsJumping = false;
-        animationManager.StopJumpAnimation();
-        animationManager.DisableArmsLayer();
+        base.ExecuteInteraction();
+        Jump();
     }
 }
