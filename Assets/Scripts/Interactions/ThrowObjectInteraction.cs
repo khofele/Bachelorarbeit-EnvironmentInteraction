@@ -65,7 +65,7 @@ public class ThrowObjectInteraction : Interaction
     public override void ExecuteInteraction()
     {
         base.ExecuteInteraction();
-        //Throw(); ist AnimationEvent
+        //Throw(); is an AnimationEvent
     }
 
     public void Throw()
