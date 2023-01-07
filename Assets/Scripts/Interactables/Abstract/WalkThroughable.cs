@@ -16,16 +16,20 @@ public abstract class WalkThroughable : Interactable
         interactionManager = FindObjectOfType<InteractionManager>();
     }
 
-    protected virtual void OnTriggerEnter(Collider other)
+    protected override void OnTriggerEnter(Collider other)
     {
+        base.OnTriggerEnter(other);
+
         if (other.GetComponent<CharController>() != null)
         {
             isTriggered = true;
         }
     }
 
-    protected virtual void OnTriggerExit(Collider other)
+    protected override void OnTriggerExit(Collider other)
     {
+        base.OnTriggerExit(other);
+
         if (other.GetComponent<CharController>() != null)
         {
             isTriggered = false;

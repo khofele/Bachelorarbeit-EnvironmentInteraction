@@ -16,8 +16,10 @@ public class FixedLeanable : Leanable
     public Transform SnapTransformTwo { get => snapTransformTwo; }
     public int TriggerCount { get => triggerCount; set => triggerCount = value; }   
 
-    private void OnTriggerEnter(Collider other)
+    protected override void OnTriggerEnter(Collider other)
     {
+        base.OnTriggerEnter(other);
+
         if (other.gameObject.GetComponent<CharController>() != null)
         {
             triggerCount++;

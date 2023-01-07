@@ -17,8 +17,10 @@ public class Climbable : Interactable
     public Transform ClimbDownTransform { get => climbDownTransform; }
     public List<ClimbingStone> ClimbingStones { get => climbingStones; }
 
-    private void OnTriggerEnter(Collider other)
+    protected override void OnTriggerEnter(Collider other)
     {
+        base.OnTriggerEnter(other);
+
         if (other.gameObject.GetComponent<CharController>() != null)
         {
             triggerCount++;

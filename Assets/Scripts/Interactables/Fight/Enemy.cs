@@ -76,8 +76,10 @@ public class Enemy : Interactable
         GetComponent<CapsuleCollider>().enabled = false;
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected override void OnTriggerEnter(Collider other)
     {
+        base.OnTriggerEnter(other);
+
         if (other.gameObject.GetComponent<Throwable>() != null) 
         {
             health -= 100f;

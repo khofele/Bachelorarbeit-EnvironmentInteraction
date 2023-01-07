@@ -45,14 +45,14 @@ public class GeneralTriggerCheckCharacter : MonoBehaviour
     {
         foreach(Interactable interactable in interactableManager.CurrentInteractableParent.Interactables)
         {
-            if(interactable.GetComponent<InteractableTriggerProperty>().IsActivatedFromEverySide == false)
+            if (interactable.GetComponent<InteractableTriggerProperty>().IsActivatedFromEverySide == false && interactable.IsInteractableTriggered == true)
             {
-                if(CheckTriggerCheckResults(interactable) == true)
+                if(CheckTriggerCheckResults(interactable) == true) 
                 {
                     interactionManager.GetCurrentInteraction(interactable).IsInteractionTriggered = true;
                 }
             }
-            else
+            else if (interactable.IsInteractableTriggered == true)
             {
                 interactionManager.GetCurrentInteraction(interactable).IsInteractionTriggered = true;
             }
