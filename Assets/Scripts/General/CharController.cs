@@ -110,7 +110,7 @@ public class CharController : MonoBehaviour
         // check if button is pressed
         if (moveDirection.magnitude >= 0.01f)
         {
-            if (Input.GetKey(KeyCode.LeftShift) && isCrouching == false && interactionManager.IsClimbing == false)
+            if (Input.GetKey(KeyCode.LeftShift) && isCrouching == false && interactionManager.IsClimbing == false && interactionManager.IsLeaning == false)
             {
                 // Running
                 speed = 10f;
