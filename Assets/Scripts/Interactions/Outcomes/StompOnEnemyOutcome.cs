@@ -21,11 +21,12 @@ public class StompOnEnemyOutcome : FightOutcome
 
             interactionManager.IsCharSnappingToEnemy = false;
 
-            outcomeManager.CurrentOutcome = null;
+            //base.ResetOutcome();
+            gameObject.GetComponentInParent<FistFightInteraction>().ResetInteraction();
         }
         else
         {
-            charController.transform.position = Vector3.MoveTowards(charController.transform.position, position, 3 * Time.deltaTime);
+            charController.transform.position = Vector3.MoveTowards(charController.transform.position, position, 6 * Time.deltaTime);
         }
     }
 }

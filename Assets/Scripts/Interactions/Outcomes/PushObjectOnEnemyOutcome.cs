@@ -58,10 +58,12 @@ public class PushObjectOnEnemyOutcome : FightOutcome
         if (Vector3.Distance(charController.transform.position, snapPosition) < 0.2f)
         {
             GrabTargetObject();
-            charController.transform.rotation = Quaternion.LookRotation(-GetCurrentEnemy().transform.position);
+
+            charController.transform.LookAt(currentEnemy.transform, gameObject.transform.up);
             animationManager.ExecutePushObject();
             interactionManager.IsCharSnappingToEnemy = false;
             StartCoroutine(WaitAndReset());
+            gameObject.GetComponentInParent<FistFightInteraction>().ResetInteraction();
         }
         else
         {
@@ -72,7 +74,7 @@ public class PushObjectOnEnemyOutcome : FightOutcome
     public void DropTargetObject()
     {
         pushTarget.gameObject.GetComponent<Rigidbody>().isKinematic = false;
-        pushTarget.gameObject.GetComponent<Rigidbody>().AddForce(charController.transform.forward * 4, ForceMode.Impulse);
+        pushTarget.gameObject.GetComponent<Rigidbody>().AddForce(currentEnemy.transform.position * 4, ForceMode.Impulse);
         pushTarget.transform.SetParent(null);
     }
 

@@ -30,18 +30,20 @@ public class DuckingInteraction : WalkThroughInteraction
         currentInteractable = (Duckable)interactableManager.CurrentInteractable;
     }
 
-    protected override void ResetInteraction()
+
+
+    protected override void SetMatchingInteractable()
+    {
+        matchingInteractable = typeof(Duckable);
+    }
+
+    public override void ResetInteraction()
     {
         interactionManager.SetLastInteraction();
         ResetCharacterCollider(); 
         animationManager.StopCrouchAnimation();
         animationManager.StopDuckingAnimation();
         animationManager.DisableUpperBodyLayer();   
-    }
-
-    protected override void SetMatchingInteractable()
-    {
-        matchingInteractable = typeof(Duckable);
     }
 
     public override void ExecuteInteraction()

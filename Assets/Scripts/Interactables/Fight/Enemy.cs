@@ -85,19 +85,35 @@ public class Enemy : Interactable
             health -= 100f;
             EnableRagdollPhysics();
         }
-        else if (other.gameObject.GetComponent<PushableTarget>() != null && interactionManager.LastInteraction != null)
+        
+        if (other.gameObject.GetComponent<PushableTarget>() != null && interactionManager.CurrentInteraction != null)
         {
-            if (interactionManager.LastInteraction.gameObject.GetComponent<OutcomeManager>() != null)
+            if (interactionManager.CurrentInteraction.gameObject.GetComponent<OutcomeManager>() != null)
             {
-                if (interactionManager.LastInteraction.gameObject.GetComponent<OutcomeManager>().CurrentOutcome != null)
+                if (interactionManager.CurrentInteraction.gameObject.GetComponent<OutcomeManager>().CurrentOutcome != null)
                 {
-                    if (interactionManager.LastInteraction.gameObject.GetComponent<OutcomeManager>().CurrentOutcome.GetType() == typeof(PushObjectOnEnemyOutcome))
+                    if (interactionManager.CurrentInteraction.gameObject.GetComponent<OutcomeManager>().CurrentOutcome.GetType() == typeof(PushObjectOnEnemyOutcome))
                     {
                         EnableRagdollPhysics();
                     }
                 }
             }
         }
+        
+        if (other.gameObject.GetComponent<PushableTarget>() != null && interactionManager.LastInteraction != null)
+        {
+            if (interactionManager.LastInteraction.gameObject.GetComponent<OutcomeManager>() != null)
+            {
+                if (interactionManager.LastInteraction.gameObject.GetComponent<OutcomeManager>().LastOutcome != null)
+                {
+                    if (interactionManager.LastInteraction.gameObject.GetComponent<OutcomeManager>().LastOutcome.GetType() == typeof(PushObjectOnEnemyOutcome))
+                    {
+                        EnableRagdollPhysics();
+                    }
+                }
+            }
+        }
+        
     }
 
     private void FallOnFloor()

@@ -10,12 +10,14 @@ public class FinalIKController : MonoBehaviour
     [SerializeField] private Transform rightHandLookTarget = null;
     [SerializeField] private Transform leanTargetRightHand = null;
     [SerializeField] private Transform passageLeanTargetRightHand = null;
+    [SerializeField] private Transform crouchLeanTargetRightHand = null;
 
     [Header("Left Hand Transforms")]
     [SerializeField] private Transform leftHandGrabHandle = null;
     [SerializeField] private Transform leftHandLookTarget = null;
     [SerializeField] private Transform leanTargetLeftHand = null;
     [SerializeField] private Transform passageLeanTargetLeftHand = null;
+    [SerializeField] private Transform crouchLeanTargetLeftHand = null;
 
     [Header("Foot Transforms")]
     [SerializeField] private Transform leftFootGrabHandle = null;
@@ -100,11 +102,16 @@ public class FinalIKController : MonoBehaviour
                         {
                             PassageLeanIK();
                         }
-                        // Lean: Crouch, on Edge and Stand
-                        else if (currentInteraction.GetType() == typeof(LeanInteraction))
+                        // Lean: on Edge and Stand
+                        else if (currentInteraction.GetType() == typeof(StandLeanInteraction) || currentInteraction.GetType() == typeof(EdgeLeanInteraction))
                         {
                             LeanIK();
                         }
+                        // Lean: Crouch
+                        else if(currentInteraction.GetType() == typeof(CrouchLeanInteraction))
+                        {
+                            CrouchLeanIK();
+                        } 
                         // Touch object
                         else if (currentInteraction.GetType() == typeof(TouchObjectInteraction))
                         {
@@ -126,7 +133,7 @@ public class FinalIKController : MonoBehaviour
                     {
                         if (multipleOutcomesInteraction.OutcomeManager.CurrentOutcome != null)
                         {
-                            // Strike head
+                            // Strike Body
                             if (multipleOutcomesInteraction.OutcomeManager.CurrentOutcome.GetType() == typeof(StrikeEnemyOnObjectOutcome))
                             {
                                 StrikeBodyIK();
@@ -288,6 +295,31 @@ public class FinalIKController : MonoBehaviour
         fullBodyIK.solver.leftHandEffector.rotation = leanTargetLeftHand.rotation;
         fullBodyIK.solver.leftHandEffector.rotationWeight = 1f;
 
+        fullBodyIK.solver.pullBodyVertical = -1f;
+        fullBodyIK.solver.pullBodyHorizontal = 1f;
+
+        // viewing direction
+        FaceDirection();
+    }
+
+    private void CrouchLeanIK()
+    {
+        Leanable currentInteractable = (Leanable)interactableManager.CurrentInteractable;
+
+        // right hand
+        Vector3 closestPointRightHand = currentInteractable.SnapCollider.ClosestPoint(crouchLeanTargetRightHand.position);
+        fullBodyIK.solver.rightHandEffector.position = closestPointRightHand;
+        fullBodyIK.solver.rightHandEffector.positionWeight = 1f;
+        fullBodyIK.solver.rightHandEffector.rotation = crouchLeanTargetRightHand.rotation;
+        fullBodyIK.solver.rightHandEffector.rotationWeight = 1f;
+
+        // left hand
+        Vector3 closestPointLeftHand = currentInteractable.SnapCollider.ClosestPoint(crouchLeanTargetLeftHand.position);
+        fullBodyIK.solver.leftHandEffector.position = closestPointLeftHand;
+        fullBodyIK.solver.leftHandEffector.positionWeight = 1f;
+        fullBodyIK.solver.leftHandEffector.rotation = crouchLeanTargetLeftHand.rotation;
+        fullBodyIK.solver.leftHandEffector.rotationWeight = 1f;
+
         // viewing direction
         FaceDirection();
     }
@@ -436,7 +468,7 @@ public class FinalIKController : MonoBehaviour
     }
 
 
-    // Strike Head Outcome
+    // Strike Body Outcome
     private void StrikeBodyIK()
     {
         FistFightInteraction currentInteraction = (FistFightInteraction)interactionManager.CurrentInteraction;
@@ -643,6 +675,8 @@ public class FinalIKController : MonoBehaviour
         fullBodyIK.solver.leftFootEffector.rotationWeight = 0f;
         fullBodyIK.solver.rightFootEffector.positionWeight = 0f;
         fullBodyIK.solver.rightFootEffector.rotationWeight = 0f;
+        fullBodyIK.solver.pullBodyHorizontal = 0f;
+        fullBodyIK.solver.pullBodyVertical = 0.5f;
         lookAtIK.solver.target = null;
         lookAtIK.solver.IKPositionWeight = 0f;
         lookAtIK.solver.headWeight = 0f;

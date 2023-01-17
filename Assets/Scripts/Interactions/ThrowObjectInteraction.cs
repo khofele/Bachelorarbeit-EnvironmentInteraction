@@ -22,7 +22,7 @@ public class ThrowObjectInteraction : Interaction
         Enemy closestEnemy = null;
         foreach (Enemy enemy in enemies)
         {
-            if (Vector3.Distance(charController.transform.position, enemy.transform.position) < distance)
+            if (Vector3.Distance(charController.transform.position, enemy.transform.position) < distance && enemy.IsDead == false)
             {
                 distance = Vector3.Distance(charController.transform.position, enemy.transform.position);
                 closestEnemy = enemy;
@@ -62,16 +62,16 @@ public class ThrowObjectInteraction : Interaction
         }
     }
 
-    protected override void ResetInteraction()
+    protected override void SetMatchingInteractable()
+    {
+        matchingInteractable = typeof(Throwable);
+    }
+
+    public override void ResetInteraction()
     {
         enemy = null;
         isTriggeredByInterruptibleInteraction = false;
         interactionManager.SetLastInteraction();
-    }
-
-    protected override void SetMatchingInteractable()
-    {
-        matchingInteractable = typeof(Throwable);
     }
 
     public override void ExecuteInteraction()

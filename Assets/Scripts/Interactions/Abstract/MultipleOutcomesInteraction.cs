@@ -50,18 +50,18 @@ public abstract class MultipleOutcomesInteraction : Interaction
                             if (CheckAndExecuteOutcomes() == false)
                             {
                                 ExecuteInteraction();
-                                ResetInteraction();
+                                //ResetInteraction();
                             }
                             else
                             {
                                 interactionManager.CurrentInteraction = this;
-                                ResetInteraction();
+                               // ResetInteraction();
                             }
                         }
                         else if (isTriggeredByInterruptibleInteraction == true)
                         {
                             ExecuteInteraction();
-                            ResetInteraction();
+                            //ResetInteraction();
                         }
                     }
                 }

@@ -24,7 +24,8 @@ public class FistFightInteraction : MultipleOutcomesInteraction
 
     private IEnumerator WaitAndReset()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.05f);
+
         interactionManager.SetLastInteraction();
         interactionManager.IsFighting = false;
         isInteractionRunning = false;
@@ -38,7 +39,7 @@ public class FistFightInteraction : MultipleOutcomesInteraction
         matchingInteractable = typeof(Enemy);
     }
 
-    protected override void ResetInteraction()
+    public override void ResetInteraction()
     {
         StartCoroutine(WaitAndReset());
     }
@@ -51,6 +52,7 @@ public class FistFightInteraction : MultipleOutcomesInteraction
         }
 
         base.ExecuteInteraction();
+        ResetInteraction();
     }
 
     public void ChoosePunchHand()

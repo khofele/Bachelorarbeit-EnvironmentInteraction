@@ -115,15 +115,6 @@ public abstract class Interaction : MonoBehaviour
         return interactionManager.CheckOtherInteractionsRunning();
     }
 
-    protected virtual void ResetInteraction()
-    {
-        isInteractionRunning = false;
-        isInteractionTriggered = false;
-        finalIKController.IsIkActive = false;
-        isTriggeredByInterruptibleInteraction = false;
-        interactionManager.SetLastInteraction();
-    }
-
     protected void SetCurrentInteractable()
     {
         foreach (Interactable interactable in interactableManager.CurrentInteractableParent.Interactables)
@@ -136,6 +127,15 @@ public abstract class Interaction : MonoBehaviour
     }
 
     protected abstract void SetMatchingInteractable();
+
+    public virtual void ResetInteraction()
+    {
+        isInteractionRunning = false;
+        isInteractionTriggered = false;
+        finalIKController.IsIkActive = false;
+        isTriggeredByInterruptibleInteraction = false;
+        interactionManager.SetLastInteraction();
+    }
 
     public virtual bool CheckConditions()
     {

@@ -196,13 +196,7 @@ public abstract class FixedLeanInteraction : Interaction
         SetLeanBool(false);
     }
 
-    protected override void ResetInteraction()
-    {
-        ResetValues();
-        currentLeanableObject = null;
-        interactionManager.IsLeaningSnapping = false;
-        interactionManager.SetLastInteraction();
-    }
+
 
     protected virtual void ResetCharacter()
     {
@@ -220,6 +214,14 @@ public abstract class FixedLeanInteraction : Interaction
         {
             charController.transform.position = Vector3.MoveTowards(charController.transform.position, position, 2 * Time.deltaTime);
         }
+    }
+
+    public override void ResetInteraction()
+    {
+        ResetValues();
+        currentLeanableObject = null;
+        interactionManager.IsLeaningSnapping = false;
+        interactionManager.SetLastInteraction();
     }
 
     public override void ExecuteInteraction()

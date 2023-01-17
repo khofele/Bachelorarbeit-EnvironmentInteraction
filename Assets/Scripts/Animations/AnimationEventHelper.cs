@@ -40,6 +40,11 @@ public class AnimationEventHelper : MonoBehaviour
     public void SetRightHandPositionWeightToMax()
     {
         fullBodyIK.solver.rightHandEffector.positionWeight = 1f;
+    }      
+    
+    public void SetRightHandPositionWeight()
+    {
+        fullBodyIK.solver.rightHandEffector.positionWeight = 0.1f;
     }    
     
     public void SetRightHandPositionWeightToMin()
@@ -99,6 +104,11 @@ public class AnimationEventHelper : MonoBehaviour
     public void EnableIK()
     {
         finalIKController.IsIkActive = true;
+    }    
+    
+    public void DisableIK()
+    {
+        finalIKController.IsIkActive = false;
     }
 
     public void ExecuteDropObject()

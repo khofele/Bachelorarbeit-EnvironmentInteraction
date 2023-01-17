@@ -96,10 +96,16 @@ public abstract class LeanInteraction : InterruptibleInteraction
         finalIKController.IsIkActive = false;
     }
 
-    protected override void ResetInteraction()
+    protected abstract void ExecuteAnimation();
+    protected abstract void StopAnimation();
+    protected abstract bool CheckTerminationCondition();
+    protected abstract void ResetCharacter();
+    protected abstract void SetLeanBool(bool value);
+    protected abstract bool CheckLeaningBool();
+    
+    public override void ResetInteraction()
     {
         isInteractionRunning = false;
-        finalIKController.IsIkActive = false;
         isTriggeredByInterruptibleInteraction = false;
         ResetCharacter();
         currentLeanableObject = null;
@@ -108,14 +114,7 @@ public abstract class LeanInteraction : InterruptibleInteraction
         interactionManager.IsLeaningSnapping = false;
         interactionManager.SetLastInteraction();
     }
-
-    protected abstract void ExecuteAnimation();
-    protected abstract void StopAnimation();
-    protected abstract bool CheckTerminationCondition();
-    protected abstract void ResetCharacter();
-    protected abstract void SetLeanBool(bool value);
-    protected abstract bool CheckLeaningBool();
-
+    
     public override void ExecuteInteraction()
     {
         if (isInteractionRunning == false)

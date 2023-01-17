@@ -23,7 +23,7 @@ public class StrikeEnemyOnObjectOutcome : FightOutcome
         {
             animationManager.ExecuteCrossPunchRight();
             DropEnemy();
-            ResetOutcome();
+            gameObject.GetComponentInParent<FistFightInteraction>().ResetInteraction();
 
             interactionManager.IsCharSnappingToEnemy = false;
         }

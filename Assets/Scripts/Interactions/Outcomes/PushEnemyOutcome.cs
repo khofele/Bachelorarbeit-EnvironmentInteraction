@@ -12,6 +12,7 @@ public class PushEnemyOutcome : FightOutcome
 
         ResetOutcome();
         animationManager.ExecuteIdle();
+        animationManager.DisableArmsLayer();
     }
 
     protected override void ReduceEnemyHealth()
@@ -35,6 +36,7 @@ public class PushEnemyOutcome : FightOutcome
             DropEnemy();
 
             StartCoroutine(WaitAndReset());
+            gameObject.GetComponentInParent<FistFightInteraction>().ResetInteraction();
         }
         else
         {
