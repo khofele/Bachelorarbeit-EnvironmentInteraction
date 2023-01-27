@@ -50,15 +50,12 @@ public class ClimbInteraction : Interaction
         if (((Physics.Raycast(rayFront, out hit, 1f, LayerMask.NameToLayer("Checkbox"))) || (Physics.Raycast(rayBack, out hit, 1f, LayerMask.NameToLayer("Checkbox"))) || (Physics.Raycast(rayRight, out hit, 1f, LayerMask.NameToLayer("Checkbox"))) || (Physics.Raycast(rayLeft, out hit, 1f, LayerMask.NameToLayer("Checkbox"))))
             && interactionManager.IsClimbing == true)
         {
-            Debug.Log(hit.transform.gameObject.name);
             if (hit.transform.gameObject.GetComponent<Climbable>() != null)
             {
-                Debug.Log("hallo");
                 charController.transform.rotation = Quaternion.LookRotation(-hit.normal);
             }
             else if (hit.transform.gameObject.GetComponent<InteractableParentManager>() != null)
             {
-                Debug.Log("ja moin");
                 charController.transform.rotation = Quaternion.LookRotation(-hit.normal);
             }
         }

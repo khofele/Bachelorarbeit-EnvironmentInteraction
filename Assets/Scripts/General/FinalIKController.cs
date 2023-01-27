@@ -324,7 +324,7 @@ public class FinalIKController : MonoBehaviour
         FaceDirection();
     }
 
-    // ---------- JUMP -------------------------------------------------------------------------------------
+    // ---------- TOUCH -------------------------------------------------------------------------------------
 
     private void TouchIK()
     {
@@ -426,6 +426,7 @@ public class FinalIKController : MonoBehaviour
 
         fullBodyIK.solver.rightHandEffector.position = closestPointRightHand;
         fullBodyIK.solver.rightHandEffector.positionWeight = 1f;
+        fullBodyIK.solver.rightHandEffector.rotation = Quaternion.Euler(60f, 230f, 104f);
         fullBodyIK.solver.rightHandEffector.rotationWeight = 1f;
 
         fullBodyIK.solver.leftHandEffector.position = closestPointLeftHand;
