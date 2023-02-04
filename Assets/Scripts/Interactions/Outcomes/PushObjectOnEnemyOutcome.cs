@@ -74,7 +74,7 @@ public class PushObjectOnEnemyOutcome : FightOutcome
     public void DropTargetObject()
     {
         pushTarget.gameObject.GetComponent<Rigidbody>().isKinematic = false;
-        pushTarget.gameObject.GetComponent<Rigidbody>().AddForce(currentEnemy.transform.position * 4, ForceMode.Impulse);
+        pushTarget.gameObject.GetComponent<Rigidbody>().AddForce(currentEnemy.transform.position * 2, ForceMode.Impulse);
         pushTarget.transform.SetParent(null);
     }
 
